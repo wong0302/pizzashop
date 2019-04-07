@@ -1,0 +1,22 @@
+{
+  "name": "pizzashop",
+  "version": "1.0.0",
+  "description": "A whole full-stack solution for a pizza shop.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wong0302/pizzashop.git"
+  },
+  "author": "Mohamad Akel <akel0003@algonquinlive.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wong0302/pizzashop/issues"
+  },
+  "homepage": "https://github.com/wong0302/pizzashop#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
