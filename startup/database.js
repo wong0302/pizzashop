@@ -8,7 +8,7 @@ module.exports = () => {
       debug('successfully connected')
     })
     .catch(err => {
-      debug('Failed connection attempt:', rr)
+      debug('Failed connection attempt:', err)
       process.exit(1)
     })
 }

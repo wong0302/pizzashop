@@ -4,6 +4,8 @@
   "description": "A whole full-stack solution for a pizza shop.",
   "main": "app.js",
   "scripts": {
+    "start": "NODE_ENV=production PORT=433 node app.js",
+    "dev": "DEBUG=pizzashop*,sanitize* NODE_ENV=dev PORT=3030 nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

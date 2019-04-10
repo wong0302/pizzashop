@@ -2,6 +2,8 @@
 
 const express = require('express')
 
+require('./startup/database')()
+
 const app = express()
 app.use(express.json())
 
