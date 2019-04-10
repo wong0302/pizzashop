@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/wong0302/pizzashop#readme",
   "dependencies": {
+    "debug": "^4.1.1",
     "express": "^4.16.4",
     "mongoose": "^5.5.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "xss": "^1.0.6"
   }
 }
