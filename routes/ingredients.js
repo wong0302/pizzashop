@@ -2,10 +2,21 @@ const sanitizeBody = require('../middleware/sanitizeBody')
 const Ingredient = require('../models/Ingredient')
 const router = require('express').Router()
 
+//TODO: Add auth middleware
+//TODO: Test sanitization
+
+/*
+* Authentication:
+* GET: ALL?
+* POST: Staff only
+* PUT/PATCH: Staff only
+* DELETE: Staff only
+*/
+
 router.get('/', async (req, res) => {
   const ingredients = await Ingredient.find()
   res.send({data: ingredients})
-})
+})  //Tested on 10/4 ~10:00 AM, Akel, working.
 
 router.get('/:id', async (req, res) => {
   try {
@@ -15,7 +26,7 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-})
+}) //Tested on 10/4 ~10:00 AM, Akel, working.
 
 router.post('/', sanitizeBody, async (req, res) => {
   const newIngredient = new Ingredient(req.sanitizedBody)
@@ -31,7 +42,7 @@ router.post('/', sanitizeBody, async (req, res) => {
       }]
     })
   }
-})
+}) //Tested on 10/4 ~10:00 AM, Akel, working.
 
 const update = (overwrite = false) => async (req, res) => {
   try {
@@ -49,7 +60,7 @@ const update = (overwrite = false) => async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-}
+} //Tested on 10/4 ~10:00 AM, Akel, working.
 
 router.put('/:id', sanitizeBody, update((overwrite = true)))
 router.patch('/:id', sanitizeBody, update((overwrite = false)))
@@ -62,7 +73,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-})
+}) //Tested on 10/4 ~10:00 AM, Akel, working.
 
 function sendResourceNotFound(req, res) {
   res.status(404).send({
@@ -70,9 +81,9 @@ function sendResourceNotFound(req, res) {
       status: 'Not Found',
       code: '404',
       title: 'Resource does not exist',
-      description: `We could not find a student with id: ${req.params.id}`
+      description: `We could not find an ingredient with id: ${req.params.id}`
     }]
   })
-}
+} //Tested on 10/4 ~11:30 AM with GET request, Akel, working.
 
 module.exports = router

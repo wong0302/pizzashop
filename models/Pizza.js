@@ -7,7 +7,10 @@ const pizzaSchema = new mongoose.Schema({
     size: {type: String, trim: true, lowercase: true, enum: ['small', 'medium', 'large', 'extra large'], default: 'small'},
     isGlutenFree: {type: Boolean, trim: true, default: false},
     imageUrl: {type: String, trim: true, maxlength: 1024},
+    //ingredients are the base/default ingredients on the pizza
     ingredients: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient'}],
+    //extra toppings are for custom pizza orders
+    //Must automatically update price on save.
     extraToppings: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient'}]
 })
 
