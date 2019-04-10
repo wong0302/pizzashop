@@ -1,6 +1,6 @@
-const moongose = require('mongoose')
+const mongoose = require('mongoose')
 
-const ingredientSchema = new moongose.Schema({
+const ingredientSchema = new mongoose.Schema({
 	name: {type: String, trim: true, maxlength: 64, required: true},
 	price: {type: Number, trim: true, maxvalue: 10000, default: 100},
 	quantity: {type: Number, trim: true, maxvalue: 1000, default: 10},
