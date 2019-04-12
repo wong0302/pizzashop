@@ -41,7 +41,7 @@ function sendSignUpInfo(ev) {
 
     let headers = new Headers();
     //append the Authorization header
-    // headers.append('Authorization', 'Bearer ' + token);
+    //headers.append('Authorization', 'Bearer ' + token);
     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
     console.log("User input is:", userInput);
