@@ -91,17 +91,24 @@
                   <div class="form-group">
                     <label for="InputPassword">Password</label>
                     <input type="password" class="form-control" id="signUpPassword" placeholder="Password">
-                    <small id="emailHelp" class="form-text text-muted">Password must be atleast 8 characters.</small>
+                    <!-- <small id="emailHelp" class="form-text text-muted">Password must be atleast 8 characters.</small> -->
                   </div>
-                  <div class="form-group">
+
+                  <!-- <div class="form-group">
                       <label for="InputPassword">Re-enter Password</label>
                       <input type="password" class="form-control" id="reEnterPassword" placeholder="Password">
-                    </div>
+                    </div> -->
+
+                    <label for="InputAccountType">Account type</label>
+                    <select class="form-control">
+                      <option>Customer</option>
+                      <option>Staff</option>
+                    </select>
                 </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary">Confirm</button>
+            <button type="button" class="btn btn-secondary" id="cancelBtn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
           </div>
         </div>
       </div>
@@ -119,20 +126,20 @@
   <!-- NAV -->
   <ul class="nav">
       <li class="nav-item">
-          <a class="nav-link active" href="#">Home</a>
+          <a class="nav-link active" href="home">Home</a>
         </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Menu</a>
+      <a class="nav-link" href="menu">Menu</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="#">Sign In</a>
+      <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="#">Sign Up</a>
+      <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up</a>
     </li>
   </ul>
 
-  <script type="text/javascript" src="/js/index.js"></script>
+  <script type="text/javascript" src="/js/register.js"></script>
 </body>
 
 </html>
