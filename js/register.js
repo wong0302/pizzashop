@@ -27,7 +27,7 @@ function sendSignUpInfo(ev) {
 
     ev.preventDefault();
     //define the end point for the request
-    let url = "http://127.0.0.1:5500/auth/users";
+    let url = "http://127.0.0.1:3030/auth/users";
 
     let userInput = {
         firstName: userFirstName,
@@ -51,7 +51,7 @@ function sendSignUpInfo(ev) {
         headers: headers,
         method: 'POST',
         mode: 'cors',
-        credentials: 'include',
+        //credentials: 'include',
         body: jsonData
     });
 

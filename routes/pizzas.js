@@ -7,7 +7,7 @@ const router = require('express').Router()
 
 /*
 * Authentication:
-* GET: ALL?
+* GET: ALL
 * POST: Staff only
 * PUT/PATCH: Staff only
 * DELETE: Staff only

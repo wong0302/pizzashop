@@ -17,7 +17,7 @@ const router = require('express').Router()
 router.get('/', async (req, res) => {
   const order = await Order.find().populate('users').populate('pizzas')
   res.send({data: order})
-})
+}) //Not tested
 
 router.get('/:id', async (req, res) => {
   try {
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-})
+}) //Not tested
 
 router.post('/', sanitizeBody, async (req, res) => {
   const newOrder = new Order(req.sanitizedBody)
@@ -43,7 +43,7 @@ router.post('/', sanitizeBody, async (req, res) => {
       }]
     })
   }
-})
+}) //Not tested
 
 const update = (overwrite = false) => async (req, res) => {
   try {
@@ -61,7 +61,7 @@ const update = (overwrite = false) => async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-}
+} //Not tested
 
 router.put('/:id', sanitizeBody, update((overwrite = true)))
 router.patch('/:id', sanitizeBody, update((overwrite = false)))
@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-})
+}) //Not tested
 
 function sendResourceNotFound(req, res) {
   res.status(404).send({
@@ -85,6 +85,6 @@ function sendResourceNotFound(req, res) {
       description: `We could not find an order with id: ${req.params.id}`
     }]
   })
-}
+} //Not tested
 
 module.exports = router
