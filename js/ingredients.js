@@ -73,6 +73,7 @@
             .catch(err => {
                 console.error(err.code + ': ' + err.message);
             })
+<<<<<<< HEAD
 
         }
 
@@ -132,3 +133,7 @@
             delBtn.textContent = 'Delete';
 
         }
+=======
+
+    }
+>>>>>>> da4bda08fbc65859b5adba4f8ec856a890e85b5e
