@@ -1,5 +1,5 @@
 // Registration
-
+let tokenKey = "tokenKey"
 
 document.addEventListener('DOMContentLoaded', () => {
     addListeners();
@@ -99,17 +99,14 @@ function sendSignInInfo(ev) {
     // })
     fetch(req)
         .then(response => {
-            console.log(response);
+            //console.log(response);
             //from a fetch you would be using response.json()
-            return response;
+            return response.json();
         })
         .then(result => {
-            console.log("result is", result);
-            let data = result.body;
+            let data = result.data.token;
             console.log('data', data);
-           // console.log('TOKEN', data.token);
-            //put this in sessionStorage
-            //sessionStorage.setItem(KEY, JSON.stringify(data.token));
+            sessionStorage.setItem(tokenKey, JSON.stringify(data));
         })
         .catch(err => {
             console.error('We are failing');
