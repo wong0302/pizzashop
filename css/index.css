@@ -6,3 +6,7 @@ form{
     margin: 0 auto;
     width:80%  ;
 }
+
+.carousel-item > img {
+    height: 50vh;
+}
