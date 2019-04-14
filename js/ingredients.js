@@ -78,57 +78,88 @@
 
 
         function createIngredientCard() {
-            let contentDiv = document.querySelector('.card-deck');
-            let cardDiv = document.createElement('div');
-            let img = document.createElement('img');
-            let bodyDiv = document.createElement('div');
-            let title = document.createElement('h5');
-            let price = document.createElement('p');
-            let category = document.createElement('p');
-            let quantity = document.createElement('p');
-            let gluten = document.createElement('p');
-            let btnDiv = document.createElement('div');
-            let delBtn = document.createElement('button');
-            let editBtn = document.createElement('button');
-            let editLink = document.createElement('a');
+            // let contentDiv = document.querySelector('.list-container');
+            // let cardDiv = document.createElement('div');
+            // let img = document.createElement('img');
+            // let bodyDiv = document.createElement('div');
+            // let title = document.createElement('h5');
+            // let price = document.createElement('p');
+            // let category = document.createElement('p');
+            // let quantity = document.createElement('p');
+            // let gluten = document.createElement('p');
+            // let btnDiv = document.createElement('div');
+            // let delBtn = document.createElement('button');
+            // let editBtn = document.createElement('button');
+            // let editLink = document.createElement('a');
 
-            contentDiv.appendChild(cardDiv);
-            cardDiv.appendChild(img);
-            cardDiv.appendChild(bodyDiv);
-            bodyDiv.appendChild(title);
-            bodyDiv.appendChild(price);
-            bodyDiv.appendChild(category);
-            bodyDiv.appendChild(quantity);
-            bodyDiv.appendChild(gluten);
-            cardDiv.appendChild(btnDiv);
-            btnDiv.appendChild(editBtn);
-            editBtn.appendChild(editLink);
-            btnDiv.appendChild(delBtn);
+            // contentDiv.appendChild(cardDiv);
+            // cardDiv.appendChild(img);
+            // cardDiv.appendChild(bodyDiv);
+            // bodyDiv.appendChild(title);
+            // bodyDiv.appendChild(price);
+            // bodyDiv.appendChild(category);
+            // bodyDiv.appendChild(quantity);
+            // bodyDiv.appendChild(gluten);
+            // cardDiv.appendChild(btnDiv);
+            // btnDiv.appendChild(editBtn);
+            // editBtn.appendChild(editLink);
+            // btnDiv.appendChild(delBtn);
 
-            cardDiv.setAttribute('class', 'card');
-            img.setAttribute('class', 'card-img-top');
-            img.setAttribute('src', '/css/imgs/cheese.jpg'); // insert image variable
-            img.setAttribute('alt', 'Card image cap');
-            bodyDiv.setAttribute('class', 'card-body');
-            title.setAttribute('class', 'card-title');
-            price.setAttribute('class', 'card-text');
-            category.setAttribute('class', 'card-text');
-            quantity.setAttribute('class', 'card-text');
-            gluten.setAttribute('class', 'card-text');
-            btnDiv.setAttribute('class', 'btn-group');
-            editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-            editLink.setAttribute('class', 'nav-link');
-            editLink.setAttribute('href', '/view/admin/ingredient-edit.html');
-            delBtn.setAttribute('type', 'button');
-            delBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            // ingredient.textContent = 'ingredient variable'; // insert ingredient name variable
+            // price.textContent = 'price variable'; // insert price variable
+            // category.textContent = 'category variable'; // insert category variable
+            // quantity.textContent = 'quantity variable'; // insert quantity variable
+            // gluten.textContent = 'gluten free variable'; // insert gluten variable
+            // editBtn.textContent = 'Edit';
+            // delBtn.textContent = 'Delete';
 
+            // cardDiv.setAttribute('class', 'card');
+            // img.setAttribute('class', 'card-img-top');
+            // img.setAttribute('src', '/css/imgs/cheese.jpg'); // insert image variable
+            // img.setAttribute('alt', 'Card image cap');
+            // bodyDiv.setAttribute('class', 'card-body');
+            // title.setAttribute('class', 'card-title');
+            // price.setAttribute('class', 'card-text');
+            // category.setAttribute('class', 'card-text');
+            // quantity.setAttribute('class', 'card-text');
+            // gluten.setAttribute('class', 'card-text');
+            // btnDiv.setAttribute('class', 'btn-group');
+            // editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            // editLink.setAttribute('class', 'nav-link');
+            // editLink.setAttribute('href', '/view/admin/ingredient-edit.html');
+            // delBtn.setAttribute('type', 'button');
+            // delBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
 
-            title.textContent = 'ingredient variable'; // insert ingredient name variable
+            let tbody = document.querySelector('.table-body');
+            let tr = document.createElement('tr');
+            let ingredient = document.createElement('td');
+            let price = document.createElement('td');
+            let quantity = document.createElement('td');
+            let category = document.createElement('td');
+            let actions = document.createElement('td');
+            let editBtn = document.createElement('p');
+            let deleteBtn = document.createElement('p');
+
+            ingredient.textContent = 'ingredient variable'; // insert ingredient name variable
             price.textContent = 'price variable'; // insert price variable
             category.textContent = 'category variable'; // insert category variable
             quantity.textContent = 'quantity variable'; // insert quantity variable
-            gluten.textContent = 'gluten free variable'; // insert gluten variable
-            editLink.textContent = 'Edit';
-            delBtn.textContent = 'Delete';
+            //gluten.textContent = 'gluten free variable'; // insert gluten variable
+            editBtn.textContent = 'Edit';
+            deleteBtn.textContent = 'Delete';
 
+            editBtn.setAttribute('type', 'button');
+            editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            editBtn.setAttribute('href', '/view/admin/ingredient-edit.html');
+            deleteBtn.setAttribute('type', 'button');
+            deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+
+            tbody.appendChild(tr);
+            tr.appendChild(ingredient);
+            tr.appendChild(price);
+            tr.appendChild(quantity);
+            tr.appendChild(category);
+            tr.appendChild(actions);
+            actions.appendChild(editBtn);
+            actions.appendChild(deleteBtn);
         }
