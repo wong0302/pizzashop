@@ -238,7 +238,9 @@ function sendSignInInfo(ev) {
 
             editBtn.setAttribute('type', 'button');
             editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-            editBtn.setAttribute('href', '/view/admin/ingredient-edit.html');
+            editBtn.setAttribute('data-toggle', 'modal');
+            editBtn.setAttribute('data-target', '#editIngredients');
+            console.log("edit button:",editBtn);
             deleteBtn.setAttribute('type', 'button');
             deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
 
@@ -251,3 +253,6 @@ function sendSignInInfo(ev) {
             actions.appendChild(editBtn);
             actions.appendChild(deleteBtn);
         }
+
+        // data-toggle="modal"
+        //         data-target="#successModal" 

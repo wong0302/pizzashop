@@ -241,77 +241,96 @@
       INGREDIENTS EDIT PAGE 
   --------------------------->
 
-  <section class="ingredients-edit page" id="ingredients-edit">
-
-    <form>
-      <h2>Add Ingredient</h2>
-      <div class="form-row">
-        <div class="col-md-5 mb-3">
-          <div class="form-group">
-            <label for="formGroupInput">Product Name</label>
-            <input type="text" class="form-control" id="productName" placeholder="Name">
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-5 mb-3">
-          <div class="form-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="imgFile">
-              <label class="custom-file-label" for="customFile">Choose file</label>
+  <section class="ingredients-edit" id="ingredients-edit">
+      <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Ingredients</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </div>
-        </div>
-      </div>
+            <!------------- FORM -------------->
+            <form>
+              <h2>Add Ingredient</h2>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="formGroupInput">Product Name</label>
+                    <input type="text" class="form-control" id="productName" placeholder="Name">
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="imgFile">
+                      <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="formGroupInput2">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" placeholder="Amount">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="formGroupInput2">Price</label>
+                    <input type="number" class="form-control" id="price" placeholder="$0.00">
+                  </div>
+                  <div class="form-row">
+                      <div class="col">
+                      <div class="form-group">
+                      <select class="custom-select" required id="categories">
+                          <option value="">Catagories</option>
+                          <option value="1">Meat</option>
+                          <option value="2">Spicy</option>
+                          <option value="3">Vegetarian</option>
+                          <option value="4">Vegan</option>
+                          <option value="5">Halal</option>
+                          <option value="6">Kosher</option>
+                          <option value="7">Cheese</option>
+                          <option value="8">Seasonings</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="isGlutenFree" required>
+                          <label class="form-check-label" for="invalidCheck2">
+                            Check if Gluten Free
+                          </label>
+                        </div>
+                      </div>
+                      </div>
+                      <!-- <div class="form-group">
+                       
+                        <div class="invalid-feedback">Example invalid custom select feedback</div>
+                      </div> -->
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <button type="button" id="submitIngredientBtn" class="btn btn-primary">Add</button>
+                    </div>
+                  
+                </div>
+              </div>
+                  </div>
+                </div>
+                  </div>
+                  
+              
+            </form>
+    </section>
 
-      <div class="form-row">
-        <div class="col-md-3 mb-3">
-          <div class="form-group">
-            <label for="formGroupInput2">Quantity</label>
-            <input type="number" class="form-control" id="quantity" placeholder="Amount">
-          </div>
-        </div>
-        <div class="col-md-2 mb-3">
-          <div class="form-group">
-            <label for="formGroupInput2">Price</label>
-            <input type="number" class="form-control" id="price" placeholder="$0.00">
-          </div>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-2 mb-3">
-          <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="isGlutenFree" required>
-              <label class="form-check-label" for="invalidCheck2">
-                Check if Gluten Free
-              </label>
-            </div>
-          </div>
-          <div class="form-group">
-            <select class="custom-select" required id="categories">
-              <option value="">Catagories</option>
-              <option value="1">Meat</option>
-              <option value="2">Spicy</option>
-              <option value="3">Vegetarian</option>
-              <option value="4">Vegan</option>
-              <option value="5">Halal</option>
-              <option value="6">Kosher</option>
-              <option value="7">Cheese</option>
-              <option value="8">Seasonings</option>
-            </select>
-            <div class="invalid-feedback">Example invalid custom select feedback</div>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-sm-10">
-          <button id="submitIngredientBtn" type="submit" class="btn btn-primary">Add ingredient</button>
-        </div>
-      </div>
-    </form>
-
-  </section>
 
 
   <script type="text/javascript" src="/js/index.js"></script>
