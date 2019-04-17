@@ -1,19 +1,38 @@
     //TO DO: Figure out how to grab file input when the user adds a picture for the ingredient they are adding. 
     //Mack 
-
-    let tokenKey = "tokenKey"
+    let pages = null
+    let tokenKey = 'tokenKey'
 
     document.addEventListener('DOMContentLoaded', () => {
         addListeners();
         createIngredientCard();
+        pages = document.querySelectorAll('.page');
+       document.querySelector('#home').classList.add('active');
     });
 
     function addListeners() {
+
+        document.querySelectorAll('.navigation').forEach( item => { item.addEventListener('click', navigate); });
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
+        
+    }
+
+    /**************************
+                SPA
+    **************************/
+
+    function navigate(ev) {
+
+        let tapped = ev.currentTarget;
+            console.log(tapped);
+            document.querySelector('.active').classList.remove('active');
+            let target = tapped.getAttribute('data-target');
+            document.getElementById(target).classList.add('active');
 
     }
+
 
     /**************************
            REGISTRATION
@@ -29,7 +48,7 @@
     userType = document.getElementById('userType').value;
 
     //define the end point for the request
-    let url = "http://127.0.0.1:3030/auth/users";
+    let url = 'http://127.0.0.1:3030/auth/users';
 
     let userInput = {
         firstName: userFirstName,
@@ -65,7 +84,7 @@
         } else {
             // document.getElementById('output').textContent =
             //     'Hey we got a response from the server! They LOVED our token.';
-            console.log("Account created successfully.");
+            console.log('Account created successfully.');
         }
     })
     .catch(err => {
@@ -81,7 +100,7 @@ function sendSignInInfo(ev) {
     let userEmail = document.getElementById('signInEmail').value,
     userPassword = document.getElementById('signInPassword').value;
 
-    let url = "http://127.0.0.1:3030/auth/tokens";
+    let url = 'http://127.0.0.1:3030/auth/tokens';
 
     let signInInput = {
         email: userEmail,
@@ -133,14 +152,14 @@ function sendSignInInfo(ev) {
             quantity = document.getElementById('quantity').value;
 
         //Check if Gluten Free is Checked & Set Value
-        if (document.getElementById("isGlutenFree").checked = true) {
+        if (document.getElementById('isGlutenFree').checked = true) {
             isGlutenFree = true;
         } else {
             isGlutenFree = false;
         }
 
         //Determine Categorie Picked
-        let categoriesSelected = document.getElementById("categories");
+        let categoriesSelected = document.getElementById('categories');
         if (categoriesSelected.selectedIndex == 0) {
             console.log('select one answer');
 
@@ -149,7 +168,7 @@ function sendSignInInfo(ev) {
         }
         ev.preventDefault();
         //define the end point for the request
-        let url = "http://127.0.0.1:3030/api/ingredients";
+        let url = 'http://127.0.0.1:3030/api/ingredients';
 
         let userInput = {
             name: productName,
@@ -187,7 +206,7 @@ function sendSignInInfo(ev) {
                 } else {
                     // document.getElementById('output').textContent =
                     //     'Hey we got a response from the server! They LOVED our token.';
-                    console.log("We are so fetchy! YASSSS!");
+                    console.log('We are so fetchy! YASSSS!');
                 }
             })
             .catch(err => {

@@ -10,3 +10,11 @@ form{
 .carousel-item > img {
     height: 50vh;
 }
+
+.page{
+    display: none;
+}
+
+.active{
+    display: block;
+}

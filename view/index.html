@@ -23,17 +23,20 @@
   <section class="navbar">
 
     <ul class="nav justify-content-end">
-      <li class="nav-item">
+      <li class="nav-item navigation" data-target="home">
         <a class="nav-link active" href="home">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item navigation" data-target="menu">
         <a class="nav-link" href="menu">Menu</a>
       </li>
+      <li class="nav-item navigation" data-target="ingredients-view">
+        <button class="nav-link">Ingredients</button>
+      </li>
       <!-- THIS SHOULD CHANGE TO "LOGOUT WHEN USER HAS ALREADY SIGNED IN", add click listener in js -->
-      <li class="nav-item">
+      <li class="nav-item navigation">
         <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item navigation">
         <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up</a>
       </li>
     </ul>
@@ -44,7 +47,7 @@
             HOME PAGE
   --------------------------->
 
-  <section class="homepage">
+  <section class="home page" id="home">
 
     <!----------- HEADER ----------->
 
@@ -208,7 +211,7 @@
   <!--------------------------
         INGREDIENTS PAGE 
   --------------------------->
-  <section class="ingredients">
+  <section class="ingredients page" id="ingredients-view">
 
 
     <div class="jumbotron jumbotron-fluid">
@@ -238,7 +241,7 @@
       INGREDIENTS EDIT PAGE 
   --------------------------->
 
-  <section class="ingredients-edit">
+  <section class="ingredients-edit page" id="ingredients-edit">
 
     <form>
       <h2>Add Ingredient</h2>
