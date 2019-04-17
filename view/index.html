@@ -44,13 +44,18 @@
       </li>
     
     <!-- LOGGED IN USER NAV -->
-    
-        <li class="nav-item signedIn">
-          <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Profile</a>
-        </li>
-        <li class="nav-item signedIn">
-          <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Out</a>
-        </li>
+
+    <li class="nav-item signedIn">
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Account
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <button class="dropdown-item" type="button">Change Password</button>
+              <button class="dropdown-item" type="button">Sign Out</button>
+            </div>
+          </div>
+    </li>
       </ul>
 
   </section>
@@ -128,7 +133,7 @@
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary" id="logInBtn">Log In</button>
+              <button type="button" class="btn btn-primary" id="logInBtn" data-dismiss="modal">Log In</button>
             </div>
           </div>
         </div>
