@@ -51,7 +51,7 @@
               Account
             </button>
             <div class="dropdown-menu dropdown-menu-right">
-              <button class="dropdown-item" type="button">Change Password</button>
+              <button class="dropdown-item" type="button" data-toggle="modal" data-target="#resetPassword">Change Password</button>
               <button class="dropdown-item" type="button">Sign Out</button>
             </div>
           </div>
@@ -179,12 +179,6 @@
                   <input type="password" class="form-control" id="signUpPassword" placeholder="Password">
                   <!-- <small id="emailHelp" class="form-text text-muted">Password must be atleast 8 characters.</small> -->
                 </div>
-
-                <!-- <div class="form-group">
-                                  <label for="InputPassword">Re-enter Password</label>
-                                  <input type="password" class="form-control" id="reEnterPassword" placeholder="Password">
-                                </div> -->
-
                 <label for="InputAccountType">Account type</label>
                 <select class="form-control" id="userType">
                   <option value="false">Customer</option>
@@ -224,6 +218,46 @@
     </div>
 
   </section>
+
+  <!--------------------------
+        CHANGE PASSWORD 
+  --------------------------->
+<section class="changePassword">
+  <div class="modal" id="resetPassword" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Change Password</h5>
+          </div>
+          <div class="modal-body">
+            <p>first and last name </p>
+            <p>email</p>
+            <!------------- FORM -------------->
+            <form>
+                <div class="form-group">
+                  <label for="InputEmail">New Password</label>
+                  <input type="password" class="form-control" id="newPassword" aria-describedby="emailHelp" placeholder="Enter new password">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Re-enter Password</label>
+                  <input type="password" class="form-control" id="reEnterPassword" placeholder="Re-enter password">
+                </div>
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="showPassword">
+                  <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                </div>
+              </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <!--------------------------
         INGREDIENTS PAGE 
