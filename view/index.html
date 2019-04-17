@@ -35,21 +35,20 @@
     </ul>
 
       <!-- THIS SHOULD CHANGE TO "LOGOUT WHEN USER HAS ALREADY SIGNED IN", add click listener in js -->
-      <ul class="nav navbar-right" id="notSignedIn">
-      <li class="nav-item">
+      <ul class="nav navbar-right">
+      <li class="nav-item notSignedIn">
         <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item notSignedIn">
         <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up</a>
       </li>
-      </ul>
     
     <!-- LOGGED IN USER NAV -->
-    <ul class="nav navbar-right" id="signedIn">
-        <li class="nav-item">
+    
+        <li class="nav-item signedIn">
           <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Profile</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item signedIn">
           <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Out</a>
         </li>
       </ul>

@@ -23,3 +23,11 @@ form{
     color: blue;
     cursor: pointer;
 }
+
+.notSignedIn{
+    display: block;
+}
+
+.signedIn{
+    display: none;
+}

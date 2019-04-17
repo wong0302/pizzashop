@@ -33,7 +33,6 @@
 
     }
 
-
     /**************************
            REGISTRATION
     **************************/
@@ -95,6 +94,16 @@
 }
 
 function sendSignInInfo(ev) {
+    // navbar for signed in user
+    let notSignedIn = document.querySelectorAll('.notSignedIn');
+    notSignedIn.forEach(item => {
+        item.style.display = 'none';
+    })
+    let signedIn = document.querySelectorAll('.signedIn');
+    signedIn.forEach(item => {
+        item.style.display = 'block';
+    })
+
     ev.preventDefault();
     // user input
     let userEmail = document.getElementById('signInEmail').value,
