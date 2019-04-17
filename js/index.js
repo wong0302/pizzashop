@@ -146,7 +146,7 @@ function sendSignInInfo(ev) {
            ADD INGREDIENTS
     **************************/
 
-    function addIngredients(ev) {
+    async function addIngredients(ev) {
         let productName = document.getElementById('productName').value,
             price = document.getElementById('price').value,
             quantity = document.getElementById('quantity').value;
@@ -194,7 +194,8 @@ function sendSignInInfo(ev) {
 
         //body is the data that goes to the API
         //now do the fetch
-        fetchAPI(req);
+        let ingredientsList = await fetchAPI(req);
+        console.log(ingredientsList);
 
         }
 
@@ -212,7 +213,6 @@ function sendSignInInfo(ev) {
             .catch(err => {
                 console.error(err.code + ': ' + err.message);
             })
-
         }
 
 
