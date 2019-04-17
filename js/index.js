@@ -7,7 +7,7 @@
         addListeners();
         createIngredientCard();
         pages = document.querySelectorAll('.page');
-       document.querySelector('#home').classList.add('active');
+       pages[0].classList.add('display');
     });
 
     function addListeners() {
@@ -27,9 +27,9 @@
 
         let tapped = ev.currentTarget;
             console.log(tapped);
-            document.querySelector('.active').classList.remove('active');
+            document.querySelector('.display').classList.remove('display');
             let target = tapped.getAttribute('data-target');
-            document.getElementById(target).classList.add('active');
+            document.getElementById(target).classList.add('display');
 
     }
 

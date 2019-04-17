@@ -15,6 +15,11 @@ form{
     display: none;
 }
 
-.active{
+.display{
     display: block;
+}
+
+.nav > li{
+    color: blue;
+    cursor: pointer;
 }
