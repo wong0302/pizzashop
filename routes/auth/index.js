@@ -11,6 +11,17 @@ router.get('/users/me', authorize, async (req, res) => {
   res.send({data: user})
 })
 
+router.patch('/users/me', authorize, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+    user.password = req.body.password
+    await user.save()
+    res.send({data: user})
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/users', sanitizeBody, async (req, res) => {
   //New user, tested via postman @ 17:00, Akel, working.
   try {

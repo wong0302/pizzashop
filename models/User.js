@@ -28,6 +28,7 @@ userSchema.statics.authenticate = async function(email, password) {
 
 //triggered before a model is saved
 userSchema.pre('save', async function (next) {
+  // Only encrypt if the password property is being changed.
   if (!this.isModified('password')) return next()
 
   this.password = await bcrypt.hash(this.password, saltRounds)
