@@ -16,6 +16,8 @@
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
+        document.getElementById('showPassword').addEventListener('click', showPassword);
+        
         
     }
 
@@ -33,6 +35,24 @@
 
     }
 
+    /**************************
+           SHOW PASSWORD
+    **************************/
+
+    function showPassword() {
+        let target = document.querySelectorAll('.passwordChange');
+
+        target.forEach(password => {
+            if (password.type === "password") {
+                password.type = "text";
+                console.log('show password');
+              } else {
+                password.type = "password";
+                console.log('hide password');
+              }
+          })
+        }
+    
     /**************************
            REGISTRATION
     **************************/
