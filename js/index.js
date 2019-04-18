@@ -7,19 +7,21 @@
         addListeners();
         createIngredientCard();
         pages = document.querySelectorAll('.page');
-       pages[0].classList.add('display');
+        pages[0].classList.add('display');
     });
 
     function addListeners() {
 
-        document.querySelectorAll('.navigation').forEach( item => { item.addEventListener('click', navigate); });
+        document.querySelectorAll('.navigation').forEach(item => {
+            item.addEventListener('click', navigate);
+        });
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
         document.getElementById('showPassword').addEventListener('click', showPassword);
         document.getElementById('savePassword').addEventListener('click', checkPassword);
-        
-        
+
+
     }
 
     /**************************
@@ -29,10 +31,10 @@
     function navigate(ev) {
 
         let tapped = ev.currentTarget;
-            console.log(tapped);
-            document.querySelector('.display').classList.remove('display');
-            let target = tapped.getAttribute('data-target');
-            document.getElementById(target).classList.add('display');
+        console.log(tapped);
+        document.querySelector('.display').classList.remove('display');
+        let target = tapped.getAttribute('data-target');
+        document.getElementById(target).classList.add('display');
 
     }
 
@@ -48,158 +50,193 @@
             if (password.type === "password") {
                 password.type = "text";
                 console.log('show password');
-              } else {
+            } else {
                 password.type = "password";
                 console.log('hide password');
-              }
-          })
-        }
+            }
+        })
+    }
 
     // verify passwords match
-    function checkPassword() { 
+    function checkPassword() {
         let password1 = document.getElementById('newPassword').value;
         let password2 = document.getElementById('reEnterPassword').value;
         console.log('YOUR NEW PASSWORD:', password1 + ' ' + password2);
 
         // If password not entered 
-        if (password1 == '') 
-            alert ("Please enter Password"); 
-              
+        if (password1 == '')
+            alert("Please enter Password");
+
         // If confirm password not entered 
-        else if (password2 == '') 
-            alert ("Please enter confirm password"); 
-              
+        else if (password2 == '')
+            alert("Please enter confirm password");
+
         // If Not same return False.     
-        else if (password1 != password2) { 
-            alert ("\nPassword did not match: Please try again...") 
-            return false; 
-        } 
+        else if (password1 != password2) {
+            alert("\nPassword did not match: Please try again...")
+            return false;
+        }
 
         // If same return True. 
-        else{ 
-            alert("Password Match: Welcome to GeeksforGeeks!") 
-            return true; 
-        } 
-    } 
-    
+        else {
+            changePassword();
+            alert("Password Matched!")
+            return true;
+        }
+    }
+
+    // change password
+    function changePassword() {
+        
+        // user input 
+        let newPassword = document.getElementById('newPassword').value;
+
+        // define the end point for the request
+        let url = 'http://127.0.0.1:3030/auth/users/me'; 
+
+        let userInput = {
+            password: newPassword
+        };
+
+        let jsonData = JSON.stringify(userInput);
+
+        //create a Headers object
+        let headers = new Headers();
+        //append the Authorization header
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+         //create a Request Object
+         let req = new Request(url, {
+            headers: headers,
+            method: 'PATCH',
+            mode: 'cors',
+            body: jsonData
+        });
+
+        //body is the data that goes to the API
+        //now do the fetch
+        fetch(req)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+                } else {
+                    // document.getElementById('output').textContent =
+                    //     'Hey we got a response from the server! They LOVED our token.';
+                    console.log('success! password has been changed');
+                }
+            })
+            .catch(err => {
+                //there will be an error because this is not a valid URL
+                console.error(err.code + ': ' + err.message);
+            })
+
+    }
+
     /**************************
            REGISTRATION
     **************************/
 
-   function sendSignUpInfo(ev) {
-    ev.preventDefault();
-    //user input
-    let userFirstName = document.getElementById('firstName').value, 
-    userLastName = document.getElementById('lastName').value,
-    userEmail = document.getElementById('signUpEmail').value,
-    userPassword = document.getElementById('signUpPassword').value;
-    userType = document.getElementById('userType').value;
+    function sendSignUpInfo(ev) {
+        ev.preventDefault();
+        //user input
+        let userFirstName = document.getElementById('firstName').value,
+            userLastName = document.getElementById('lastName').value,
+            userEmail = document.getElementById('signUpEmail').value,
+            userPassword = document.getElementById('signUpPassword').value;
+        userType = document.getElementById('userType').value;
 
-    //define the end point for the request
-    let url = 'http://127.0.0.1:3030/auth/users';
+        //define the end point for the request
+        let url = 'http://127.0.0.1:3030/auth/users';
 
-    let userInput = {
-        firstName: userFirstName,
-        lastName: userLastName,
-        email: userEmail,
-        password: userPassword,
-        isStaff: userType
-    };
+        let userInput = {
+            firstName: userFirstName,
+            lastName: userLastName,
+            email: userEmail,
+            password: userPassword,
+            isStaff: userType
+        };
 
-    let jsonData = JSON.stringify(userInput);
+        let jsonData = JSON.stringify(userInput);
 
-    let headers = new Headers();
-    //append the Authorization header
-    // headers.append('Authorization', 'Bearer ' + token);
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let headers = new Headers();
+        //append the Authorization header
+        // headers.append('Authorization', 'Bearer ' + token);
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-    console.log("User input is:", userInput);
+        console.log("User input is:", userInput);
 
-     //create a Request Object
-     let req = new Request(url, {
-        headers: headers,
-        method: 'POST',
-        mode: 'cors',
-        body: jsonData
-    });
+        //create a Request Object
+        let req = new Request(url, {
+            headers: headers,
+            method: 'POST',
+            mode: 'cors',
+            body: jsonData
+        });
 
-    //body is the data that goes to the API
-    //now do the fetch
-    fetch(req)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-        } else {
-            // document.getElementById('output').textContent =
-            //     'Hey we got a response from the server! They LOVED our token.';
-            console.log('Account created successfully.');
-        }
-    })
-    .catch(err => {
-        //there will be an error because this is not a valid URL
-        console.error(err.code + ': ' + err.message);
-    })
+        //body is the data that goes to the API
+        //now do the fetch
+      fetchAPI(req);
 
-}
-
-function sendSignInInfo(ev) {
-
-
-    ev.preventDefault();
-    // user input
-    let userEmail = document.getElementById('signInEmail').value,
-    userPassword = document.getElementById('signInPassword').value;
-
-    let url = 'http://127.0.0.1:3030/auth/tokens';
-
-    let signInInput = {
-        email: userEmail,
-        password: userPassword
     }
 
-    let jsonData = JSON.stringify(signInInput);
+    function sendSignInInfo(ev) {
 
-     //create a Headers object
-     let headers = new Headers();
-     //append the Authorization header
-     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-     //create a Request Object
-     let req = new Request(url, {
-        headers: headers,
-        method: 'POST',
-        mode: 'cors',
-        body: jsonData
-    });
-    console.log(jsonData);
-    // let fetch = new Promise(function (resolve, reject) {
-    //     resolve(response);
-    // })
-    fetch(req)
-        .then(response => {
-            //console.log(response);
-            //from a fetch you would be using response.json()
-            return response.json();
-        })
-        .then(result => {
-            let data = result.data.token;
-            console.log('data', data);
-            sessionStorage.setItem(tokenKey, JSON.stringify(data));
+        ev.preventDefault();
+        // user input
+        let userEmail = document.getElementById('signInEmail').value,
+            userPassword = document.getElementById('signInPassword').value;
+
+        let url = 'http://127.0.0.1:3030/auth/tokens';
+
+        let signInInput = {
+            email: userEmail,
+            password: userPassword
+        }
+
+        let jsonData = JSON.stringify(signInInput);
+
+        //create a Headers object
+        let headers = new Headers();
+        //append the Authorization header
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+        //create a Request Object
+        let req = new Request(url, {
+            headers: headers,
+            method: 'POST',
+            mode: 'cors',
+            body: jsonData
+        });
+        console.log(jsonData);
+        // let fetch = new Promise(function (resolve, reject) {
+        //     resolve(response);
+        // })
+        fetch(req)
+            .then(response => {
+                //console.log(response);
+                //from a fetch you would be using response.json()
+                return response.json();
+            })
+            .then(result => {
+                let data = result.data.token;
+                console.log('data', data);
+                sessionStorage.setItem(tokenKey, JSON.stringify(data));
                 // navbar for signed in user
-    let notSignedIn = document.querySelectorAll('.notSignedIn');
-    notSignedIn.forEach(item => {
-        item.style.display = 'none';
-    })
-    let signedIn = document.querySelectorAll('.signedIn');
-    signedIn.forEach(item => {
-        item.style.display = 'block';
-    })
-        })
-        .catch(err => {
-            console.error('We are failing');
-        })
+                let notSignedIn = document.querySelectorAll('.notSignedIn');
+                notSignedIn.forEach(item => {
+                    item.style.display = 'none';
+                })
+                let signedIn = document.querySelectorAll('.signedIn');
+                signedIn.forEach(item => {
+                    item.style.display = 'block';
+                })
+            })
+            .catch(err => {
+                console.error('We are failing');
+            })
 
-}
+    }
 
     /**************************
            ADD INGREDIENTS
@@ -256,10 +293,10 @@ function sendSignInInfo(ev) {
         let ingredientsList = await fetchAPI(req);
         console.log(ingredientsList);
 
-        }
+    }
 
-        function fetchAPI(req) {
-            fetch(req)
+    function fetchAPI(req) {
+        fetch(req)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
@@ -272,46 +309,46 @@ function sendSignInInfo(ev) {
             .catch(err => {
                 console.error(err.code + ': ' + err.message);
             })
-        }
+    }
 
 
-        function createIngredientCard() {
+    function createIngredientCard() {
 
-            let tbody = document.querySelector('.table-body');
-            let tr = document.createElement('tr');
-            let ingredient = document.createElement('td');
-            let price = document.createElement('td');
-            let quantity = document.createElement('td');
-            let category = document.createElement('td');
-            let actions = document.createElement('td');
-            let editBtn = document.createElement('p');
-            let deleteBtn = document.createElement('p');
+        let tbody = document.querySelector('.table-body');
+        let tr = document.createElement('tr');
+        let ingredient = document.createElement('td');
+        let price = document.createElement('td');
+        let quantity = document.createElement('td');
+        let category = document.createElement('td');
+        let actions = document.createElement('td');
+        let editBtn = document.createElement('p');
+        let deleteBtn = document.createElement('p');
 
-            ingredient.textContent = 'ingredient variable'; // insert ingredient name variable
-            price.textContent = 'price variable'; // insert price variable
-            category.textContent = 'category variable'; // insert category variable
-            quantity.textContent = 'quantity variable'; // insert quantity variable
-            //gluten.textContent = 'gluten free variable'; // insert gluten variable
-            editBtn.textContent = 'Edit';
-            deleteBtn.textContent = 'Delete';
+        ingredient.textContent = 'ingredient variable'; // insert ingredient name variable
+        price.textContent = 'price variable'; // insert price variable
+        category.textContent = 'category variable'; // insert category variable
+        quantity.textContent = 'quantity variable'; // insert quantity variable
+        //gluten.textContent = 'gluten free variable'; // insert gluten variable
+        editBtn.textContent = 'Edit';
+        deleteBtn.textContent = 'Delete';
 
-            editBtn.setAttribute('type', 'button');
-            editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-            editBtn.setAttribute('data-toggle', 'modal');
-            editBtn.setAttribute('data-target', '#editIngredients');
-            console.log("edit button:",editBtn);
-            deleteBtn.setAttribute('type', 'button');
-            deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        editBtn.setAttribute('type', 'button');
+        editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        editBtn.setAttribute('data-toggle', 'modal');
+        editBtn.setAttribute('data-target', '#editIngredients');
+        console.log("edit button:", editBtn);
+        deleteBtn.setAttribute('type', 'button');
+        deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
 
-            tbody.appendChild(tr);
-            tr.appendChild(ingredient);
-            tr.appendChild(price);
-            tr.appendChild(quantity);
-            tr.appendChild(category);
-            tr.appendChild(actions);
-            actions.appendChild(editBtn);
-            actions.appendChild(deleteBtn);
-        }
+        tbody.appendChild(tr);
+        tr.appendChild(ingredient);
+        tr.appendChild(price);
+        tr.appendChild(quantity);
+        tr.appendChild(category);
+        tr.appendChild(actions);
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+    }
 
-        // data-toggle="modal"
-        //         data-target="#successModal" 
+    // data-toggle="modal"
+    //         data-target="#successModal" 
