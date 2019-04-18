@@ -16,6 +16,8 @@
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
+        document.getElementById('showPassword').addEventListener('click', showPassword);
+        
         
     }
 
@@ -33,6 +35,24 @@
 
     }
 
+    /**************************
+           SHOW PASSWORD
+    **************************/
+
+    function showPassword() {
+        let target = document.querySelectorAll('.passwordChange');
+
+        target.forEach(password => {
+            if (password.type === "password") {
+                password.type = "text";
+                console.log('show password');
+              } else {
+                password.type = "password";
+                console.log('hide password');
+              }
+          })
+        }
+    
     /**************************
            REGISTRATION
     **************************/
@@ -94,15 +114,7 @@
 }
 
 function sendSignInInfo(ev) {
-    // navbar for signed in user
-    let notSignedIn = document.querySelectorAll('.notSignedIn');
-    notSignedIn.forEach(item => {
-        item.style.display = 'none';
-    })
-    let signedIn = document.querySelectorAll('.signedIn');
-    signedIn.forEach(item => {
-        item.style.display = 'block';
-    })
+
 
     ev.preventDefault();
     // user input
@@ -144,6 +156,15 @@ function sendSignInInfo(ev) {
             let data = result.data.token;
             console.log('data', data);
             sessionStorage.setItem(tokenKey, JSON.stringify(data));
+                // navbar for signed in user
+    let notSignedIn = document.querySelectorAll('.notSignedIn');
+    notSignedIn.forEach(item => {
+        item.style.display = 'none';
+    })
+    let signedIn = document.querySelectorAll('.signedIn');
+    signedIn.forEach(item => {
+        item.style.display = 'block';
+    })
         })
         .catch(err => {
             console.error('We are failing');
