@@ -17,6 +17,7 @@
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
         document.getElementById('showPassword').addEventListener('click', showPassword);
+        document.getElementById('savePassword').addEventListener('click', checkPassword);
         
         
     }
@@ -36,9 +37,10 @@
     }
 
     /**************************
-           SHOW PASSWORD
+          PASSWORD CHANGE
     **************************/
 
+    // show hidden password by checkbox
     function showPassword() {
         let target = document.querySelectorAll('.passwordChange');
 
@@ -52,6 +54,33 @@
               }
           })
         }
+
+    // verify passwords match
+    function checkPassword() { 
+        let password1 = document.getElementById('newPassword').value;
+        let password2 = document.getElementById('reEnterPassword').value;
+        console.log('YOUR NEW PASSWORD:', password1 + ' ' + password2);
+
+        // If password not entered 
+        if (password1 == '') 
+            alert ("Please enter Password"); 
+              
+        // If confirm password not entered 
+        else if (password2 == '') 
+            alert ("Please enter confirm password"); 
+              
+        // If Not same return False.     
+        else if (password1 != password2) { 
+            alert ("\nPassword did not match: Please try again...") 
+            return false; 
+        } 
+
+        // If same return True. 
+        else{ 
+            alert("Password Match: Welcome to GeeksforGeeks!") 
+            return true; 
+        } 
+    } 
     
     /**************************
            REGISTRATION
