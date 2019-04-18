@@ -114,15 +114,7 @@
 }
 
 function sendSignInInfo(ev) {
-    // navbar for signed in user
-    let notSignedIn = document.querySelectorAll('.notSignedIn');
-    notSignedIn.forEach(item => {
-        item.style.display = 'none';
-    })
-    let signedIn = document.querySelectorAll('.signedIn');
-    signedIn.forEach(item => {
-        item.style.display = 'block';
-    })
+
 
     ev.preventDefault();
     // user input
@@ -164,6 +156,15 @@ function sendSignInInfo(ev) {
             let data = result.data.token;
             console.log('data', data);
             sessionStorage.setItem(tokenKey, JSON.stringify(data));
+                // navbar for signed in user
+    let notSignedIn = document.querySelectorAll('.notSignedIn');
+    notSignedIn.forEach(item => {
+        item.style.display = 'none';
+    })
+    let signedIn = document.querySelectorAll('.signedIn');
+    signedIn.forEach(item => {
+        item.style.display = 'block';
+    })
         })
         .catch(err => {
             console.error('We are failing');
