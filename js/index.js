@@ -5,9 +5,9 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         addListeners();
-        createIngredientCard();
         pages = document.querySelectorAll('.page');
         pages[0].classList.add('display');
+        getIngredients();
     });
 
     function addListeners() {
@@ -233,82 +233,110 @@
 
     }
 
-    /**************************
-           ADD INGREDIENTS
-    **************************/
+            /**************************
+                    ADD INGREDIENTS
+            **************************/
 
-    async function addIngredients(ev) {
-        let productName = document.getElementById('productName').value,
-            price = document.getElementById('price').value,
-            quantity = document.getElementById('quantity').value;
+ async function addIngredients(ev) {
+    let productName = document.getElementById('productName').value,
+        price = document.getElementById('price').value,
+        quantity = document.getElementById('quantity').value;
 
-        //Check if Gluten Free is Checked & Set Value
-        if (document.getElementById('isGlutenFree').checked = true) {
-            isGlutenFree = true;
-        } else {
-            isGlutenFree = false;
-        }
+    //Check if Gluten Free is Checked & Set Value
+    if (document.getElementById('isGlutenFree').checked = true) {
+        isGlutenFree = true;
+    } else {
+        isGlutenFree = false;
+    }
 
-        //Determine Categorie Picked
-        let categoriesSelected = document.getElementById('categories');
-        if (categoriesSelected.selectedIndex == 0) {
-            console.log('select one answer');
+    //Determine Categorie Picked
+    let categoriesSelected = document.getElementById('categories');
+    if (categoriesSelected.selectedIndex == 0) {
+        console.log('select one answer');
 
-        } else {
-            categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
-        }
-        ev.preventDefault();
-        //define the end point for the request
-        let url = 'http://127.0.0.1:3030/api/ingredients';
+    } else {
+        categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
+    }
+    ev.preventDefault();
+    //define the end point for the request
+    let url = 'http://127.0.0.1:3030/api/ingredients';
 
-        let userInput = {
-            name: productName,
-            price: price,
-            quantity: quantity,
-            isGlutenFree: isGlutenFree,
-            categories: categories
-        };
+    let userInput = {
+        name: productName,
+        price: price,
+        quantity: quantity,
+        isGlutenFree: isGlutenFree,
+        categories: categories
+    };
 
-        let jsonData = JSON.stringify(userInput);
+    let jsonData = JSON.stringify(userInput);
 
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+    console.log("User input is:", userInput);
+
+    let req = new Request(url, {
+        headers: headers,
+        method: 'POST',
+        mode: 'cors',
+        body: jsonData
+    });
+    //body is the data that goes to the API
+    //now do the fetch
+    let ingredientsList = await fetchAPI(req);
+    console.log(ingredientsList);
+    }
+
+ /**************************
+    FETCH FUNCTION 
+**************************/
+
+    function fetchAPI(req) {
+        return fetch(req)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+            } else {
+                // document.getElementById('output').textContent =
+                //     'Hey we got a response from the server! They LOVED our token.';
+                console.log('We are so fetchy! YASSSS!');
+               return response.json();
+            }
+        })
+        .catch(err => {
+            console.error(err.code + ': ' + err.message);
+        })
+    }
+
+/**************************
+       GET INGREDIENTS
+**************************/
+
+    async function getIngredients(){
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-        console.log("User input is:", userInput);
-
+        let url = 'http://127.0.0.1:3030/api/ingredients';
         let req = new Request(url, {
             headers: headers,
-            method: 'POST',
-            mode: 'cors',
-            body: jsonData
+            method: 'GET',
+            mode: 'cors'
         });
 
-        //body is the data that goes to the API
-        //now do the fetch
         let ingredientsList = await fetchAPI(req);
         console.log(ingredientsList);
 
+        createIngredientCard(ingredientsList);
     }
-
-    function fetchAPI(req) {
-        fetch(req)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-                } else {
-                    // document.getElementById('output').textContent =
-                    //     'Hey we got a response from the server! They LOVED our token.';
-                    console.log('We are so fetchy! YASSSS!');
-                }
-            })
-            .catch(err => {
-                console.error(err.code + ': ' + err.message);
-            })
-    }
+/**************************
+    CREATE INGREDIENT ROWS
+**************************/
 
 
-    function createIngredientCard() {
-
+    function createIngredientCard(ingredientsList) {
+        console.log("ingredients list is:", ingredientsList);
+        
+    ingredientsList.data.forEach(item => {
         let tbody = document.querySelector('.table-body');
         let tr = document.createElement('tr');
         let ingredient = document.createElement('td');
@@ -319,21 +347,22 @@
         let editBtn = document.createElement('p');
         let deleteBtn = document.createElement('p');
 
-        ingredient.textContent = 'ingredient variable'; // insert ingredient name variable
-        price.textContent = 'price variable'; // insert price variable
-        category.textContent = 'category variable'; // insert category variable
-        quantity.textContent = 'quantity variable'; // insert quantity variable
+        ingredient.textContent = item.name// insert ingredient name variable
+        price.textContent = item.price; // insert price variable
+        category.textContent = item.categories; // insert category variable
+        quantity.textContent = item.quantity; // insert quantity variable
         //gluten.textContent = 'gluten free variable'; // insert gluten variable
         editBtn.textContent = 'Edit';
         deleteBtn.textContent = 'Delete';
-
         editBtn.setAttribute('type', 'button');
         editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
         editBtn.setAttribute('data-toggle', 'modal');
         editBtn.setAttribute('data-target', '#editIngredients');
-        console.log("edit button:", editBtn);
+        console.log("edit button:",editBtn);
         deleteBtn.setAttribute('type', 'button');
         deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        deleteBtn.setAttribute('data-id', item.id);
+        deleteBtn.addEventListener('click', () => deleteIngredients(item.id));
 
         tbody.appendChild(tr);
         tr.appendChild(ingredient);
@@ -343,7 +372,27 @@
         tr.appendChild(actions);
         actions.appendChild(editBtn);
         actions.appendChild(deleteBtn);
-    }
+        }
 
+     )}
+    
+
+     /**************************
+         DELETE INGREDIENTS
+     **************************/
+
+    async function deleteIngredients(){
+        let url = 'http://127.0.0.1:3030/api/ingredients';
+        let req = new Request(url, {
+            method: 'DELETE',
+            mode: 'cors'
+        });
+
+        let ingredientsList = await fetchAPI(req);
+        console.log(ingredientsList);
+
+        createIngredientCard(ingredientsList);
+    }
+   
     // data-toggle="modal"
     //         data-target="#successModal" 
