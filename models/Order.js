@@ -7,10 +7,10 @@ const orderSchema = new mongoose.Schema({
     status: {type: String, trim: true, lowercase: true, enum: ['draft', 'ordered', 'paid', 'delivered'], default: 'draft'},
     pizzas: [{type: mongoose.Schema.Types.ObjectId, ref: 'Pizzas'}],
     //TODO: address required field must be set to true if type is delivery
-    address: {type: String, trim: true, lowercase: true, required: false},
+    address: {type: String, trim: true, lowercase: true, required: function() { return this.type == 'delivery' ? true : false}},
     price: {type: Number, default: 0},
     //TODO: charge default field must be set to 500 if type is delivery
-    deliveryCharge: {type: Number, default: 0},
+    deliveryCharge: {type: Number, default: function() { return this.type == 'delivery' ? 500 : 0}},
     tax: {type: Number, default: 0},
     total: {type: Number, default: 0},
 },
