@@ -61,23 +61,18 @@
     function checkPassword() {
         let password1 = document.getElementById('newPassword').value;
         let password2 = document.getElementById('reEnterPassword').value;
-        console.log('YOUR NEW PASSWORD:', password1 + ' ' + password2);
-
-        // If password not entered 
+        // if field is left empty
         if (password1 == '')
             alert("Please enter Password");
-
-        // If confirm password not entered 
+        // if field is left empty 
         else if (password2 == '')
-            alert("Please enter confirm password");
-
-        // If Not same return False.     
+            alert("Please enter confirm password")
+        // passwords do not match     
         else if (password1 != password2) {
             alert("\nPassword did not match: Please try again...")
             return false;
         }
-
-        // If same return True. 
+        // passwords match
         else {
             changePassword();
             alert("Password Matched!")
