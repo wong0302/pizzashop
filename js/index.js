@@ -472,9 +472,11 @@
 
 
    function createPizzaCards(pizzasList) {
+    let cardDeck = document.querySelector('.card-deck');
+    cardDeck.innerHTML = "";
+    
     pizzasList.data.forEach(pizza => {
 
-    let cardDeck = document.querySelector('.card-deck');
     let cardDiv = document.createElement('div');
     let pizzaImg = document.createElement('img');
     let cardBody = document.createElement('div');
