@@ -77,12 +77,13 @@
 
     // change password
     function changePassword() {
-
         // user input 
         let newPassword = document.getElementById('newPassword').value;
 
         // define the end point for the request
         let url = 'http://127.0.0.1:3030/auth/users/me';
+
+        let authToken = JSON.parse(sessionStorage.getItem(tokenKey));
 
         let userInput = {
             password: newPassword
@@ -92,8 +93,8 @@
 
         //create a Headers object
         let headers = new Headers();
-        //append the Authorization header
         headers.append('Content-Type', 'application/json;charset=UTF-8');
+        headers.append('Authorization', 'Bearer ' + authToken)
 
         //create a Request Object
         let req = new Request(url, {
@@ -153,7 +154,7 @@
         // headers.append('Authorization', 'Bearer ' + token);
         headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-        console.log("User input is:", userInput);
+        //console.log("User input is:", userInput);
 
         //create a Request Object
         let req = new Request(url, {
@@ -236,7 +237,7 @@
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         headers.append('Authorization', 'Bearer ' + authToken)
 
-        console.log("TOKEN:", authToken);
+        //console.log("TOKEN:", authToken);
 
         //create a Request Object
         let req = new Request(url, {
@@ -251,7 +252,7 @@
           })
           .then(data => {
               currentUser = data;
-              console.log("current user:", currentUser);
+              //console.log("current user:", currentUser);
           })
           .catch(err => {
               console.log("Woops!", err);
@@ -338,7 +339,7 @@
         CREATE INGREDIENT ROWS
     **************************/
     function createIngredientCard(ingredientsList) {
-        console.log("ingredients list is:", ingredientsList);
+        //console.log("ingredients list is:", ingredientsList);
         let section = document.querySelector('.table-body');
         section.innerHTML = "";
 
@@ -395,7 +396,7 @@
         });
 
         let ingredientsList = await fetchAPI(req);
-        console.log(ingredientsList);
+        //console.log(ingredientsList);
 
         getIngredients(ingredientsList);
     }
@@ -414,7 +415,7 @@
         });
 
         let pizzasList = await fetchAPI(req);
-        console.log("Pizzas list:", pizzasList);
+        //console.log("Pizzas list:", pizzasList);
 
         createPizzaRow(pizzasList);
     }
@@ -494,7 +495,7 @@
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-        console.log("User input is:", userInput);
+        //console.log("User input is:", userInput);
 
         let req = new Request(url, {
             headers: headers,
@@ -519,7 +520,7 @@
             mode: 'cors'
         });
         let deletedPizzas = await fetchAPI(req);
-        console.log(deletedPizzas);
+        //console.log(deletedPizzas);
         getPizzas(deleteIngredients);
     }
 
@@ -619,7 +620,7 @@
     **************************/
     function navigate(ev) {
         let tapped = ev.currentTarget;
-        console.log("tapped on:", tapped);
+        //console.log("tapped on:", tapped);
         document.querySelector('.display').classList.remove('display');
         let target = tapped.getAttribute('data-target');
         document.getElementById(target).classList.add('display');
