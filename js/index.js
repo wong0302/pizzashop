@@ -300,6 +300,8 @@
     **************************/
     function createIngredientCard(ingredientsList) {
         console.log("ingredients list is:", ingredientsList);
+        let section = document.querySelector('.table-body');
+        section.innerHTML =""; 
 
         ingredientsList.data.forEach(item => {
                 let tbody = document.querySelector('.table-body');
@@ -327,7 +329,7 @@
                 deleteBtn.setAttribute('type', 'button');
                 deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
                 deleteBtn.setAttribute('data-id', item.id);
-                deleteBtn.addEventListener('click', () => deleteIngredients(item.id));
+                deleteBtn.addEventListener('click', () => deleteIngredients(item._id));
 
                 tbody.appendChild(tr);
                 tr.appendChild(ingredient);
@@ -346,19 +348,18 @@
     /**************************
         DELETE INGREDIENTS
     **************************/
-    async function deleteIngredients() {
-        let url = 'http://127.0.0.1:3030/api/ingredients';
-        let req = new Request(url, {
-            method: 'DELETE',
-            mode: 'cors'
-        });
+   async function deleteIngredients(id) {
+    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let req = new Request(url, {
+        method: 'DELETE',
+        mode: 'cors'
+    });
 
-        let ingredientsList = await fetchAPI(req);
-        console.log(ingredientsList);
+    let ingredientsList = await fetchAPI(req);
+    console.log(ingredientsList);
 
-        createIngredientCard(ingredientsList);
-    }
-
+    getIngredients(ingredientsList);
+}
 
     /**************************
          GET PIZZAS
