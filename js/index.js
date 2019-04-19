@@ -18,7 +18,10 @@
         });
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
+
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
+        document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
+
         document.getElementById('showPassword').addEventListener('click', showPassword);
         document.getElementById('savePassword').addEventListener('click', checkPassword);
 
@@ -234,85 +237,64 @@
 
     }
 
-            /**************************
-                    ADD INGREDIENTS
-            **************************/
+    /**************************
+         ADD INGREDIENTS
+    **************************/
 
- async function addIngredients(ev) {
-    let productName = document.getElementById('productName').value,
-        price = document.getElementById('price').value,
-        quantity = document.getElementById('quantity').value;
+    async function addIngredients(ev) {
+        let productName = document.getElementById('productName').value,
+            price = document.getElementById('price').value,
+            quantity = document.getElementById('quantity').value;
 
-    //Check if Gluten Free is Checked & Set Value
-    if (document.getElementById('isGlutenFree').checked = true) {
-        isGlutenFree = true;
-    } else {
-        isGlutenFree = false;
+        //Check if Gluten Free is Checked & Set Value
+        if (document.getElementById('isGlutenFree').checked = true) {
+            isGlutenFree = true;
+        } else {
+            isGlutenFree = false;
+        }
+
+        //Determine Categorie Picked
+        let categoriesSelected = document.getElementById('categories');
+        if (categoriesSelected.selectedIndex == 0) {
+            console.log('select one answer');
+
+        } else {
+            categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
+        }
+        ev.preventDefault();
+        //define the end point for the request
+        let url = 'http://127.0.0.1:3030/api/ingredients';
+
+        let userInput = {
+            name: productName,
+            price: price,
+            quantity: quantity,
+            isGlutenFree: isGlutenFree,
+            categories: categories
+        };
+
+        let jsonData = JSON.stringify(userInput);
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+        console.log("User input is:", userInput);
+
+        let req = new Request(url, {
+            headers: headers,
+            method: 'POST',
+            mode: 'cors',
+            body: jsonData
+        });
+        //body is the data that goes to the API
+        //now do the fetch
+        let ingredientsList = await fetchAPI(req);
+        //console.log(ingredientsList);
     }
 
-    //Determine Categorie Picked
-    let categoriesSelected = document.getElementById('categories');
-    if (categoriesSelected.selectedIndex == 0) {
-        console.log('select one answer');
-
-    } else {
-        categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
-    }
-    ev.preventDefault();
-    //define the end point for the request
-    let url = 'http://127.0.0.1:3030/api/ingredients';
-
-    let userInput = {
-        name: productName,
-        price: price,
-        quantity: quantity,
-        isGlutenFree: isGlutenFree,
-        categories: categories
-    };
-
-    let jsonData = JSON.stringify(userInput);
-
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-    console.log("User input is:", userInput);
-
-    let req = new Request(url, {
-        headers: headers,
-        method: 'POST',
-        mode: 'cors',
-        body: jsonData
-    });
-    //body is the data that goes to the API
-    //now do the fetch
-    let ingredientsList = await fetchAPI(req);
-    //console.log(ingredientsList);
-    }
-
- /**************************
-    FETCH FUNCTION 
-**************************/
-
-    function fetchAPI(req) {
-        return fetch(req)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-            } else {
-                // document.getElementById('output').textContent =
-                //     'Hey we got a response from the server! They LOVED our token.';
-                console.log('We are so fetchy! YASSSS!');
-               return response.json();
-            }
-        })
-        .catch(err => {
-            console.error(err.code + ': ' + err.message);
-        })
-    }
-
-/**************************
-       GET INGREDIENTS
-**************************/
+    /**************************
+         GET INGREDIENTS
+    **************************/
 
     async function getIngredients(){
         let headers = new Headers();
@@ -330,9 +312,9 @@
         createIngredientCard(ingredientsList);
     }
 
-/**************************
-    CREATE INGREDIENT ROWS
-**************************/
+    /**************************
+        CREATE INGREDIENT ROWS
+    **************************/
     function createIngredientCard(ingredientsList) {
         console.log("ingredients list is:", ingredientsList);
         
@@ -377,43 +359,41 @@
      )}
     
 
-     /**************************
-         DELETE INGREDIENTS
-     **************************/
-
+    /**************************
+        DELETE INGREDIENTS
+    **************************/
     async function deleteIngredients(){
-        let url = 'http://127.0.0.1:3030/api/ingredients';
-        let req = new Request(url, {
-            method: 'DELETE',
-            mode: 'cors'
-        });
+            let url = 'http://127.0.0.1:3030/api/ingredients';
+            let req = new Request(url, {
+                method: 'DELETE',
+                mode: 'cors'
+            });
 
-        let ingredientsList = await fetchAPI(req);
-        console.log(ingredientsList);
+            let ingredientsList = await fetchAPI(req);
+            console.log(ingredientsList);
 
-        createIngredientCard(ingredientsList);
-    }
+            createIngredientCard(ingredientsList);
+        }
 
 
     /**************************
-       GET PIZZAS
-**************************/
+         GET PIZZAS
+    **************************/
+    async function getPizzas(){
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let url = 'http://127.0.0.1:3030/api/pizzas';
+        let req = new Request(url, {
+            headers: headers,
+            method: 'GET',
+            mode: 'cors'
+        });
 
-async function getPizzas(){
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    let url = 'http://127.0.0.1:3030/api/pizzas';
-    let req = new Request(url, {
-        headers: headers,
-        method: 'GET',
-        mode: 'cors'
-    });
+        let pizzasList = await fetchAPI(req);
+        console.log("Pizzas list:",pizzasList);
 
-    let pizzasList = await fetchAPI(req);
-    console.log("Pizzas list:",pizzasList);
-
-    createPizzaRow(pizzasList);
-}
+        createPizzaRow(pizzasList);
+    }
 
 /**************************
     CREATE PIZZAS ROWS
@@ -436,14 +416,18 @@ function createPizzaRow(pizzasList) {
     editBtn.textContent = 'Edit';
     deleteBtn.textContent = 'Delete';
 
+    //actions.setAttribute('data-id', pizza.id);
+
     editBtn.setAttribute('type', 'button');
     editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
     editBtn.setAttribute('data-toggle', 'modal');
-    editBtn.setAttribute('data-target', '#editIngredients');
+    editBtn.setAttribute('data-target', '#add-edit-pizza');
+    editBtn.addEventListener('click', () => editPizza(pizza._id));
 
     deleteBtn.setAttribute('type', 'button');
     deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-    deleteBtn.setAttribute('data-id', pizza.id);
+    //deleteBtn.setAttribute('data-id', pizza.id);
+    deleteBtn.addEventListener('click', () => deletePizza(pizza._id));
 
     tbody.appendChild(tr);
     tr.appendChild(name);
@@ -454,3 +438,80 @@ function createPizzaRow(pizzasList) {
     actions.appendChild(deleteBtn);
     }
  )}
+
+/**************************
+        ADD PIZZA
+**************************/
+function addPizza(ev) {
+    ev.preventDefault();
+
+    let name = document.getElementById('pizzaName').value
+    let price = document.getElementById('price').value
+
+    //Check if Gluten Free is Checked & Set Value
+    if (document.getElementById('isGlutenFree').checked = true) {
+        isGlutenFree = true;
+    } else {
+        isGlutenFree = false;
+    }
+
+    //define the end point for the request
+    let url = 'http://127.0.0.1:3030/api/pizzas';
+
+    let userInput = {
+        name: name,
+        price: price,
+        isGlutenFree: isGlutenFree,
+    };
+
+    let jsonData = JSON.stringify(userInput);
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+    console.log("User input is:", userInput);
+
+    let req = new Request(url, {
+        headers: headers,
+        method: 'POST',
+        mode: 'cors',
+        body: jsonData
+    });
+    //body is the data that goes to the API
+    //now do the fetch
+    fetchAPI(req);
+    //console.log(ingredientsList);
+    }
+
+/**************************
+        DELETE PIZZA
+**************************/
+    async function deletePizza(id){
+        let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+        let req = new Request(url, {
+            method: 'DELETE',
+            mode: 'cors'
+        });
+        fetchAPI(req);
+    }
+
+/**************************
+    FETCH FUNCTION 
+**************************/
+
+function fetchAPI(req) {
+    return fetch(req)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+        } else {
+            // document.getElementById('output').textContent =
+            //     'Hey we got a response from the server! They LOVED our token.';
+            console.log('We are so fetchy! YASSSS!');
+           return response.json();
+        }
+    })
+    .catch(err => {
+        console.error(err.code + ': ' + err.message);
+    })
+}
