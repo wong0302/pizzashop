@@ -10,6 +10,7 @@
         getIngredients();
         getPizzas();
         getUsers();
+        changeURL();
     });
 
     function addListeners() {
@@ -302,7 +303,7 @@
     function createIngredientCard(ingredientsList) {
         console.log("ingredients list is:", ingredientsList);
         let section = document.querySelector('.table-body');
-        section.innerHTML =""; 
+        section.innerHTML = "";
 
         ingredientsList.data.forEach(item => {
                 let tbody = document.querySelector('.table-body');
@@ -349,18 +350,18 @@
     /**************************
         DELETE INGREDIENTS
     **************************/
-   async function deleteIngredients(id) {
-    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
-    let req = new Request(url, {
-        method: 'DELETE',
-        mode: 'cors'
-    });
+    async function deleteIngredients(id) {
+        let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+        let req = new Request(url, {
+            method: 'DELETE',
+            mode: 'cors'
+        });
 
-    let ingredientsList = await fetchAPI(req);
-    console.log(ingredientsList);
+        let ingredientsList = await fetchAPI(req);
+        console.log(ingredientsList);
 
-    getIngredients(ingredientsList);
-}
+        getIngredients(ingredientsList);
+    }
 
     /**************************
          GET PIZZAS
@@ -386,7 +387,7 @@
     **************************/
     function createPizzaRow(pizzasList) {
         let section = document.querySelector('#pizzas-view > .table > .table-body');
-        section.innerHTML =""; 
+        section.innerHTML = "";
         pizzasList.data.forEach(pizza => {
             let tbody = document.querySelector('#pizzas-view > .table > .table-body');
             let tr = document.createElement('tr');
@@ -480,16 +481,16 @@
             method: 'DELETE',
             mode: 'cors'
         });
-       let deletedPizzas = await fetchAPI(req);
-       console.log(deletedPizzas);
-       getPizzas(deleteIngredients);
+        let deletedPizzas = await fetchAPI(req);
+        console.log(deletedPizzas);
+        getPizzas(deleteIngredients);
     }
 
 
     /**************************
             GET USERS
     **************************/
-   async function getUsers() {
+    async function getUsers() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let url = 'http://127.0.0.1:3030/auth/users';
@@ -550,7 +551,7 @@
         })
     }
 
-    function editUser(){
+    function editUser() {
 
     }
 
@@ -585,4 +586,34 @@
         document.querySelector('.display').classList.remove('display');
         let target = tapped.getAttribute('data-target');
         document.getElementById(target).classList.add('display');
+    }
+
+    /**************************
+            CHANGE URL
+    **************************/
+
+    function changeURL() {
+        let navLinks = document.querySelectorAll('.nav-link');
+        let dropDowns = document.querySelectorAll('.dropdown-item');
+        console.log('This is the navlinks: ', navLinks);
+        console.log('This is the dropdowns: ', dropDowns);
+        navLinks.forEach((link) => {
+            link.addEventListener('click', nav);
+        })
+        dropDowns.forEach((item) => {
+            item.addEventListener('click', nav);
+        })
+        history.replaceState({}, 'Home', '#home');
+        window.addEventListener('hashchange', pop);
+    }
+
+    function nav(ev) {
+        ev.preventDefault();
+        let currentPage = ev.target.getAttribute('data-target');
+        console.log('CURRENT PAGE: ', currentPage);
+        history.pushState({}, currentPage, `#${currentPage}`);
+    }
+
+    function pop() {
+        console.log(location.hash, 'popstate event')
     }
