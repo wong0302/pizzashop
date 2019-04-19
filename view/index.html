@@ -29,16 +29,23 @@
       <li class="nav-item navigation" data-target="menu">
         <a class="nav-link">Menu</a>
       </li>
-      <li class="nav-item navigation" data-target="ingredients-view">
-        <a class="nav-link">Admin</a>
-      </li>
-      <li class="nav-item navigation" data-target="pizzas-view">
-        <a class="nav-link">Admin pizzas</a>
-      </li>
-      <li class="nav-item navigation" data-target="users-view">
-          <a class="nav-link">Users</a>
-        </li>
+
+
+      <!--------- ADMIN --------->
+      <li class="nav-item signedIn">
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <button class="dropdown-item navigation" type="button" data-target="ingredients-view">Ingredients</button>
+              <button class="dropdown-item navigation" type="button" data-target="pizzas-view">Pizzas</button>
+              <button class="dropdown-item navigation" type="button" data-target="users-view">Users</button>
+            </div>
+          </div>
+    </li>
     </ul>
+
 
       <!-- THIS SHOULD CHANGE TO "LOGOUT WHEN USER HAS ALREADY SIGNED IN", add click listener in js -->
       <ul class="nav navbar-right">
