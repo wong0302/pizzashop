@@ -8,6 +8,7 @@
         pages = document.querySelectorAll('.page');
         pages[0].classList.add('display');
         getIngredients();
+        getPizzas();
     });
 
     function addListeners() {
@@ -285,7 +286,7 @@
     //body is the data that goes to the API
     //now do the fetch
     let ingredientsList = await fetchAPI(req);
-    console.log(ingredientsList);
+    //console.log(ingredientsList);
     }
 
  /**************************
@@ -328,11 +329,10 @@
 
         createIngredientCard(ingredientsList);
     }
+
 /**************************
     CREATE INGREDIENT ROWS
 **************************/
-
-
     function createIngredientCard(ingredientsList) {
         console.log("ingredients list is:", ingredientsList);
         
@@ -393,6 +393,64 @@
 
         createIngredientCard(ingredientsList);
     }
-   
-    // data-toggle="modal"
-    //         data-target="#successModal" 
+
+
+    /**************************
+       GET PIZZAS
+**************************/
+
+async function getPizzas(){
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    let url = 'http://127.0.0.1:3030/api/pizzas';
+    let req = new Request(url, {
+        headers: headers,
+        method: 'GET',
+        mode: 'cors'
+    });
+
+    let pizzasList = await fetchAPI(req);
+    console.log("Pizzas list:",pizzasList);
+
+    createPizzaRow(pizzasList);
+}
+
+/**************************
+    CREATE PIZZAS ROWS
+**************************/
+function createPizzaRow(pizzasList) {
+    
+    pizzasList.data.forEach(pizza => {
+    let tbody = document.querySelector('#pizzas-view > .table > .table-body');
+    let tr = document.createElement('tr');
+    let name = document.createElement('td');
+    let price = document.createElement('td');
+    let glutenFree = document.createElement('td');
+    let actions = document.createElement('td');
+    let editBtn = document.createElement('p');
+    let deleteBtn = document.createElement('p');
+
+    name.textContent = pizza.name
+    price.textContent = pizza.price;
+    glutenFree.textContent = pizza.isGlutenFree;
+    editBtn.textContent = 'Edit';
+    deleteBtn.textContent = 'Delete';
+
+    editBtn.setAttribute('type', 'button');
+    editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+    editBtn.setAttribute('data-toggle', 'modal');
+    editBtn.setAttribute('data-target', '#editIngredients');
+
+    deleteBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+    deleteBtn.setAttribute('data-id', pizza.id);
+
+    tbody.appendChild(tr);
+    tr.appendChild(name);
+    tr.appendChild(price);
+    tr.appendChild(glutenFree);
+    tr.appendChild(actions);
+    actions.appendChild(editBtn);
+    actions.appendChild(deleteBtn);
+    }
+ )}
