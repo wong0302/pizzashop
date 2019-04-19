@@ -4,6 +4,12 @@ const router = require('express').Router()
 const User = require('../../models/User')
 const authorize = require('../../middleware/auth')
 
+
+router.get('/users/', async (req, res) => {
+  const users = await User.find()
+  res.send({data: users})
+})
+
 //load the user document from the database and return it to the client
 //Tested via postman @ 10/4 17:20, Akel, working.
 router.get('/users/me', authorize, async (req, res) => {
