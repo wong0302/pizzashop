@@ -15,9 +15,9 @@ const router = require('express').Router()
 */
 
 router.get('/', async (req, res) => {
-  const order = await Order.find().populate('users').populate('pizzas')
-  res.send({data: order})
-}) //Not tested
+  const orders = await Order.find().populate('users').populate('pizzas')
+  res.send({data: orders})
+}) //Tested on 17/4, Akel, working.
 
 router.get('/:id', async (req, res) => {
   try {
@@ -43,7 +43,7 @@ router.post('/', sanitizeBody, async (req, res) => {
       }]
     })
   }
-}) //Not tested
+}) //Tested on 17/4, Akel, working.
 
 const update = (overwrite = false) => async (req, res) => {
   try {

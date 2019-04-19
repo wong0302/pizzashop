@@ -11,6 +11,7 @@ router.get('/users/me', authorize, async (req, res) => {
   res.send({data: user})
 })
 
+//Tested via postman @ 17/4 17:20, Akel, working.
 router.patch('/users/me', authorize, async (req, res) => {
   try {
     const user = await User.findById(req.user._id)

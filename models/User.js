@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     isStaff: {type: Boolean, trim: true, default: false}
 })
 
-//TODO: Implement the rest of the model content
 userSchema.methods.generateAuthToken = function() {
   return jwt.sign({_id: this._id}, 'superSecureSecret')
 }

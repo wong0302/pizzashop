@@ -14,5 +14,10 @@ const pizzaSchema = new mongoose.Schema({
     extraToppings: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient'}]
 })
 
+pizzaSchema.pre('save', async function (next) {
+    const ingredientsId = await this.ingredients
+    next()
+})
+
 const Model = mongoose.model('Pizza', pizzaSchema)
 module.exports = Model
