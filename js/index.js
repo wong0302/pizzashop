@@ -418,6 +418,7 @@
         //console.log("Pizzas list:", pizzasList);
 
         createPizzaRow(pizzasList);
+        createPizzaCards(pizzasList);
     }
 
     /**************************
@@ -470,53 +471,44 @@
     **************************/
 
 
-    function createPizzaCards(pizzasList) {
-        let cardDeck = document.querySelector('.card-deck');
-        section.innerHTML = "";
-        pizzasList.data.forEach(pizza => {
-        let cardDiv = document.createElement('div');
-        let pizzaImg = document.createElement('img');
-        let cardBody = document.createElement('div');
-        let pizzaName = document.createElement('h5');
-        let pizzaIngredients = document.createElement('p');
-        let selectBtn = document.createElement('a'); 
+   function createPizzaCards(pizzasList) {
+    pizzasList.data.forEach(pizza => {
 
-        pizzaName.textContent = pizza.name;
-        pizzaIngredients.textContent = pizza.ingredients;
-        selectBtn.textContent = 'Select';
+    let cardDeck = document.querySelector('.card-deck');
+    let cardDiv = document.createElement('div');
+    let pizzaImg = document.createElement('img');
+    let cardBody = document.createElement('div');
+    let pizzaName = document.createElement('h5');
+    let pizzaIngredients = document.createElement('p');
+    let selectBtn = document.createElement('a'); 
 
-        cardDiv.setAttribute('class', 'card text-center');
-        pizzaImg.setAttribute('src', pizza.imageUrl);
-        pizzaImg.setAttribute('class', 'card-img-top');
-        pizzaImg.setAttribute('alt', pizza.name);
-        cardBody.setAttribute('class', 'card-body');
-        pizzaName.setAttribute('class', 'card-title');
-        pizzaIngredients.setAttribute('class', 'card-text');
-        selectBtn.setAttribute('href', '#');
-        selectBtn.setAttribute('class', 'btn btn-primary');
+    pizzaName.textContent = pizza.name;
+    pizzaIngredients.textContent = pizza.ingredients;
+    selectBtn.textContent = 'Select';
 
-        cardDeck.appendChild(cardDiv);
-        cardDiv.appendChild(pizzaImg);
-        cardDiv.appendChild(cardBody);
-        cardBody.appendChild(pizzaName);
-        cardBody.appendChild(pizzaIngredients);
-        cardBody.appendChild(selectBtn);
+    cardDiv.setAttribute('class', 'card text-center');
+    pizzaImg.setAttribute('src', pizza.imageUrl);
+    pizzaImg.setAttribute('class', 'card-img-top');
+    pizzaImg.setAttribute('alt', pizza.name);
+    cardBody.setAttribute('class', 'card-body');
+    pizzaName.setAttribute('class', 'card-title');
+    pizzaIngredients.setAttribute('class', 'card-text');
+    selectBtn.setAttribute('href', '#');
+    selectBtn.setAttribute('class', 'btn btn-primary');
+
+    cardDeck.appendChild(cardDiv);
+    cardDiv.appendChild(pizzaImg);
+    cardDiv.appendChild(cardBody);
+    cardBody.appendChild(pizzaName);
+    cardBody.appendChild(pizzaIngredients);
+    cardBody.appendChild(selectBtn);
 
 
-    
-        })
-            
-        }
-    
+
+    })
         
-        
+    }
     
-
-
-
-
-
-
     /**************************
             ADD PIZZA
     **************************/
