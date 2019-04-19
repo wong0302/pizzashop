@@ -384,7 +384,8 @@
         CREATE PIZZAS ROWS
     **************************/
     function createPizzaRow(pizzasList) {
-
+        let section = document.querySelector('#pizzas-view > .table > .table-body');
+        section.innerHTML =""; 
         pizzasList.data.forEach(pizza => {
             let tbody = document.querySelector('#pizzas-view > .table > .table-body');
             let tr = document.createElement('tr');
@@ -477,7 +478,9 @@
             method: 'DELETE',
             mode: 'cors'
         });
-        fetchAPI(req);
+       let deletedPizzas = await fetchAPI(req);
+       console.log(deletedPizzas);
+       getPizzas(deleteIngredients);
     }
 
 
