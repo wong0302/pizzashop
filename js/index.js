@@ -466,6 +466,58 @@
     }
 
     /**************************
+    CREATE PIZZA CARDS FOR MENU
+    **************************/
+
+
+    function createPizzaCards(pizzasList) {
+        let cardDeck = document.querySelector('.card-deck');
+        section.innerHTML = "";
+        pizzasList.data.forEach(pizza => {
+        let cardDiv = document.createElement('div');
+        let pizzaImg = document.createElement('img');
+        let cardBody = document.createElement('div');
+        let pizzaName = document.createElement('h5');
+        let pizzaIngredients = document.createElement('p');
+        let selectBtn = document.createElement('a'); 
+
+        pizzaName.textContent = pizza.name;
+        pizzaIngredients.textContent = pizza.ingredients;
+        selectBtn.textContent = 'Select';
+
+        cardDiv.setAttribute('class', 'card text-center');
+        pizzaImg.setAttribute('src', pizza.imageUrl);
+        pizzaImg.setAttribute('class', 'card-img-top');
+        pizzaImg.setAttribute('alt', pizza.name);
+        cardBody.setAttribute('class', 'card-body');
+        pizzaName.setAttribute('class', 'card-title');
+        pizzaIngredients.setAttribute('class', 'card-text');
+        selectBtn.setAttribute('href', '#');
+        selectBtn.setAttribute('class', 'btn btn-primary');
+
+        cardDeck.appendChild(cardDiv);
+        cardDiv.appendChild(pizzaImg);
+        cardDiv.appendChild(cardBody);
+        cardBody.appendChild(pizzaName);
+        cardBody.appendChild(pizzaIngredients);
+        cardBody.appendChild(selectBtn);
+
+
+    
+        })
+            
+        }
+    
+        
+        
+    
+
+
+
+
+
+
+    /**************************
             ADD PIZZA
     **************************/
     function addPizza(ev) {
