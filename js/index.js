@@ -9,10 +9,10 @@
         pages[0].classList.add('display');
         getIngredients();
         getPizzas();
+        getUsers();
     });
 
     function addListeners() {
-
         document.querySelectorAll('.navigation').forEach(item => {
             item.addEventListener('click', navigate);
         });
@@ -24,24 +24,7 @@
 
         document.getElementById('showPassword').addEventListener('click', showPassword);
         document.getElementById('savePassword').addEventListener('click', checkPassword);
-
-
     }
-
-    /**************************
-                SPA
-    **************************/
-
-    function navigate(ev) {
-
-        let tapped = ev.currentTarget;
-        console.log(tapped);
-        document.querySelector('.display').classList.remove('display');
-        let target = tapped.getAttribute('data-target');
-        document.getElementById(target).classList.add('display');
-
-    }
-
     /**************************
           PASSWORD CHANGE
     **************************/
@@ -86,12 +69,12 @@
 
     // change password
     function changePassword() {
-        
+
         // user input 
         let newPassword = document.getElementById('newPassword').value;
 
         // define the end point for the request
-        let url = 'http://127.0.0.1:3030/auth/users/me'; 
+        let url = 'http://127.0.0.1:3030/auth/users/me';
 
         let userInput = {
             password: newPassword
@@ -104,8 +87,8 @@
         //append the Authorization header
         headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-         //create a Request Object
-         let req = new Request(url, {
+        //create a Request Object
+        let req = new Request(url, {
             headers: headers,
             method: 'PATCH',
             mode: 'cors',
@@ -174,7 +157,7 @@
 
         //body is the data that goes to the API
         //now do the fetch
-      fetchAPI(req);
+        fetchAPI(req);
 
     }
 
@@ -296,7 +279,7 @@
          GET INGREDIENTS
     **************************/
 
-    async function getIngredients(){
+    async function getIngredients() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let url = 'http://127.0.0.1:3030/api/ingredients';
@@ -317,69 +300,70 @@
     **************************/
     function createIngredientCard(ingredientsList) {
         console.log("ingredients list is:", ingredientsList);
-        
-    ingredientsList.data.forEach(item => {
-        let tbody = document.querySelector('.table-body');
-        let tr = document.createElement('tr');
-        let ingredient = document.createElement('td');
-        let price = document.createElement('td');
-        let quantity = document.createElement('td');
-        let category = document.createElement('td');
-        let actions = document.createElement('td');
-        let editBtn = document.createElement('p');
-        let deleteBtn = document.createElement('p');
 
-        ingredient.textContent = item.name// insert ingredient name variable
-        price.textContent = item.price; // insert price variable
-        category.textContent = item.categories; // insert category variable
-        quantity.textContent = item.quantity; // insert quantity variable
-        //gluten.textContent = 'gluten free variable'; // insert gluten variable
-        editBtn.textContent = 'Edit';
-        deleteBtn.textContent = 'Delete';
-        editBtn.setAttribute('type', 'button');
-        editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-        editBtn.setAttribute('data-toggle', 'modal');
-        editBtn.setAttribute('data-target', '#editIngredients');
-        console.log("edit button:",editBtn);
-        deleteBtn.setAttribute('type', 'button');
-        deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-        deleteBtn.setAttribute('data-id', item.id);
-        deleteBtn.addEventListener('click', () => deleteIngredients(item.id));
+        ingredientsList.data.forEach(item => {
+                let tbody = document.querySelector('.table-body');
+                let tr = document.createElement('tr');
+                let ingredient = document.createElement('td');
+                let price = document.createElement('td');
+                let quantity = document.createElement('td');
+                let category = document.createElement('td');
+                let actions = document.createElement('td');
+                let editBtn = document.createElement('p');
+                let deleteBtn = document.createElement('p');
 
-        tbody.appendChild(tr);
-        tr.appendChild(ingredient);
-        tr.appendChild(price);
-        tr.appendChild(quantity);
-        tr.appendChild(category);
-        tr.appendChild(actions);
-        actions.appendChild(editBtn);
-        actions.appendChild(deleteBtn);
-        }
+                ingredient.textContent = item.name // insert ingredient name variable
+                price.textContent = item.price; // insert price variable
+                category.textContent = item.categories; // insert category variable
+                quantity.textContent = item.quantity; // insert quantity variable
+                //gluten.textContent = 'gluten free variable'; // insert gluten variable
+                editBtn.textContent = 'Edit';
+                deleteBtn.textContent = 'Delete';
+                editBtn.setAttribute('type', 'button');
+                editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+                editBtn.setAttribute('data-toggle', 'modal');
+                editBtn.setAttribute('data-target', '#editIngredients');
+                console.log("edit button:", editBtn);
+                deleteBtn.setAttribute('type', 'button');
+                deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+                deleteBtn.setAttribute('data-id', item.id);
+                deleteBtn.addEventListener('click', () => deleteIngredients(item.id));
 
-     )}
-    
+                tbody.appendChild(tr);
+                tr.appendChild(ingredient);
+                tr.appendChild(price);
+                tr.appendChild(quantity);
+                tr.appendChild(category);
+                tr.appendChild(actions);
+                actions.appendChild(editBtn);
+                actions.appendChild(deleteBtn);
+            }
+
+        )
+    }
+
 
     /**************************
         DELETE INGREDIENTS
     **************************/
-    async function deleteIngredients(){
-            let url = 'http://127.0.0.1:3030/api/ingredients';
-            let req = new Request(url, {
-                method: 'DELETE',
-                mode: 'cors'
-            });
+    async function deleteIngredients() {
+        let url = 'http://127.0.0.1:3030/api/ingredients';
+        let req = new Request(url, {
+            method: 'DELETE',
+            mode: 'cors'
+        });
 
-            let ingredientsList = await fetchAPI(req);
-            console.log(ingredientsList);
+        let ingredientsList = await fetchAPI(req);
+        console.log(ingredientsList);
 
-            createIngredientCard(ingredientsList);
-        }
+        createIngredientCard(ingredientsList);
+    }
 
 
     /**************************
          GET PIZZAS
     **************************/
-    async function getPizzas(){
+    async function getPizzas() {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
         let url = 'http://127.0.0.1:3030/api/pizzas';
@@ -390,103 +374,103 @@
         });
 
         let pizzasList = await fetchAPI(req);
-        console.log("Pizzas list:",pizzasList);
+        console.log("Pizzas list:", pizzasList);
 
         createPizzaRow(pizzasList);
     }
 
-/**************************
-    CREATE PIZZAS ROWS
-**************************/
-function createPizzaRow(pizzasList) {
-    
-    pizzasList.data.forEach(pizza => {
-    let tbody = document.querySelector('#pizzas-view > .table > .table-body');
-    let tr = document.createElement('tr');
-    let name = document.createElement('td');
-    let price = document.createElement('td');
-    let glutenFree = document.createElement('td');
-    let actions = document.createElement('td');
-    let editBtn = document.createElement('p');
-    let deleteBtn = document.createElement('p');
+    /**************************
+        CREATE PIZZAS ROWS
+    **************************/
+    function createPizzaRow(pizzasList) {
 
-    name.textContent = pizza.name
-    price.textContent = pizza.price;
-    glutenFree.textContent = pizza.isGlutenFree;
-    editBtn.textContent = 'Edit';
-    deleteBtn.textContent = 'Delete';
+        pizzasList.data.forEach(pizza => {
+            let tbody = document.querySelector('#pizzas-view > .table > .table-body');
+            let tr = document.createElement('tr');
+            let name = document.createElement('td');
+            let price = document.createElement('td');
+            let glutenFree = document.createElement('td');
+            let actions = document.createElement('td');
+            let editBtn = document.createElement('p');
+            let deleteBtn = document.createElement('p');
 
-    //actions.setAttribute('data-id', pizza.id);
+            name.textContent = pizza.name
+            price.textContent = pizza.price;
+            glutenFree.textContent = pizza.isGlutenFree;
+            editBtn.textContent = 'Edit';
+            deleteBtn.textContent = 'Delete';
 
-    editBtn.setAttribute('type', 'button');
-    editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-    editBtn.setAttribute('data-toggle', 'modal');
-    editBtn.setAttribute('data-target', '#add-edit-pizza');
-    editBtn.addEventListener('click', () => editPizza(pizza._id));
+            //actions.setAttribute('data-id', pizza.id);
 
-    deleteBtn.setAttribute('type', 'button');
-    deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-    //deleteBtn.setAttribute('data-id', pizza.id);
-    deleteBtn.addEventListener('click', () => deletePizza(pizza._id));
+            editBtn.setAttribute('type', 'button');
+            editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            editBtn.setAttribute('data-toggle', 'modal');
+            editBtn.setAttribute('data-target', '#add-edit-pizza');
+            editBtn.addEventListener('click', () => editPizza(pizza._id));
 
-    tbody.appendChild(tr);
-    tr.appendChild(name);
-    tr.appendChild(price);
-    tr.appendChild(glutenFree);
-    tr.appendChild(actions);
-    actions.appendChild(editBtn);
-    actions.appendChild(deleteBtn);
-    }
- )}
+            deleteBtn.setAttribute('type', 'button');
+            deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            //deleteBtn.setAttribute('data-id', pizza.id);
+            deleteBtn.addEventListener('click', () => deletePizza(pizza._id));
 
-/**************************
-        ADD PIZZA
-**************************/
-function addPizza(ev) {
-    ev.preventDefault();
-
-    let name = document.getElementById('pizzaName').value
-    let price = document.getElementById('price').value
-
-    //Check if Gluten Free is Checked & Set Value
-    if (document.getElementById('isGlutenFree').checked = true) {
-        isGlutenFree = true;
-    } else {
-        isGlutenFree = false;
+            tbody.appendChild(tr);
+            tr.appendChild(name);
+            tr.appendChild(price);
+            tr.appendChild(glutenFree);
+            tr.appendChild(actions);
+            actions.appendChild(editBtn);
+            actions.appendChild(deleteBtn);
+        })
     }
 
-    //define the end point for the request
-    let url = 'http://127.0.0.1:3030/api/pizzas';
+    /**************************
+            ADD PIZZA
+    **************************/
+    function addPizza(ev) {
+        ev.preventDefault();
 
-    let userInput = {
-        name: name,
-        price: price,
-        isGlutenFree: isGlutenFree,
-    };
+        let name = document.getElementById('pizzaName').value
+        let price = document.getElementById('price').value
 
-    let jsonData = JSON.stringify(userInput);
+        //Check if Gluten Free is Checked & Set Value
+        if (document.getElementById('isGlutenFree').checked = true) {
+            isGlutenFree = true;
+        } else {
+            isGlutenFree = false;
+        }
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
+        //define the end point for the request
+        let url = 'http://127.0.0.1:3030/api/pizzas';
 
-    console.log("User input is:", userInput);
+        let userInput = {
+            name: name,
+            price: price,
+            isGlutenFree: isGlutenFree,
+        };
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'POST',
-        mode: 'cors',
-        body: jsonData
-    });
-    //body is the data that goes to the API
-    //now do the fetch
-    fetchAPI(req);
-    //console.log(ingredientsList);
+        let jsonData = JSON.stringify(userInput);
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+        console.log("User input is:", userInput);
+
+        let req = new Request(url, {
+            headers: headers,
+            method: 'POST',
+            mode: 'cors',
+            body: jsonData
+        });
+        //body is the data that goes to the API
+        //now do the fetch
+        fetchAPI(req);
+        //console.log(ingredientsList);
     }
 
-/**************************
-        DELETE PIZZA
-**************************/
-    async function deletePizza(id){
+    /**************************
+            DELETE PIZZA
+    **************************/
+    async function deletePizza(id) {
         let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
         let req = new Request(url, {
             method: 'DELETE',
@@ -495,23 +479,104 @@ function addPizza(ev) {
         fetchAPI(req);
     }
 
-/**************************
-    FETCH FUNCTION 
-**************************/
 
-function fetchAPI(req) {
-    return fetch(req)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-        } else {
-            // document.getElementById('output').textContent =
-            //     'Hey we got a response from the server! They LOVED our token.';
-            console.log('We are so fetchy! YASSSS!');
-           return response.json();
-        }
-    })
-    .catch(err => {
-        console.error(err.code + ': ' + err.message);
-    })
-}
+    /**************************
+            GET USERS
+    **************************/
+   async function getUsers() {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        let url = 'http://127.0.0.1:3030/auth/users';
+        let req = new Request(url, {
+            headers: headers,
+            method: 'GET',
+            mode: 'cors'
+        });
+
+        let usersList = await fetchAPI(req);
+        console.log("Users list:", usersList);
+        createUserRow(usersList);
+    }
+
+    /**************************
+        CREATE USERS ROWS
+    **************************/
+    function createUserRow(usersList) {
+
+        usersList.data.forEach(user => {
+            let tbody = document.querySelector('#users-view > .table > .table-body');
+            let tr = document.createElement('tr');
+            let firstName = document.createElement('td');
+            let lastName = document.createElement('td');
+            let email = document.createElement('td');
+            let staff = document.createElement('td');
+            let actions = document.createElement('td');
+            let editBtn = document.createElement('p');
+            //let deleteBtn = document.createElement('p');
+
+            firstName.textContent = user.firstName
+            lastName.textContent = user.lastName;
+            email.textContent = user.email;
+            staff.textContent = user.isStaff;
+            editBtn.textContent = 'Edit';
+            //deleteBtn.textContent = 'Delete';
+
+            //actions.setAttribute('data-id', pizza.id);
+
+            editBtn.setAttribute('type', 'button');
+            editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            editBtn.setAttribute('data-toggle', 'modal');
+            editBtn.setAttribute('data-target', '#edit-user');
+            editBtn.addEventListener('click', () => editUser(user._id));
+
+            // deleteBtn.setAttribute('type', 'button');
+            // deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+            // deleteBtn.addEventListener('click', () => deleteUser(user._id));
+
+            tbody.appendChild(tr);
+            tr.appendChild(firstName);
+            tr.appendChild(lastName);
+            tr.appendChild(email);
+            tr.appendChild(staff);
+            tr.appendChild(actions);
+            actions.appendChild(editBtn);
+            //actions.appendChild(deleteBtn);
+        })
+    }
+
+    function editUser(){
+
+    }
+
+    /**************************
+        FETCH FUNCTION 
+    **************************/
+
+    function fetchAPI(req) {
+        return fetch(req)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+                } else {
+                    // document.getElementById('output').textContent =
+                    //     'Hey we got a response from the server! They LOVED our token.';
+                    console.log('We are so fetchy! YASSSS!');
+                    return response.json();
+                }
+            })
+            .catch(err => {
+                console.error(err.code + ': ' + err.message);
+            })
+    }
+
+
+    /**************************
+                SPA
+    **************************/
+    function navigate(ev) {
+        let tapped = ev.currentTarget;
+        console.log(tapped);
+        document.querySelector('.display').classList.remove('display');
+        let target = tapped.getAttribute('data-target');
+        document.getElementById(target).classList.add('display');
+    }

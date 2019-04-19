@@ -35,6 +35,9 @@
       <li class="nav-item navigation" data-target="pizzas-view">
         <a class="nav-link">Admin pizzas</a>
       </li>
+      <li class="nav-item navigation" data-target="users-view">
+          <a class="nav-link">Users</a>
+        </li>
     </ul>
 
       <!-- THIS SHOULD CHANGE TO "LOGOUT WHEN USER HAS ALREADY SIGNED IN", add click listener in js -->
@@ -412,7 +415,7 @@
     </table>
   </section>
 
-<!--------------------------
+  <!--------------------------
       PIZZA ADD/EDIT PAGE 
   --------------------------->
   <section class="pizzas-add-edit" id="pizzas-add-edit">
@@ -477,6 +480,32 @@
 
     </form>
   </section>
+
+  <!--------------------------
+          USERS PAGE 
+  --------------------------->
+  <section class="users page" id="users-view">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Users</h1>
+          <p class="lead">Wakelstackel's Users List</p>
+        </div>
+      </div>
+  
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">email</th>
+            <th scope="col">Staff</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+        </tbody>
+      </table>
+    </section>
 
   <script type="text/javascript" src="/js/index.js"></script>
 </body>
