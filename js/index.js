@@ -273,6 +273,7 @@
         //now do the fetch
         let ingredientsList = await fetchAPI(req);
         //console.log(ingredientsList);
+        getIngredients();
     }
 
     /**************************
@@ -432,7 +433,7 @@
         ev.preventDefault();
 
         let name = document.getElementById('pizzaName').value
-        let price = document.getElementById('price').value
+        let price = document.getElementById('pizzaPrice').value
 
         //Check if Gluten Free is Checked & Set Value
         if (document.getElementById('isGlutenFree').checked = true) {
@@ -467,6 +468,7 @@
         //now do the fetch
         fetchAPI(req);
         //console.log(ingredientsList);
+        getPizzas();
     }
 
     /**************************
