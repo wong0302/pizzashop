@@ -2,6 +2,7 @@
     //Mack 
     let pages = null
     let tokenKey = 'tokenKey'
+    let currentUser = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         addListeners();
@@ -23,12 +24,18 @@
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
         document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
 
+        document.querySelector('.change-pswd-btn').addEventListener('click', onClickChangePassword);
         document.getElementById('showPassword').addEventListener('click', showPassword);
         document.getElementById('savePassword').addEventListener('click', checkPassword);
     }
     /**************************
           PASSWORD CHANGE
     **************************/
+
+    function onClickChangePassword(){
+        document.querySelector('#pswd-name').textContent = `${currentUser.data.firstName} ${currentUser.data.lastName}`
+        document.querySelector('#pswd-email').textContent = currentUser.data.email
+    }
 
     // show hidden password by checkbox
     function showPassword() {
@@ -164,7 +171,6 @@
 
     function sendSignInInfo(ev) {
 
-
         ev.preventDefault();
         // user input
         let userEmail = document.getElementById('signInEmail').value,
@@ -214,11 +220,42 @@
                 signedIn.forEach(item => {
                     item.style.display = 'block';
                 })
+
+                getCurrentUser(data);
             })
             .catch(err => {
                 console.error('We are failing');
             })
 
+    }
+
+    function getCurrentUser(authToken){
+        let url = 'http://127.0.0.1:3030/auth/users/me';
+
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
+        headers.append('Authorization', 'Bearer ' + authToken)
+
+        console.log("TOKEN:", authToken);
+
+        //create a Request Object
+        let req = new Request(url, {
+            headers: headers,
+            method: 'GET',
+            mode: 'cors',
+        });
+ 
+        fetch(req)
+          .then(response => {
+              return response.json();
+          })
+          .then(data => {
+              currentUser = data;
+              console.log("current user:", currentUser);
+          })
+          .catch(err => {
+              console.log("Woops!", err);
+          })
     }
 
     /**************************
