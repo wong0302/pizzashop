@@ -619,7 +619,7 @@
     **************************/
     function navigate(ev) {
         let tapped = ev.currentTarget;
-        console.log(tapped);
+        console.log("tapped on:", tapped);
         document.querySelector('.display').classList.remove('display');
         let target = tapped.getAttribute('data-target');
         document.getElementById(target).classList.add('display');
