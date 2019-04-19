@@ -2,7 +2,9 @@ const sanitizeBody = require('../../middleware/sanitizeBody')
 const router = require('express').Router()
 
 const User = require('../../models/User')
+
 const authorize = require('../../middleware/auth')
+const isStaff = require ('../../middleware/isStaff')
 
 
 router.get('/users/', async (req, res) => {

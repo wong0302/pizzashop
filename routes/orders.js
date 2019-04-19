@@ -2,8 +2,10 @@ const sanitizeBody = require('../middleware/sanitizeBody')
 const Order = require('../models/Order')
 const router = require('express').Router()
 
+const authorize = require('../middleware/auth')
+const isStaff = require ('../middleware/isStaff')
+
 //TODO: Test routes
-//TODO: Add auth middleware
 //TODO: Test sanitization
 
 /*
