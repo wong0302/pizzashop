@@ -23,13 +23,8 @@
   <section class="navbar">
 
     <ul class="nav justify-content-end">
-      <li class="nav-item navigation" data-target="home">
-        <a class="nav-link active">Home</a>
-      </li>
-      <li class="nav-item navigation" data-target="menu">
-        <a class="nav-link">Menu</a>
-      </li>
-
+      <li class="nav-item navigation nav-link active" data-target="home">Home</li>
+      <li class="nav-item nav-link navigation" data-target="menu">Menu</li>
 
       <!--------- ADMIN --------->
       <!-- This nav should only appear when a staff member is signed in -->
@@ -50,12 +45,8 @@
 
       <!-- This should dissapear when user is signed in", add click listener in js -->
       <ul class="nav navbar-right">
-      <li class="nav-item notSignedIn">
-        <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</a>
-      </li>
-      <li class="nav-item notSignedIn">
-        <a class="nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up</a>
-      </li>
+      <li class="nav-item notSignedIn nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</li>
+      <li class="nav-item notSignedIn nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up</li>
     
     <!-- LOGGED IN USER NAV -->
 
@@ -116,7 +107,7 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
-
+  </section>
     <!--------------------------
             SIGN IN MODAL 
     --------------------------->
@@ -231,7 +222,7 @@
       </div>
     </div>
 
-  </section>
+  
 
   <!--------------------------
         CHANGE PASSWORD 
@@ -395,6 +386,25 @@
                   
                   
             </form>
+    </section>
+
+
+    <!--------------------------
+          MENU PAGE 
+  --------------------------->
+  <section class="menu page" id="menu">
+
+      <!------- HEADER ------>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">Ingredients</h1>
+              <p class="lead">Wakelstackel's Ingredients Inventory</p>
+            </div>
+          </div>
+    
+      <div class="card-deck">
+        
+      </div>
     </section>
 
   <!--------------------------
