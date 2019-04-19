@@ -32,6 +32,7 @@
 
 
       <!--------- ADMIN --------->
+      <!-- This nav should only appear when a staff member is signed in -->
       <li class="nav-item signedIn">
         <div class="btn-group">
             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,7 +48,7 @@
     </ul>
 
 
-      <!-- THIS SHOULD CHANGE TO "LOGOUT WHEN USER HAS ALREADY SIGNED IN", add click listener in js -->
+      <!-- This should dissapear when user is signed in", add click listener in js -->
       <ul class="nav navbar-right">
       <li class="nav-item notSignedIn">
         <a class="nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In</a>
@@ -278,13 +279,14 @@
   <section class="ingredients page" id="ingredients-view">
 
 
+
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-4">Ingredients</h1>
         <p class="lead">Wakelstackel's Ingredients Inventory</p>
       </div>
     </div>
-
+ <button type="button" id="addIngredientsButton" data-toggle="modal" data-target="#editIngredients" class="btn btn-primary">Add Ingredients</button>
     <table class="table table-hover">
       <thead>
         <tr>
