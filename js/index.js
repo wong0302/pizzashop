@@ -268,11 +268,8 @@
          quantity = document.getElementById('quantity').value;
 
      //Check if Gluten Free is Checked & Set Value
-     if (document.getElementById('isGlutenFree').checked = true) {
-         isGlutenFree = true;
-     } else {
-         isGlutenFree = false;
-     }
+     let checkVal = document.getElementById('isGlutenFree').checked
+     //console.log(checkVal);
 
      //Determine Categorie Picked
      let categoriesSelected = document.getElementById('categories');
@@ -290,7 +287,7 @@
          name: productName,
          price: price,
          quantity: quantity,
-         isGlutenFree: isGlutenFree,
+         isGlutenFree: checkVal.value,
          categories: categories
      };
 
@@ -530,16 +527,13 @@ function createPizzaCards(pizzasList) {
      let price = document.getElementById('pizzaPrice').value
 
      //Check if Gluten Free is Checked & Set Value
-     if (document.getElementById('isGlutenFree').checked = true) {
-         isGlutenFree = true;
-     } else {
-         isGlutenFree = false;
-     }
+     let checkVal = document.getElementById('isGlutenFree').checked;
+     console.log(checkVal);
 
      let userInput = {
          name: name,
          price: price,
-         isGlutenFree: isGlutenFree,
+        isGlutenFree: checkVal.value
      };
 
      let jsonData = JSON.stringify(userInput);
