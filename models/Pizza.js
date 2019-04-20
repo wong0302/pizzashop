@@ -14,9 +14,16 @@ const pizzaSchema = new mongoose.Schema({
     extraToppings: [{type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient'}]
 })
 
+//TODO: extraToppings price calculations
+
 pizzaSchema.pre('save', async function (next) {
-    const ingredientsId = await this.ingredients
-    next()
+    await this.populate('ingredients').execPopulate()
+   
+    let price = this.ingredients.reduce(function(pre, ingredient) {
+        return pre + ingredient.price
+    }, 0);
+
+    this.price = price
 })
 
 const Model = mongoose.model('Pizza', pizzaSchema)
