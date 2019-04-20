@@ -513,7 +513,7 @@
     /**************************
             ADD PIZZA
     **************************/
-    function addPizza(ev) {
+    async function addPizza(ev) {
         ev.preventDefault();
 
         let name = document.getElementById('pizzaName').value
@@ -548,8 +548,8 @@
 
         //body is the data that goes to the API
         //now do the fetch
-        fetchAPI(req);
-        //console.log(ingredientsList);
+        let pizzaUpdate = await fetchAPI(req);
+        console.log(pizzaUpdate);
         getPizzas();
     }
 
