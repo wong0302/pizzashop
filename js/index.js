@@ -3,6 +3,7 @@
     let pages = null
     let tokenKey = 'tokenKey'
     let currentUser = null;
+    let mode = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         addListeners();
@@ -20,6 +21,10 @@
         });
         document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
         document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
+
+        document.getElementById('addPizzaButton').addEventListener('click', () => {
+            mode = 'add';
+        })
 
         document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
         document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
@@ -449,7 +454,7 @@
             editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
             editBtn.setAttribute('data-toggle', 'modal');
             editBtn.setAttribute('data-target', '#add-edit-pizza');
-            editBtn.addEventListener('click', () => editPizza(pizza._id));
+            editBtn.addEventListener('click', () => onEditPizza(pizza._id));
 
             deleteBtn.setAttribute('type', 'button');
             deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
@@ -469,46 +474,40 @@
     /**************************
     CREATE PIZZA CARDS FOR MENU
     **************************/
-
-
    function createPizzaCards(pizzasList) {
-    let cardDeck = document.querySelector('.card-deck');
-    cardDeck.innerHTML = "";
-    
-    pizzasList.data.forEach(pizza => {
-
-    let cardDiv = document.createElement('div');
-    let pizzaImg = document.createElement('img');
-    let cardBody = document.createElement('div');
-    let pizzaName = document.createElement('h5');
-    let pizzaIngredients = document.createElement('p');
-    let selectBtn = document.createElement('a'); 
-
-    pizzaName.textContent = pizza.name;
-    pizzaIngredients.textContent = pizza.ingredients;
-    selectBtn.textContent = 'Select';
-
-    cardDiv.setAttribute('class', 'card text-center');
-    pizzaImg.setAttribute('src', pizza.imageUrl);
-    pizzaImg.setAttribute('class', 'card-img-top');
-    pizzaImg.setAttribute('alt', pizza.name);
-    cardBody.setAttribute('class', 'card-body');
-    pizzaName.setAttribute('class', 'card-title');
-    pizzaIngredients.setAttribute('class', 'card-text');
-    selectBtn.setAttribute('href', '#');
-    selectBtn.setAttribute('class', 'btn btn-primary');
-
-    cardDeck.appendChild(cardDiv);
-    cardDiv.appendChild(pizzaImg);
-    cardDiv.appendChild(cardBody);
-    cardBody.appendChild(pizzaName);
-    cardBody.appendChild(pizzaIngredients);
-    cardBody.appendChild(selectBtn);
-
-
-
-    })
+        let cardDeck = document.querySelector('.card-deck');
+        cardDeck.innerHTML = "";
         
+        pizzasList.data.forEach(pizza => {
+
+            let cardDiv = document.createElement('div');
+            let pizzaImg = document.createElement('img');
+            let cardBody = document.createElement('div');
+            let pizzaName = document.createElement('h5');
+            let pizzaIngredients = document.createElement('p');
+            let selectBtn = document.createElement('a'); 
+
+            pizzaName.textContent = pizza.name;
+            pizzaIngredients.textContent = pizza.ingredients;
+            selectBtn.textContent = 'Select';
+
+            cardDiv.setAttribute('class', 'card text-center');
+            //pizzaImg.setAttribute('src', pizza.imageUrl);
+            pizzaImg.setAttribute('class', 'card-img-top');
+            pizzaImg.setAttribute('alt', pizza.name);
+            cardBody.setAttribute('class', 'card-body');
+            pizzaName.setAttribute('class', 'card-title');
+            pizzaIngredients.setAttribute('class', 'card-text');
+            selectBtn.setAttribute('href', '#');
+            selectBtn.setAttribute('class', 'btn btn-primary');
+
+            cardDeck.appendChild(cardDiv);
+            cardDiv.appendChild(pizzaImg);
+            cardDiv.appendChild(cardBody);
+            cardBody.appendChild(pizzaName);
+            cardBody.appendChild(pizzaIngredients);
+            cardBody.appendChild(selectBtn);
+        })
     }
     
     /**************************
@@ -527,9 +526,6 @@
             isGlutenFree = false;
         }
 
-        //define the end point for the request
-        let url = 'http://127.0.0.1:3030/api/pizzas';
-
         let userInput = {
             name: name,
             price: price,
@@ -540,15 +536,16 @@
 
         let headers = new Headers();
         headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-        //console.log("User input is:", userInput);
-
+        console.log("mode is", mode);
+        //define the end point for the request
+        let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
         let req = new Request(url, {
             headers: headers,
-            method: 'POST',
+            method: mode == 'add' ? 'POST' : 'PATCH',
             mode: 'cors',
             body: jsonData
         });
+
         //body is the data that goes to the API
         //now do the fetch
         fetchAPI(req);
@@ -556,6 +553,26 @@
         getPizzas();
     }
 
+    /**************************
+            ON EDIT PIZZA
+    **************************/
+    async function onEditPizza(id) {
+        let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+        let req = new Request(url, {
+            method: 'GET',
+            mode: 'cors'
+        });
+        let pizza = await fetchAPI(req);
+
+        document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
+        document.getElementById('pizzaName').value = pizza.data.name;
+        document.getElementById('pizzaPrice').value = pizza.data.price;
+        document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
+
+        console.log(document.getElementById('pizzas-add-edit'));
+
+        mode = 'edit';
+    }
     /**************************
             DELETE PIZZA
     **************************/
