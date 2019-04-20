@@ -334,6 +334,7 @@ async function addIngredients(ev) {
      console.log(ingredientsList);
 
      createIngredientCard(ingredientsList);
+     orderOptionEdit(ingredientsList);  
  }
 
  /**************************
@@ -490,7 +491,7 @@ async function onEditIngredients(id) {
      })
  }
 
- /**************************
+  /**************************
  CREATE PIZZA CARDS FOR MENU
  **************************/
 function createPizzaCards(pizzasList) {
@@ -506,7 +507,10 @@ function createPizzaCards(pizzasList) {
         let pizzaIngredients = document.createElement('p');
         let smallText = document.createElement('p');
         let glutenFree = document.createElement('small');
-        let selectBtn = document.createElement('a');
+        let selectBtn = document.createElement('li');
+        // let selectBtn = document.createElement('a');
+
+        //<li class="nav-item navigation nav-link active" data-target="home">
 
         pizzaName.textContent = pizza.name;
         pizzaIngredients.textContent = pizza.ingredients;
@@ -528,8 +532,8 @@ function createPizzaCards(pizzasList) {
         pizzaIngredients.setAttribute('class', 'card-text');
         smallText.setAttribute('class', 'card-text');
         glutenFree.setAttribute('class', 'text-muted');
-        selectBtn.setAttribute('href', '#');
-        selectBtn.setAttribute('class', 'btn btn-primary');
+        selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary navigation');
+        selectBtn.setAttribute('data-target', 'order-view');
 
         cardDeck.appendChild(columnDiv);
         columnDiv.appendChild(cardDiv);
@@ -540,7 +544,9 @@ function createPizzaCards(pizzasList) {
         cardBody.appendChild(smallText);
         smallText.appendChild(glutenFree);
         cardBody.appendChild(selectBtn);
- 
+       
+        selectBtn.addEventListener('click', navigate);
+        selectBtn.addEventListener('click', () => orderOptionDetails(pizza._id));
     })
 
 }
@@ -687,6 +693,120 @@ function createPizzaCards(pizzasList) {
  function editUser() {
 
  }
+
+
+ /**************************
+     ORDER OPTIONS ADD                           **       NEW          **
+ **************************/
+
+function orderOptionEdit(ingredientsList) {
+    let section = document.querySelector('.user-add-options');
+    section.innerHTML = "";
+
+    ingredientsList.data.forEach(ingredient => {
+       let addSection = document.querySelector('.user-add-options');
+       let checkboxDiv = document.createElement('div');
+       let checkbox = document.createElement('input');
+       let ingredientName = document.createElement('label');
+       
+       ingredientName.textContent = ingredient.name;
+
+       checkboxDiv.setAttribute('class', 'form-check');
+       checkbox.setAttribute('class', 'form-check-input');
+       checkbox.setAttribute('type', 'checkbox');
+       checkbox.setAttribute('id', ingredient._id);
+       ingredientName.setAttribute('class', 'form-check-label');
+       ingredientName.setAttribute('for', 'defaultCheck');
+
+       addSection.appendChild(checkboxDiv);
+       checkboxDiv.appendChild(checkbox);
+       checkboxDiv.appendChild(ingredientName);
+       console.log('MOREEEEEEE ID:',ingredient._id);
+
+    })
+
+
+}
+
+/**************************
+ORDER OPTION DETAILS 
+**************************/
+
+async function orderOptionDetails(id) {
+console.log('THIS PIZZA DATA: ' ,id,);
+let headers = new Headers();
+headers.append('Content-Type', 'application/json;charset=UTF-8');
+let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+let req = new Request(url, {
+   headers: headers,
+   method: 'GET',
+   mode: 'cors'
+});
+
+let pizza = await fetchAPI(req);
+console.log("LAUREN TESTING MORE SHITTTTT YYYASSSSS:", pizza);
+
+let section = document.querySelector('.order-details');
+section.innerHTML = "";
+let pizzaName = document.createElement('h5');
+let pizzaIngredients = document.createElement('p');
+let isGlutenFree = document.createElement('p');
+let smallText = document.createElement('small');
+
+pizzaName.setAttribute('class', 'card-title');
+pizzaIngredients.setAttribute('class', 'card-text');
+isGlutenFree.setAttribute('class', 'card-text');
+smallText.setAttribute('class', 'text-muted');
+
+pizzaName.textContent = pizza.data.name;
+//console.log("AAAAA", pizza.data.ingredients[0].name, "MMMMM", pizza.data.ingredients.join())
+
+let ingredients = pizza.data.ingredients.map(ingredient => {
+   return ingredient.name;
+})
+
+
+
+
+let pizzaToppings = pizza.data.ingredients;
+
+//console.log('PIZZAAAATOPPPPPINNGGGSSS AHHHH',pizzaToppings);
+let pizzaIngredientsId = pizzaToppings.map(topping => {
+   //console.log('AHHHHH AHHHH AHHHHH the toppings oh all the topping!!!',topping._id);
+   return topping._id
+})
+//console.log("pizzaIngredientsId", pizzaIngredientsId)
+let li = document.querySelectorAll('.ingredient-check-input');
+
+
+
+li.forEach((topping, index) => {
+   console.log("asd", topping._id, pizzaIngredientsId[index])
+   if(topping._id == pizzaIngredientsId[index]){
+       li[index].checked = true;
+   }
+})
+
+
+console.log("WAAW", ingredients);
+pizzaIngredients.textContent = ingredients.join(); //object object
+
+       // Gluten free
+       if (pizza.data.isGlutenFree == true) {
+           smallText.textContent = 'Gluten Free';
+       } else {
+           smallText.textContent = ' ';
+       }
+
+
+section.appendChild(pizzaName);
+section.appendChild(pizzaIngredients);
+section.appendChild(isGlutenFree);
+isGlutenFree.appendChild(smallText);
+
+}
+
+
 
   /**************************
       STAFF MEMBER NAV               
