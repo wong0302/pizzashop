@@ -31,3 +31,7 @@ form{
 .signedIn{
     display: none;
 }
+
+.adminSignedIn{
+    display: none;
+}
