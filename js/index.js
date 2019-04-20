@@ -712,9 +712,9 @@ function orderOptionEdit(ingredientsList) {
        ingredientName.textContent = ingredient.name;
 
        checkboxDiv.setAttribute('class', 'form-check');
-       checkbox.setAttribute('class', 'form-check-input');
+       checkbox.setAttribute('class', 'ingredient-check-input');
        checkbox.setAttribute('type', 'checkbox');
-       checkbox.setAttribute('id', ingredient._id);
+       checkbox.setAttribute('data-id', ingredient._id);
        ingredientName.setAttribute('class', 'form-check-label');
        ingredientName.setAttribute('for', 'defaultCheck');
 
@@ -759,36 +759,22 @@ isGlutenFree.setAttribute('class', 'card-text');
 smallText.setAttribute('class', 'text-muted');
 
 pizzaName.textContent = pizza.data.name;
-//console.log("AAAAA", pizza.data.ingredients[0].name, "MMMMM", pizza.data.ingredients.join())
 
 let ingredients = pizza.data.ingredients.map(ingredient => {
    return ingredient.name;
 })
 
-
-
-
 let pizzaToppings = pizza.data.ingredients;
+let checkbox = document.querySelectorAll('.ingredient-check-input');
 
-//console.log('PIZZAAAATOPPPPPINNGGGSSS AHHHH',pizzaToppings);
-let pizzaIngredientsId = pizzaToppings.map(topping => {
-   //console.log('AHHHHH AHHHH AHHHHH the toppings oh all the topping!!!',topping._id);
-   return topping._id
-})
-//console.log("pizzaIngredientsId", pizzaIngredientsId)
-let li = document.querySelectorAll('.ingredient-check-input');
-
-
-
-li.forEach((topping, index) => {
-   console.log("asd", topping._id, pizzaIngredientsId[index])
-   if(topping._id == pizzaIngredientsId[index]){
-       li[index].checked = true;
-   }
+pizzaToppings.forEach((ingredient, index) => {
+   
+    if(ingredient._id == checkbox[index].getAttribute('data-id')){
+        console.log('match')
+        checkbox[index].checked = true;
+    }
 })
 
-
-console.log("WAAW", ingredients);
 pizzaIngredients.textContent = ingredients.join(); //object object
 
        // Gluten free
