@@ -298,18 +298,18 @@
       INGREDIENTS EDIT PAGE 
   --------------------------->
 
-  <section class="ingredients-edit" id="ingredients-edit">
-      <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Ingredients</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
+  <section class="ingredients-add-edit" id="ingredients-add-edit">
+    <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Edit Ingredients</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <!------------- FORM -------------->
-            <form>
+            <form id="ingredientsForm">
               <h2>Add Ingredient</h2>
               <div class="form-row">
                 <div class="col">
@@ -347,15 +347,15 @@
                       <div class="col-6">
                       <div class="form-group">
                       <select class="custom-select" required id="categories">
-                          <option value="">Catagories</option>
-                          <option value="1">Meat</option>
-                          <option value="2">Spicy</option>
-                          <option value="3">Vegetarian</option>
-                          <option value="4">Vegan</option>
-                          <option value="5">Halal</option>
-                          <option value="6">Kosher</option>
-                          <option value="7">Cheese</option>
-                          <option value="8">Seasonings</option>
+                        <option value="">Catagories</option>
+                        <option value="meat">Meat</option>
+                        <option value="spicy">Spicy</option>
+                        <option value="vegetarian">Vegetarian</option>
+                        <option value="vegan">Vegan</option>
+                        <option value="halal">Halal</option>
+                        <option value="kosher">Kosher</option>
+                        <option value="cheese">Cheese</option>
+                        <option value="seasonings">Seasonings</option>
                         </select>
                       </div>
                     </div>
@@ -447,7 +447,7 @@
             </button>
           </div>
           <!------------- FORM -------------->
-          <form>
+          <form id="pizzaForm">
             <div class="form-row">
               <div class="col">
                 <div class="form-group">

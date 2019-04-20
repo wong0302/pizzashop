@@ -21,9 +21,16 @@
      document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
      document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
 
-     document.getElementById('addPizzaButton').addEventListener('click', () => {
-         mode = 'add';
-     })
+    //Add Mode for Ingredients
+    document.getElementById('addIngredientsButton').addEventListener('click', () => {
+        mode = 'add';
+        document.getElementById('ingredientsForm').reset();
+    })
+    //Add Mode for Pizzas
+    document.getElementById('addPizzaButton').addEventListener('click', () => {
+       mode = 'add';
+       document.getElementById('pizzaForm').reset();
+   })
 
      document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
      document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
@@ -262,14 +269,15 @@
       ADD INGREDIENTS
  **************************/
 
- async function addIngredients(ev) {
+async function addIngredients(ev) {
+    ev.preventDefault();
      let productName = document.getElementById('productName').value,
          price = document.getElementById('price').value,
          quantity = document.getElementById('quantity').value;
 
      //Check if Gluten Free is Checked & Set Value
-     let checkVal = document.getElementById('isGlutenFree').checked
-     //console.log(checkVal);
+    let checkVal = document.getElementById('isGlutenFree').checked
+    console.log(checkVal);
 
      //Determine Categorie Picked
      let categoriesSelected = document.getElementById('categories');
@@ -279,9 +287,6 @@
      } else {
          categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
      }
-     ev.preventDefault();
-     //define the end point for the request
-     let url = 'http://127.0.0.1:3030/api/ingredients';
 
      let userInput = {
          name: productName,
@@ -295,19 +300,19 @@
 
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-     console.log("User input is:", userInput);
-
+     console.log("mode is", mode);
+     //define the end point for the request
+     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
      let req = new Request(url, {
          headers: headers,
-         method: 'POST',
+         method: mode == 'add' ? 'POST' : 'PATCH',
          mode: 'cors',
          body: jsonData
      });
      //body is the data that goes to the API
      //now do the fetch
      let ingredientsList = await fetchAPI(req);
-     //console.log(ingredientsList);
+     console.log(ingredientsList);
      getIngredients();
  }
 
@@ -361,7 +366,8 @@
              editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
              editBtn.setAttribute('data-toggle', 'modal');
              editBtn.setAttribute('data-target', '#editIngredients');
-             console.log("edit button:", editBtn);
+             editBtn.addEventListener('click', () => onEditIngredients(item._id));
+             //console.log("edit button:", editBtn);
              deleteBtn.setAttribute('type', 'button');
              deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
              deleteBtn.setAttribute('data-id', item.id);
@@ -380,6 +386,28 @@
      )
  }
 
+    /**************************
+        ON EDIT INGREDIENTS
+    **************************/
+async function onEditIngredients(id) {
+    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let req = new Request(url, {
+        method: 'GET',
+        mode: 'cors'
+    });
+    let ingredients = await fetchAPI(req);
+
+    document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
+    document.getElementById('productName').value = ingredients.data.name;
+    document.getElementById('price').value = ingredients.data.price;
+    document.getElementById('quantity').value = ingredients.data.quantity;
+    let ingredValue = ingredients.data.categories;
+    document.querySelector('#categories').value = ingredValue;
+    document.getElementById('isGlutenFree').value = ingredients.data.isGlutenFree;
+    console.log(document.getElementById('ingredients-add-edit'));
+
+    mode = 'edit';
+}
 
  /**************************
      DELETE INGREDIENTS
