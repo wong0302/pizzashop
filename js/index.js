@@ -468,41 +468,57 @@
  /**************************
  CREATE PIZZA CARDS FOR MENU
  **************************/
- function createPizzaCards(pizzasList) {
-     let cardDeck = document.querySelector('.card-deck');
-     cardDeck.innerHTML = "";
+function createPizzaCards(pizzasList) {
+    let cardDeck = document.querySelector('.card-deck');
+    console.log(cardDeck);
+    cardDeck.innerHTML = "";
+    pizzasList.data.forEach(pizza => {
+        let columnDiv = document.createElement('div');
+        let cardDiv = document.createElement('div');
+        let pizzaImg = document.createElement('img');
+        let cardBody = document.createElement('div');
+        let pizzaName = document.createElement('h5');
+        let pizzaIngredients = document.createElement('p');
+        let smallText = document.createElement('p');
+        let glutenFree = document.createElement('small');
+        let selectBtn = document.createElement('a');
 
-     pizzasList.data.forEach(pizza => {
+        pizzaName.textContent = pizza.name;
+        pizzaIngredients.textContent = pizza.ingredients;
+        // Gluten free
+        if (pizza.isGlutenFree == true) {
+            smallText.textContent = 'Gluten Free';
+        } else {
+            smallText.textContent = ' ';
+        }
+        selectBtn.textContent = 'Select';
 
-         let cardDiv = document.createElement('div');
-         let pizzaImg = document.createElement('img');
-         let cardBody = document.createElement('div');
-         let pizzaName = document.createElement('h5');
-         let pizzaIngredients = document.createElement('p');
-         let selectBtn = document.createElement('a');
+        columnDiv.setAttribute('class', 'col-md-6 col-xl-4 py-4 d-flex');
+        cardDiv.setAttribute('class', 'card text-center cardDiv');
+        pizzaImg.setAttribute('src', pizza.imageUrl);
+        pizzaImg.setAttribute('class', 'card-img-top');
+        pizzaImg.setAttribute('alt', pizza.name);
+        cardBody.setAttribute('class', 'card-body');
+        pizzaName.setAttribute('class', 'card-title');
+        pizzaIngredients.setAttribute('class', 'card-text');
+        smallText.setAttribute('class', 'card-text');
+        glutenFree.setAttribute('class', 'text-muted');
+        selectBtn.setAttribute('href', '#');
+        selectBtn.setAttribute('class', 'btn btn-primary');
 
-         pizzaName.textContent = pizza.name;
-         pizzaIngredients.textContent = pizza.ingredients;
-         selectBtn.textContent = 'Select';
+        cardDeck.appendChild(columnDiv);
+        columnDiv.appendChild(cardDiv);
+        cardDiv.appendChild(pizzaImg);
+        cardDiv.appendChild(cardBody);
+        cardBody.appendChild(pizzaName);
+        cardBody.appendChild(pizzaIngredients);
+        cardBody.appendChild(smallText);
+        smallText.appendChild(glutenFree);
+        cardBody.appendChild(selectBtn);
+ 
+    })
 
-         cardDiv.setAttribute('class', 'card text-center');
-         //pizzaImg.setAttribute('src', pizza.imageUrl);
-         pizzaImg.setAttribute('class', 'card-img-top');
-         pizzaImg.setAttribute('alt', pizza.name);
-         cardBody.setAttribute('class', 'card-body');
-         pizzaName.setAttribute('class', 'card-title');
-         pizzaIngredients.setAttribute('class', 'card-text');
-         selectBtn.setAttribute('href', '#');
-         selectBtn.setAttribute('class', 'btn btn-primary');
-
-         cardDeck.appendChild(cardDiv);
-         cardDiv.appendChild(pizzaImg);
-         cardDiv.appendChild(cardBody);
-         cardBody.appendChild(pizzaName);
-         cardBody.appendChild(pizzaIngredients);
-         cardBody.appendChild(selectBtn);
-     })
- }
+}
 
  /**************************
          ADD PIZZA
