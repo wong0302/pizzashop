@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Pizza = require('./Pizza')
 
 const orderSchema = new mongoose.Schema({
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -14,6 +15,35 @@ const orderSchema = new mongoose.Schema({
 {
     timestamps: true
 })
+
+orderSchema.pre('save', async function (next) {
+    let pizzaCost = await orderSchema.methods.calcPizzaCost(this)
+    console.log('Pizza cost:', pizzaCost)
+
+    let deliveryCharge = this.deliveryCharge
+    console.log('delivery charge:', deliveryCharge)
+
+    let tax = await orderSchema.methods.calcTaxCost(pizzaCost, deliveryCharge)
+    console.log('tax:', tax)
+
+    this.price = pizzaCost
+    this.tax = tax
+    this.total = pizzaCost + deliveryCharge + tax
+})
+
+orderSchema.methods.calcTaxCost = function(pizzaCost, deliveryCharge) {
+    return (pizzaCost + deliveryCharge) * 0.13
+}
+
+orderSchema.methods.calcPizzaCost = async function(order) {
+    await order.populate('pizzas').execPopulate()
+
+    let pizzaCost = order.pizzas.reduce(function(pre, pizza) {
+        return pre + pizza.price
+    }, 0)
+
+    return pizzaCost
+}
 
 const Model = mongoose.model('Order', orderSchema)
 module.exports = Model
