@@ -17,18 +17,27 @@ const orderSchema = new mongoose.Schema({
 })
 
 orderSchema.pre('save', async function (next) {
+    //console.log('pre hook is run')
     let pizzaCost = await orderSchema.methods.calcPizzaCost(this)
-    console.log('Pizza cost:', pizzaCost)
+    //console.log('Pizza cost:', pizzaCost)
 
     let deliveryCharge = this.deliveryCharge
-    console.log('delivery charge:', deliveryCharge)
+    //console.log('delivery charge:', deliveryCharge)
 
     let tax = await orderSchema.methods.calcTaxCost(pizzaCost, deliveryCharge)
-    console.log('tax:', tax)
+    //console.log('tax:', tax)
 
     this.price = pizzaCost
     this.tax = tax
     this.total = pizzaCost + deliveryCharge + tax
+    next()
+})
+
+orderSchema.post('findOneAndUpdate', async function (doc, next){
+    //console.log("post hook is run, doc is", doc);
+    await doc.populate('pizzas').execPopulate()
+    await doc.save()
+    next()
 })
 
 //Calculate tax
