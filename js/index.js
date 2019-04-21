@@ -32,7 +32,7 @@
      })
 
      document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
-     document.getElementById('submitPizzaButton').addEventListener('click', addPizza); 
+     document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
 
      document.querySelector('.change-pswd-btn').addEventListener('click', onClickChangePassword);
      document.getElementById('showPassword').addEventListener('click', showPassword);
@@ -558,34 +558,34 @@
  CHOOSE PIZZA INGREDIENTS
  **************************/
 
- function createPizzaIngredients(ingredientsList){
+ function createPizzaIngredients(ingredientsList) {
      ingredientsList.data.forEach(item => {
-        let addSection = document.querySelector('.admin-add-ingredients');
-        let checkboxDiv = document.createElement('div');
-        let checkbox = document.createElement('input');
-        let ingredientName = document.createElement('label');
+         let addSection = document.querySelector('.admin-add-ingredients');
+         let checkboxDiv = document.createElement('div');
+         let checkbox = document.createElement('input');
+         let ingredientName = document.createElement('label');
 
-        ingredientName.textContent = item.name;
+         ingredientName.textContent = item.name;
 
-        checkboxDiv.setAttribute('class', 'form-check');
-        checkbox.setAttribute('class', 'ingredient-input');
-        checkbox.setAttribute('type', 'checkbox');
-        checkbox.setAttribute('value', item.name);
-        checkbox.setAttribute('data-id', item._id);
-        checkbox.addEventListener('change', function() {
-            if(this.checked) {
-                pizzaIngredientInfo.push(item._id);
-            } else {
-                // Checkbox is not checked..
-            }
-        });
-        ingredientName.setAttribute('class', 'form-check-label');
-        ingredientName.setAttribute('for', 'defaultCheck');
+         checkboxDiv.setAttribute('class', 'form-check');
+         checkbox.setAttribute('class', 'ingredient-input');
+         checkbox.setAttribute('type', 'checkbox');
+         checkbox.setAttribute('value', item.name);
+         checkbox.setAttribute('data-id', item._id);
+         checkbox.addEventListener('change', function () {
+             if (this.checked) {
+                 pizzaIngredientInfo.push(item._id);
+             } else {
+                 // Checkbox is not checked..
+             }
+         });
+         ingredientName.setAttribute('class', 'form-check-label');
+         ingredientName.setAttribute('for', 'defaultCheck');
 
-        addSection.appendChild(checkboxDiv);
-        checkboxDiv.appendChild(checkbox);
-        checkboxDiv.appendChild(ingredientName);
-    })
+         addSection.appendChild(checkboxDiv);
+         checkboxDiv.appendChild(checkbox);
+         checkboxDiv.appendChild(ingredientName);
+     })
  }
 
  /**************************
@@ -597,17 +597,17 @@
      let name = document.getElementById('pizzaName').value
      let price = document.getElementById('pizzaPrice').value
 
-       //Check if Gluten Free is Checked & Set Value
-       let checkedGluten = document.getElementById('pizzaGluten').checked
-       console.log(checkedGluten);
- 
+     //Check if Gluten Free is Checked & Set Value
+     let checkedGluten = document.getElementById('pizzaGluten').checked
+     console.log(checkedGluten);
+
 
      let userInput = {
          name: name,
          price: price,
          isGlutenFree: checkedGluten,
          ingredients: pizzaIngredientInfo
-    };
+     };
 
      let jsonData = JSON.stringify(userInput);
      let headers = new Headers();
@@ -626,7 +626,7 @@
      //now do the fetch
      let pizzaUpdate = await fetchAPI(req);
      console.log(pizzaUpdate);
-     pizzaIngredientInfo.splice(0); 
+     pizzaIngredientInfo.splice(0);
      getPizzas();
  }
 
@@ -766,7 +766,7 @@
 
 
  /**************************
-     ORDER OPTIONS ADD                           **       NEW          **
+     ORDER OPTIONS EDIT                          
  **************************/
 
  function orderOptionEdit(ingredientsList) {
@@ -799,7 +799,7 @@
  }
 
  /**************************
- ORDER OPTION DETAILS 
+    ORDER OPTION DETAILS 
  **************************/
 
  async function orderOptionDetails(id) {
@@ -864,6 +864,17 @@
      section.appendChild(pizzaIngredients);
      section.appendChild(isGlutenFree);
      isGlutenFree.appendChild(smallText);
+
+     // total price section
+     let totalsSection = document.querySelector('.add-to-order');
+     let pizzaPrice = document.createElement('h1');
+     let extrasPrice = document.createElement('p');
+
+     pizzaPrice.textContent = `Total: $${pizza.data.price} + extras`;
+     extrasPrice.textContent = `Extras: extras price variable (all added together)`;
+
+     totalsSection.appendChild(pizzaPrice);
+     totalsSection.appendChild(extrasPrice);
 
  }
 

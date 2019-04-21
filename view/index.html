@@ -575,15 +575,49 @@
 
                 <tr>
                   <!-- PIZZA DETAILS -->
-                  <td class="p-5">
+                  <td class="align-baseline p-5">
                     <section class="order-details" id="order-details">
 
                     </section>
 
+                    <!-- SIZE DROPDOWN -->
+                    <!-- NEW ADD -> moved size dropdown and radio buttons inside table -->
+                    <h5 class="card-title pt-5">Select Size</h5>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Size
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-left">
+                        <button class="dropdown-item navigation" type="button" data-target="small-size">Small</button>
+                        <button class="dropdown-item navigation" type="button" data-target="medium-size">Medium</button>
+                        <button class="dropdown-item navigation" type="button" data-target="large-size">Large</button>
+                        <button class="dropdown-item navigation" type="button" data-target="xl-size">Extra
+                          Large</button>
+                      </div>
+                    </div>
+
+                    <!-- In Progress: input boolean -> if delivery, add delivery fee and address input fields -->
+                    <h5 class="card-title pt-5">Order Instructions</h5>
+                    <div class="form-check">
+                      <input class="form-check-input orderType" type="radio" name="exampleRadios" id="exampleRadios1"
+                        value="option1" checked>
+                      <label class="form-check-label" for="exampleRadios1">
+                        Pick-up
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input orderType" type="radio" name="exampleRadios" id="exampleRadios2"
+                        value="option2">
+                      <label class="form-check-label" for="exampleRadios2">
+                        Delivery
+                      </label>
+                    </div>
+
                   </td>
 
                   <!-- EDIT INGREDIENTS -->
-                  <td class="p-5">
+                  <td class="align-baseline p-5">
                     <h5 class="card-title">Edit Ingredients</h5>
                     <section class="user-add-options" id="user-add-options">
                       <div class="table-responsive-sm">
@@ -596,66 +630,16 @@
 
                   <!-- ORDER BUTTON           In Progress: h1-> reads price of pizza
                                                                            p -> cost of extras added together -->
-                  <td class="p-5">
+                  <td class="align-baseline pl-5">
+                    <!-- NEW ADD -> align content -->
                     <section class="add-to-order" id="add-to-order">
-                      <!-- GET request to add totals 
-                      JS:
-                      let totalsSection = document.querySelector('.add-to-order');
-                      let pizzaPrice = document.createElement('h1');
-                      let extrasPrice = document.createElement('p');
-
-                      pizzaPrice.textContent = 'pizza price variable';
-                      extrasPrice.textContent = 'extras price variable (all added together)';
-
-                      totalsSection.appendChild(pizzaPrice);
-                      totalsSection.appendChild(extrasPrice); -->
-                      <h1>Total: $0.00</h1>
-                      <!--JS VARIABLE-->
-                      <p>Extras: $0.00</p>
-                      <!--JS VARIABLE-->
-                      <button type="button" class="btn btn-primary">Add to Order</button>
-
+                      <!-- order price totals appended here -->
                     </section>
-
+                    <button type="button" class="btn btn-primary">Add to Order</button>
                   </td>
                 </tr>
               </tbody>
             </table>
-
-
-
-            <!-- SIZE DROPDOWN -->
-            <h5 class="card-title pl-5">Select Size</h5>
-            <div class="btn-group pl-5">
-              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Size
-              </button>
-              <div class="dropdown-menu dropdown-menu-left">
-                <button class="dropdown-item navigation" type="button" data-target="small-size">Small</button>
-                <button class="dropdown-item navigation" type="button" data-target="medium-size">Medium</button>
-                <button class="dropdown-item navigation" type="button" data-target="large-size">Large</button>
-                <button class="dropdown-item navigation" type="button" data-target="xl-size">Extra Large</button>
-              </div>
-            </div>
-
-
-            <!-- In Progress: input boolean -> if delivery, add delivery fee and address input fields -->
-            <h5 class="card-title pl-5 pt-5">Order Instructions</h5>
-            <div class="form-check pl-5">
-              <input class="form-check-input orderType" type="radio" name="exampleRadios" id="exampleRadios1"
-                value="option1" checked>
-              <label class="form-check-label" for="exampleRadios1">
-                Pick-up
-              </label>
-            </div>
-            <div class="form-check pl-5">
-              <input class="form-check-input orderType" type="radio" name="exampleRadios" id="exampleRadios2"
-                value="option2">
-              <label class="form-check-label" for="exampleRadios2">
-                Delivery
-              </label>
-            </div>
 
 
           </div>
