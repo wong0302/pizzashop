@@ -31,10 +31,12 @@ orderSchema.pre('save', async function (next) {
     this.total = pizzaCost + deliveryCharge + tax
 })
 
+//Calculate tax
 orderSchema.methods.calcTaxCost = function(pizzaCost, deliveryCharge) {
     return (pizzaCost + deliveryCharge) * 0.13
 }
 
+//Calculate total pizza cost
 orderSchema.methods.calcPizzaCost = async function(order) {
     await order.populate('pizzas').execPopulate()
 
@@ -43,6 +45,15 @@ orderSchema.methods.calcPizzaCost = async function(order) {
     }, 0)
 
     return pizzaCost
+}
+
+orderSchema.statics.getOrders = async function(userId, orders) {
+    const userOrders = orders.filter(order => {
+        if(order.customer == userId){
+            return order
+        }
+    })
+    return userOrders
 }
 
 const Model = mongoose.model('Order', orderSchema)

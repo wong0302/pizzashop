@@ -2,6 +2,8 @@ const sanitizeBody = require('../middleware/sanitizeBody')
 const Order = require('../models/Order')
 const router = require('express').Router()
 
+const User = require('../models/User')
+
 const authorize = require('../middleware/auth')
 const isStaff = require ('../middleware/isStaff')
 
@@ -16,9 +18,16 @@ const isStaff = require ('../middleware/isStaff')
 * DELETE: logged in user and Staff only
 */
 
-router.get('/', async (req, res) => {
+router.get('/', authorize, async (req, res) => {
+  const user = await User.findById(req.user._id)
   const orders = await Order.find().populate('users').populate('pizzas')
-  res.send({data: orders})
+
+  if (!user.isStaff) {
+    const userOrders = await Order.getOrders(req.user._id, orders)
+    res.send({data: userOrders})
+  } else if (user.isStaff) {
+    res.send({data: orders})
+  }
 }) //Tested on 17/4, Akel, working.
 
 router.get('/:id', async (req, res) => {
