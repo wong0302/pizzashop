@@ -597,15 +597,15 @@
      let name = document.getElementById('pizzaName').value
      let price = document.getElementById('pizzaPrice').value
 
-      //Check if Gluten Free is Checked & Set Value
-      let checkVal = document.getElementById('pizzaGluten').checked
-      console.log(checkVal);
+       //Check if Gluten Free is Checked & Set Value
+       let checkedGluten = document.getElementById('pizzaGluten').checked
+       console.log(checkedGluten);
  
 
      let userInput = {
          name: name,
          price: price,
-         isGlutenFree: checkVal,
+         isGlutenFree: checkedGluten,
          ingredients: pizzaIngredientInfo
     };
 
