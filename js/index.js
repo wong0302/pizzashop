@@ -661,14 +661,21 @@ function createPizzaCards(pizzasList) {
          let lastName = document.createElement('td');
          let email = document.createElement('td');
          let staff = document.createElement('td');
+         let checkbox = document.createElement('input');
          let actions = document.createElement('td');
          let editBtn = document.createElement('p');
          //let deleteBtn = document.createElement('p');
 
+
+         
+       
+        checkbox.setAttribute('class', 'ingredient-check-input');
+        checkbox.setAttribute('type', 'checkbox');
+
          firstName.textContent = user.firstName
          lastName.textContent = user.lastName;
          email.textContent = user.email;
-         staff.textContent = user.isStaff;
+         checkbox.checked = user.isStaff;
          editBtn.textContent = 'Edit';
          //deleteBtn.textContent = 'Delete';
 
@@ -689,6 +696,7 @@ function createPizzaCards(pizzasList) {
          tr.appendChild(lastName);
          tr.appendChild(email);
          tr.appendChild(staff);
+         staff.appendChild(checkbox);
          tr.appendChild(actions);
          actions.appendChild(editBtn);
          //actions.appendChild(deleteBtn);

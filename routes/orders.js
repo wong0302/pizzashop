@@ -28,17 +28,18 @@ router.get('/', authorize, async (req, res) => {
   } else if (user.isStaff) {
     res.send({data: orders})
   }
-}) //Tested on 17/4, Akel, working.
+}) //Tested on 20/4, with Authorization, working, Akel.
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorize, async (req, res) => {
+  const user = await User.findById(req.user._id)
   try {
-    const order = await Order.findById(req.params.id).populate('users').populate('pizzas')
+    const order = await Order.findOne({_id: req.params.id, customer: req.user._id}).populate('users').populate('pizzas')
     if (!order) throw new Error('Resource not found')
     res.send({data: order})
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-}) //Not tested
+}) //Tested on 20/4, with Authorization, working, Akel.
 
 router.post('/', sanitizeBody, async (req, res) => {
   const newOrder = new Order(req.sanitizedBody)
@@ -58,8 +59,8 @@ router.post('/', sanitizeBody, async (req, res) => {
 
 const update = (overwrite = false) => async (req, res) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
+    const order = await Order.findOneAndUpdate(
+      {_id: req.params.id, customer: req.user._id},
       req.sanitizedBody,
       {
         new: true,
@@ -74,18 +75,18 @@ const update = (overwrite = false) => async (req, res) => {
   }
 } //Not tested
 
-router.put('/:id', sanitizeBody, update((overwrite = true)))
-router.patch('/:id', sanitizeBody, update((overwrite = false)))
+router.put('/:id', authorize, sanitizeBody, update((overwrite = true)))
+router.patch('/:id', authorize, sanitizeBody, update((overwrite = false)))
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authorize, async (req, res) => {
   try {
-    const order = await Order.findByIdAndRemove(req.params.id)
+    const order = await Order.findOneAndRemove({_id: req.params.id, customer: req.user._id})
     if (!order) throw new Error('Resource not found')
     res.send({data: order})
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-}) //Not tested
+}) //Tested on 20/4 with authorization, working, Akel.
 
 function sendResourceNotFound(req, res) {
   res.status(404).send({
