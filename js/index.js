@@ -513,7 +513,12 @@ function createPizzaCards(pizzasList) {
         //<li class="nav-item navigation nav-link active" data-target="home">
 
         pizzaName.textContent = pizza.name;
-        pizzaIngredients.textContent = pizza.ingredients;
+
+        let ingredients = pizza.ingredients.map(ingredient => {
+            return ingredient.name;
+        })
+    
+        pizzaIngredients.textContent = ingredients.join(", ");
         // Gluten free
         if (pizza.isGlutenFree == true) {
             smallText.textContent = 'Gluten Free';
@@ -764,6 +769,8 @@ async function orderOptionDetails(id) {
         return ingredient.name;
     })
 
+    pizzaIngredients.textContent = ingredients.join(", ");
+
     let pizzaToppings = pizza.data.ingredients;
     let checkbox = document.querySelectorAll('.ingredient-check-input');
 
@@ -779,8 +786,6 @@ async function orderOptionDetails(id) {
         }
     }
     })
-
-    pizzaIngredients.textContent = ingredients.join(); //object object
 
     // Gluten free
     if (pizza.data.isGlutenFree == true) {
