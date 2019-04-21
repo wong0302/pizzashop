@@ -733,62 +733,67 @@ ORDER OPTION DETAILS
 **************************/
 
 async function orderOptionDetails(id) {
-console.log('THIS PIZZA DATA: ' ,id,);
-let headers = new Headers();
-headers.append('Content-Type', 'application/json;charset=UTF-8');
-let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-let req = new Request(url, {
-   headers: headers,
-   method: 'GET',
-   mode: 'cors'
-});
+    console.log('THIS PIZZA DATA: ' ,id,);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+    let req = new Request(url, {
+        headers: headers,
+        method: 'GET',
+        mode: 'cors'
+    });
 
-let pizza = await fetchAPI(req);
-console.log("LAUREN TESTING MORE SHITTTTT YYYASSSSS:", pizza);
+    let pizza = await fetchAPI(req);
+    console.log("LAUREN TESTING MORE SHITTTTT YYYASSSSS:", pizza);
 
-let section = document.querySelector('.order-details');
-section.innerHTML = "";
-let pizzaName = document.createElement('h5');
-let pizzaIngredients = document.createElement('p');
-let isGlutenFree = document.createElement('p');
-let smallText = document.createElement('small');
+    let section = document.querySelector('.order-details');
+    section.innerHTML = "";
+    let pizzaName = document.createElement('h5');
+    let pizzaIngredients = document.createElement('p');
+    let isGlutenFree = document.createElement('p');
+    let smallText = document.createElement('small');
 
-pizzaName.setAttribute('class', 'card-title');
-pizzaIngredients.setAttribute('class', 'card-text');
-isGlutenFree.setAttribute('class', 'card-text');
-smallText.setAttribute('class', 'text-muted');
+    pizzaName.setAttribute('class', 'card-title');
+    pizzaIngredients.setAttribute('class', 'card-text');
+    isGlutenFree.setAttribute('class', 'card-text');
+    smallText.setAttribute('class', 'text-muted');
 
-pizzaName.textContent = pizza.data.name;
+    pizzaName.textContent = pizza.data.name;
 
-let ingredients = pizza.data.ingredients.map(ingredient => {
-   return ingredient.name;
-})
+    let ingredients = pizza.data.ingredients.map(ingredient => {
+        return ingredient.name;
+    })
 
-let pizzaToppings = pizza.data.ingredients;
-let checkbox = document.querySelectorAll('.ingredient-check-input');
+    let pizzaToppings = pizza.data.ingredients;
+    let checkbox = document.querySelectorAll('.ingredient-check-input');
 
-pizzaToppings.forEach((ingredient, index) => {
-   
-    if(ingredient._id == checkbox[index].getAttribute('data-id')){
-        console.log('match')
-        checkbox[index].checked = true;
+    for(let i = 0; i < checkbox.length; i++) {
+        checkbox[i].checked = false;
     }
-})
 
-pizzaIngredients.textContent = ingredients.join(); //object object
+    pizzaToppings.forEach(ingredient => {
+    for(let i = 0; i < checkbox.length; i++) {
+        if(ingredient._id === checkbox[i].getAttribute('data-id')){
+            checkbox[i].checked = true;
+            console.log('check',checkbox[i]);
+        }
+    }
+    })
 
-       // Gluten free
-       if (pizza.data.isGlutenFree == true) {
-           smallText.textContent = 'Gluten Free';
-       } else {
-           smallText.textContent = ' ';
-       }
+    pizzaIngredients.textContent = ingredients.join(); //object object
+
+    // Gluten free
+    if (pizza.data.isGlutenFree == true) {
+        smallText.textContent = 'Gluten Free';
+    } else {
+        smallText.textContent = ' ';
+    }
 
 
-section.appendChild(pizzaName);
-section.appendChild(pizzaIngredients);
-section.appendChild(isGlutenFree);
-isGlutenFree.appendChild(smallText);
+    section.appendChild(pizzaName);
+    section.appendChild(pizzaIngredients);
+    section.appendChild(isGlutenFree);
+    isGlutenFree.appendChild(smallText);
 
 }
 
