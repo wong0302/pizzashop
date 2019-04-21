@@ -35,7 +35,7 @@ router.post('/users', sanitizeBody, async (req, res) => {
   //New user, tested via postman @ 17:00, Akel, working.
   try {
     let newUser = new User(req.sanitizedBody)
-
+    
     //Check if email already exists
     //email exists, tested via postman @ 10/4 17:00, Akel, working.
     const emailExists = !!(await User.countDocuments({email: newUser.email}))
@@ -63,6 +63,24 @@ router.post('/users', sanitizeBody, async (req, res) => {
         title: 'Problem saving document to the database'
       }]
     })
+  }
+})
+
+router.patch('/users/:id', isStaff, sanitizeBody, async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      req.sanitizedBody,
+      {
+        new: true,
+        overwrite: false,
+        runValidators: true
+      }
+    )
+    if (!user) throw new Error('Resource not found')
+    res.send({data: user})
+  } catch (err) {
+    next(err)
   }
 })
 

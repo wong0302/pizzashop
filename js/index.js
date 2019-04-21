@@ -662,8 +662,8 @@ function createPizzaCards(pizzasList) {
          let email = document.createElement('td');
          let staff = document.createElement('td');
          let checkbox = document.createElement('input');
-         let actions = document.createElement('td');
-         let editBtn = document.createElement('p');
+         //let actions = document.createElement('td');
+         //let editBtn = document.createElement('p');
          //let deleteBtn = document.createElement('p');
 
 
@@ -671,21 +671,23 @@ function createPizzaCards(pizzasList) {
        
         checkbox.setAttribute('class', 'ingredient-check-input');
         checkbox.setAttribute('type', 'checkbox');
+       // tr.setAttribute('data-id', user._id);
+        firstName.textContent = user.firstName;
+        lastName.textContent = user.lastName;
+        email.textContent = user.email;
+        checkbox.checked = user.isStaff;
+        //editBtn.textContent = 'Edit';
+        //deleteBtn.textContent = 'Delete';
 
-         firstName.textContent = user.firstName
-         lastName.textContent = user.lastName;
-         email.textContent = user.email;
-         checkbox.checked = user.isStaff;
-         editBtn.textContent = 'Edit';
-         //deleteBtn.textContent = 'Delete';
+        //actions.setAttribute('data-id', pizza.id);
 
-         //actions.setAttribute('data-id', pizza.id);
+        //  editBtn.setAttribute('type', 'button');
+        //  editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        //  editBtn.setAttribute('data-toggle', 'modal');
+        //  editBtn.setAttribute('data-target', '#edit-user');
+        //  editBtn.addEventListener('click', () => editUser(user._id));
 
-         editBtn.setAttribute('type', 'button');
-         editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-         editBtn.setAttribute('data-toggle', 'modal');
-         editBtn.setAttribute('data-target', '#edit-user');
-         editBtn.addEventListener('click', () => editUser(user._id));
+         checkbox.addEventListener('click', () => toggleStaff(user._id, checkbox.checked));
 
          // deleteBtn.setAttribute('type', 'button');
          // deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
@@ -697,14 +699,35 @@ function createPizzaCards(pizzasList) {
          tr.appendChild(email);
          tr.appendChild(staff);
          staff.appendChild(checkbox);
-         tr.appendChild(actions);
-         actions.appendChild(editBtn);
+         //tr.appendChild(actions);
+         //actions.appendChild(editBtn);
          //actions.appendChild(deleteBtn);
      })
  }
 
- function editUser() {
+ async function toggleStaff(id, check) {
+     console.log("checky", check)
+    let url = `http://127.0.0.1:3030/auth/users/${id}`;
+    let authToken = JSON.parse(sessionStorage.getItem(tokenKey));
 
+    let userInput = {
+        isStaff: check === true ? 'true' : 'false'
+    };
+
+    let jsonData = JSON.stringify(userInput);
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+
+    let req = new Request(url, {
+        headers: headers,
+        method: 'PATCH',
+        mode: 'cors',
+        body: jsonData
+    });
+
+    await fetchAPI(req);
  }
 
 
