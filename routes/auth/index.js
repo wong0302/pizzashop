@@ -34,6 +34,18 @@ router.patch('/users/me', authorize, async (req, res) => {
 router.post('/users', sanitizeBody, async (req, res) => {
   //New user, tested via postman @ 17:00, Akel, working.
   try {
+    if(req.body.isStaff != null) {
+      return res.status(500).send({
+        errors: [
+          {
+            status: 'Internal Server Error',
+            code: '500',
+            title: 'Problem saving document to the database.'
+          }
+        ]
+      })
+    }
+
     let newUser = new User(req.sanitizedBody)
     
     //Check if email already exists
