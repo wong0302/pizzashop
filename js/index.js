@@ -85,7 +85,6 @@
      }
  }
 
- // change password
  function changePassword() {
      // user input 
      let newPassword = document.getElementById('newPassword').value;
@@ -93,7 +92,7 @@
      // define the end point for the request
      let url = 'http://127.0.0.1:3030/auth/users/me';
 
-     let authToken = JSON.parse(sessionStorage.getItem(tokenKey));
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let userInput = {
          password: newPassword
@@ -133,9 +132,9 @@
 
  }
 
- /**************************
+/**************************
         REGISTRATION
- **************************/
+**************************/
 
  function sendSignUpInfo(ev) {
      ev.preventDefault();
@@ -177,7 +176,6 @@
      //body is the data that goes to the API
      //now do the fetch
      fetchAPI(req);
-
  }
 
  function sendSignInInfo(ev) {
@@ -221,7 +219,7 @@
          .then(result => {
              let data = result.data.token;
              console.log('data', data);
-             sessionStorage.setItem(tokenKey, JSON.stringify(data));
+             localStorage.setItem(tokenKey, JSON.stringify(data));
              // navbar for signed in user
 
 
@@ -234,6 +232,9 @@
 
  }
 
+/**************************
+      GET CURRENT USER
+**************************/
  function getCurrentUser(authToken) {
      let url = 'http://127.0.0.1:3030/auth/users/me';
 
@@ -264,55 +265,59 @@
          })
  }
 
- /**************************
-      ADD INGREDIENTS
- **************************/
+/**************************
+     ADD INGREDIENTS
+**************************/
 
- async function addIngredients(ev) {
-     ev.preventDefault();
-     let productName = document.getElementById('productName').value,
-         price = document.getElementById('price').value,
-         quantity = document.getElementById('quantity').value;
+async function addIngredients(ev) {
+    ev.preventDefault();
+    let productName = document.getElementById('productName').value,
+        price = document.getElementById('price').value,
+        quantity = document.getElementById('quantity').value;
 
-     //Check if Gluten Free is Checked & Set Value
-     let checkVal = document.getElementById('isGlutenFree').checked
-     console.log(checkVal);
+    //Check if Gluten Free is Checked & Set Value
+    let checkVal = document.getElementById('isGlutenFree').checked
+    console.log(checkVal);
 
-     //Determine Categorie Picked
-     let categoriesSelected = document.getElementById('categories');
-     if (categoriesSelected.selectedIndex == 0) {
-         console.log('select one answer');
+    //Determine Categorie Picked
+    let categoriesSelected = document.getElementById('categories');
+    if (categoriesSelected.selectedIndex == 0) {
+        console.log('select one answer');
 
-     } else {
-         categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
-     }
+    } else {
+        categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
+    }
 
-     let userInput = {
-         name: productName,
-         price: price,
-         quantity: quantity,
-         isGlutenFree: checkVal,
-         categories: categories
-     };
+    let userInput = {
+        name: productName,
+        price: price,
+        quantity: quantity,
+        isGlutenFree: checkVal,
+        categories: categories
+    };
 
-     let jsonData = JSON.stringify(userInput);
+    let jsonData = JSON.stringify(userInput);
 
-     let headers = new Headers();
-     headers.append('Content-Type', 'application/json;charset=UTF-8');
-     console.log("mode is", mode);
-     //define the end point for the request
-     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
-     let req = new Request(url, {
-         headers: headers,
-         method: mode == 'add' ? 'POST' : 'PATCH',
-         mode: 'cors',
-         body: jsonData
-     });
-     //body is the data that goes to the API
-     //now do the fetch
-     let ingredientsList = await fetchAPI(req);
-     console.log(ingredientsList);
-     getIngredients();
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+
+    console.log("mode is", mode);
+    //define the end point for the request
+    let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
+    let req = new Request(url, {
+        headers: headers,
+        method: mode == 'add' ? 'POST' : 'PATCH',
+        mode: 'cors',
+        body: jsonData
+    });
+    //body is the data that goes to the API
+    //now do the fetch
+    let ingredientsList = await fetchAPI(req);
+    console.log(ingredientsList);
+    getIngredients();
  }
 
  /**************************
@@ -320,6 +325,7 @@
  **************************/
 
  async function getIngredients() {
+     /*** No authorization required ***/
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
      let url = 'http://127.0.0.1:3030/api/ingredients';
@@ -338,7 +344,7 @@
  }
 
  /**************************
-     CREATE INGREDIENT ROWS
+    CREATE INGREDIENT ROWS
  **************************/
  function createIngredientCard(ingredientsList) {
      //console.log("ingredients list is:", ingredientsList);
@@ -389,45 +395,60 @@
      ON EDIT INGREDIENTS
  **************************/
  async function onEditIngredients(id) {
-     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
-     let req = new Request(url, {
-         method: 'GET',
-         mode: 'cors'
-     });
-     let ingredients = await fetchAPI(req);
+    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-     document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
-     document.getElementById('productName').value = ingredients.data.name;
-     document.getElementById('price').value = ingredients.data.price;
-     document.getElementById('quantity').value = ingredients.data.quantity;
-     let ingredValue = ingredients.data.categories;
-     document.querySelector('#categories').value = ingredValue;
-     document.getElementById('isGlutenFree').value = ingredients.data.isGlutenFree;
-     console.log(document.getElementById('ingredients-add-edit'));
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
 
-     mode = 'edit';
+    let req = new Request(url, {
+        headers: headers,
+        method: 'GET',
+        mode: 'cors'
+    });
+    let ingredients = await fetchAPI(req);
+
+    document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
+    document.getElementById('productName').value = ingredients.data.name;
+    document.getElementById('price').value = ingredients.data.price;
+    document.getElementById('quantity').value = ingredients.data.quantity;
+    let ingredValue = ingredients.data.categories;
+    document.querySelector('#categories').value = ingredValue;
+    document.getElementById('isGlutenFree').value = ingredients.data.isGlutenFree;
+    console.log(document.getElementById('ingredients-add-edit'));
+
+    mode = 'edit';
  }
 
  /**************************
      DELETE INGREDIENTS
  **************************/
  async function deleteIngredients(id) {
-     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
-     let req = new Request(url, {
-         method: 'DELETE',
-         mode: 'cors'
-     });
+    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-     let ingredientsList = await fetchAPI(req);
-     //console.log(ingredientsList);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
 
-     getIngredients(ingredientsList);
+    let req = new Request(url, {
+        headers: headers,
+        method: 'DELETE',
+        mode: 'cors'
+    });
+
+    let ingredientsList = await fetchAPI(req);
+    //console.log(ingredientsList);
+
+    getIngredients(ingredientsList);
  }
 
  /**************************
       GET PIZZAS
  **************************/
  async function getPizzas() {
+     /*** No authentication reqyired ***/
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
      let url = 'http://127.0.0.1:3030/api/pizzas';
@@ -502,7 +523,7 @@
          let pizzaImg = document.createElement('img');
          let cardBody = document.createElement('div');
          let pizzaName = document.createElement('h5');
-         let pizzaIngredients = document.createElement('p');
+         //let pizzaIngredients = document.createElement('p');
          let smallText = document.createElement('p');
          let glutenFree = document.createElement('small');
          let selectBtn = document.createElement('li');
@@ -512,11 +533,11 @@
 
          pizzaName.textContent = pizza.name;
 
-         let ingredients = pizza.ingredients.map(ingredient => {
-             return ingredient.name;
-         })
+        //  let ingredients = pizza.ingredients.map(ingredient => {
+        //      return ingredient.name;
+        //  })
 
-         pizzaIngredients.textContent = ingredients.join(", ");
+        //  pizzaIngredients.textContent = ingredients.join(", ");
          // Gluten free
          if (pizza.isGlutenFree == true) {
              smallText.textContent = 'Gluten Free';
@@ -532,7 +553,7 @@
          pizzaImg.setAttribute('alt', pizza.name);
          cardBody.setAttribute('class', 'card-body');
          pizzaName.setAttribute('class', 'card-title');
-         pizzaIngredients.setAttribute('class', 'card-text');
+         //pizzaIngredients.setAttribute('class', 'card-text');
          smallText.setAttribute('class', 'card-text');
          glutenFree.setAttribute('class', 'text-muted');
          selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary navigation');
@@ -543,7 +564,7 @@
          cardDiv.appendChild(pizzaImg);
          cardDiv.appendChild(cardBody);
          cardBody.appendChild(pizzaName);
-         cardBody.appendChild(pizzaIngredients);
+         //cardBody.appendChild(pizzaIngredients);
          cardBody.appendChild(smallText);
          smallText.appendChild(glutenFree);
          cardBody.appendChild(selectBtn);
@@ -592,76 +613,94 @@
          ADD PIZZA
  **************************/
  async function addPizza(ev) {
-     ev.preventDefault();
-     console.log(pizzaIngredientInfo);
-     let name = document.getElementById('pizzaName').value
-     let price = document.getElementById('pizzaPrice').value
+    ev.preventDefault();
+    console.log(pizzaIngredientInfo);
+    let name = document.getElementById('pizzaName').value
+    let price = document.getElementById('pizzaPrice').value
 
-     //Check if Gluten Free is Checked & Set Value
-     let checkedGluten = document.getElementById('pizzaGluten').checked
-     console.log(checkedGluten);
+    //Check if Gluten Free is Checked & Set Value
+    let checkedGluten = document.getElementById('pizzaGluten').checked
+    console.log(checkedGluten);
 
 
-     let userInput = {
-         name: name,
-         price: price,
-         isGlutenFree: checkedGluten,
-         ingredients: pizzaIngredientInfo
-     };
+    let userInput = {
+        name: name,
+        price: price,
+        isGlutenFree: checkedGluten,
+        ingredients: pizzaIngredientInfo
+    };
 
-     let jsonData = JSON.stringify(userInput);
-     let headers = new Headers();
-     headers.append('Content-Type', 'application/json;charset=UTF-8');
-     console.log("mode is", mode);
-     //define the end point for the request
-     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
-     let req = new Request(url, {
-         headers: headers,
-         method: mode == 'add' ? 'POST' : 'PATCH',
-         mode: 'cors',
-         body: jsonData
-     });
+    let jsonData = JSON.stringify(userInput);
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-     //body is the data that goes to the API
-     //now do the fetch
-     let pizzaUpdate = await fetchAPI(req);
-     console.log(pizzaUpdate);
-     pizzaIngredientInfo.splice(0);
-     getPizzas();
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+
+    //console.log("mode is", mode);
+    //define the end point for the request
+    let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
+    let req = new Request(url, {
+        headers: headers,
+        method: mode == 'add' ? 'POST' : 'PATCH',
+        mode: 'cors',
+        body: jsonData
+    });
+
+    //body is the data that goes to the API
+    //now do the fetch
+    let pizzaUpdate = await fetchAPI(req);
+    console.log(pizzaUpdate);
+    pizzaIngredientInfo.splice(0);
+    getPizzas();
  }
 
  /**************************
-         ON EDIT PIZZA
+        ON EDIT PIZZA
  **************************/
  async function onEditPizza(id) {
-     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-     let req = new Request(url, {
-         method: 'GET',
-         mode: 'cors'
-     });
-     let pizza = await fetchAPI(req);
+    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-     document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
-     document.getElementById('pizzaName').value = pizza.data.name;
-     document.getElementById('pizzaPrice').value = pizza.data.price;
-     document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
 
-     console.log(document.getElementById('pizzas-add-edit'));
+    let req = new Request(url, {
+        headers: headers,
+        method: 'GET',
+        mode: 'cors'
+    });
+    let pizza = await fetchAPI(req);
 
-     mode = 'edit';
+    document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
+    document.getElementById('pizzaName').value = pizza.data.name;
+    document.getElementById('pizzaPrice').value = pizza.data.price;
+    document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
+
+    console.log(document.getElementById('pizzas-add-edit'));
+
+    mode = 'edit';
  }
  /**************************
          DELETE PIZZA
  **************************/
  async function deletePizza(id) {
-     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-     let req = new Request(url, {
-         method: 'DELETE',
-         mode: 'cors'
-     });
-     let deletedPizzas = await fetchAPI(req);
-     //console.log(deletedPizzas);
-     getPizzas(deleteIngredients);
+    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+
+    let req = new Request(url, {
+        headers: headers,
+        method: 'DELETE',
+        mode: 'cors'
+    });
+    await fetchAPI(req);
+
+    getPizzas(deleteIngredients);
  }
 
 
@@ -700,9 +739,6 @@
          //let editBtn = document.createElement('p');
          //let deleteBtn = document.createElement('p');
 
-
-
-
          checkbox.setAttribute('class', 'ingredient-check-input');
          checkbox.setAttribute('type', 'checkbox');
          // tr.setAttribute('data-id', user._id);
@@ -739,31 +775,32 @@
      })
  }
 
+/**************************
+        PATCH USERS
+ **************************/
  async function toggleStaff(id, check) {
-     console.log("checky", check)
-     let url = `http://127.0.0.1:3030/auth/users/${id}`;
-     let authToken = JSON.parse(sessionStorage.getItem(tokenKey));
+    let url = `http://127.0.0.1:3030/auth/users/${id}`;
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-     let userInput = {
-         isStaff: check === true ? 'true' : 'false'
-     };
+    let userInput = {
+        isStaff: check === true ? 'true' : 'false'
+    };
 
-     let jsonData = JSON.stringify(userInput);
+    let jsonData = JSON.stringify(userInput);
 
-     let headers = new Headers();
-     headers.append('Content-Type', 'application/json;charset=UTF-8');
-     headers.append('Authorization', 'Bearer ' + authToken)
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
 
-     let req = new Request(url, {
-         headers: headers,
-         method: 'PATCH',
-         mode: 'cors',
-         body: jsonData
-     });
+    let req = new Request(url, {
+        headers: headers,
+        method: 'PATCH',
+        mode: 'cors',
+        body: jsonData
+    });
 
-     await fetchAPI(req);
+    await fetchAPI(req);
  }
-
 
  /**************************
      ORDER OPTIONS EDIT                          
@@ -792,10 +829,7 @@
          checkboxDiv.appendChild(checkbox);
          checkboxDiv.appendChild(ingredientName);
          console.log('MOREEEEEEE ID:', ingredient._id);
-
      })
-
-
  }
 
  /**************************
@@ -859,7 +893,6 @@
          smallText.textContent = ' ';
      }
 
-
      section.appendChild(pizzaName);
      section.appendChild(pizzaIngredients);
      section.appendChild(isGlutenFree);
@@ -875,7 +908,6 @@
 
      totalsSection.appendChild(pizzaPrice);
      totalsSection.appendChild(extrasPrice);
-
  }
 
  /**************************
@@ -909,7 +941,6 @@
              item.style.display = 'block';
          })
      }
-
  }
 
  /**************************
@@ -917,22 +948,19 @@
  **************************/
 
  function fetchAPI(req) {
-     return fetch(req)
-         .then(response => {
-             if (!response.ok) {
-                 throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-             } else {
-                 // document.getElementById('output').textContent =
-                 //     'Hey we got a response from the server! They LOVED our token.';
-                 console.log('We are so fetchy! YASSSS!');
-                 return response.json();
-             }
-         })
-         .catch(err => {
-             console.error(err.code + ': ' + err.message);
-         })
+    return fetch(req)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+            } else {
+                console.log('We are so fetchy! YASSSS!');
+                return response.json();
+            }
+        })
+        .catch(err => {
+            console.error(err.code + ': ' + err.message);
+        })
  }
-
 
  /**************************
              SPA

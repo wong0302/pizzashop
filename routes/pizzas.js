@@ -2,7 +2,7 @@ const sanitizeBody = require('../middleware/sanitizeBody')
 const Pizza = require('../models/Pizza')
 const router = require('express').Router()
 
-const authorize = require('../middleware/auth')
+//const authorize = require('../middleware/auth')
 const isStaff = require ('../middleware/isStaff')
 //TODO: Test sanitization
 
@@ -15,7 +15,7 @@ const isStaff = require ('../middleware/isStaff')
 */
 
 router.get('/', async (req, res) => {
-  const pizzas = await Pizza.find().populate('ingredients')
+  const pizzas = await Pizza.find()
   res.send({data: pizzas})
 }) //Tested on 10/4 ~11:00 AM, Akel, working.
 
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   }
 }) //Tested on 10/4 ~11:00 AM, Akel, working.
 
-router.post('/', sanitizeBody, async (req, res) => {
+router.post('/', isStaff, sanitizeBody, async (req, res) => {
   const newPizza = new Pizza(req.sanitizedBody)
   try {
     await newPizza.save()
@@ -43,7 +43,7 @@ router.post('/', sanitizeBody, async (req, res) => {
       }]
     })
   }
-}) //Tested on 10/4 ~11:00 AM, Akel, working.
+}) //Tested on 21/4 with authorization. Akel.
 
 const update = (overwrite = false) => async (req, res) => {
   try {
@@ -61,12 +61,12 @@ const update = (overwrite = false) => async (req, res) => {
   } catch (err) {
     sendResourceNotFound(res, res)
   }
-} //Tested on 10/4 ~11:00 AM, Akel, working.
+} //Tested on 21/4 with authorization. Akel.
 
-router.put('/:id', sanitizeBody, update((overwrite = true)))
-router.patch('/:id', sanitizeBody, update((overwrite = false)))
+router.put('/:id', isStaff, sanitizeBody, update((overwrite = true)))
+router.patch('/:id', isStaff, sanitizeBody, update((overwrite = false)))
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isStaff, async (req, res) => {
   try {
     const pizza = await Pizza.findByIdAndRemove(req.params.id)
     if (!pizza) throw new Error('Resource not found')
@@ -74,7 +74,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     sendResourceNotFound(req, res)
   }
-}) //Tested on 10/4 ~11:00 AM, Akel, working.
+}) //Tested on 21/4 with authorization. Akel.
 
 function sendResourceNotFound(req, res) {
   res.status(404).send({

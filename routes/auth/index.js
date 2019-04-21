@@ -20,6 +20,7 @@ router.get('/users/me', authorize, async (req, res) => {
 })
 
 //Tested via postman @ 17/4 17:20, Akel, working.
+/*** Change password ***/
 router.patch('/users/me', authorize, async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
