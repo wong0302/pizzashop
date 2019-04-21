@@ -47,7 +47,7 @@ router.post('/', sanitizeBody, async (req, res) => {
 
 const update = (overwrite = false) => async (req, res) => {
   try {
-    const pizza = await Pizza.findByIdAndUpdate(
+    const pizza = await Pizza.findOneAndUpdate(
       req.params.id,
       req.sanitizedBody,
       {

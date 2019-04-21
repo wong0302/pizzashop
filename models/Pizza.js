@@ -27,6 +27,13 @@ pizzaSchema.pre('save', async function (next) {
     }, 0);
 
     this.price = price
+    next()
+})
+
+pizzaSchema.post('findOneAndUpdate', async function (doc, next){
+    await doc.populate('ingredients').populate('extraToppings').execPopulate()
+    await doc.save()
+    next()
 })
 
 const Model = mongoose.model('Pizza', pizzaSchema)
