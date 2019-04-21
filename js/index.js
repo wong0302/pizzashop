@@ -1,7 +1,7 @@
- let pages = null
+ let pages = null //SPA
  let tokenKey = 'tokenKey'
- let currentUser = null;
- let mode = null;
+ let currentUser = null; //Currently logged in useer
+ let mode = null; // Add/Edit mode
  let pizzaIngredientInfo = [];
 
  document.addEventListener('DOMContentLoaded', () => {
@@ -20,6 +20,8 @@
      document.getElementById('confirmBtn').addEventListener('click', sendSignUpInfo);
      document.getElementById('logInBtn').addEventListener('click', sendSignInInfo);
 
+     document.querySelector('#signOutButton').addEventListener('click', onSignOut)
+
      //Add Mode for Ingredients
      document.getElementById('addIngredientsButton').addEventListener('click', () => {
          mode = 'add';
@@ -31,6 +33,7 @@
          document.getElementById('pizzaForm').reset();
      })
 
+     //Add/Edit modal submit buttons
      document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
      document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
 
@@ -264,6 +267,25 @@
              console.log("Woops!", err);
          })
  }
+
+/**************************
+        SIGN OUT
+**************************/
+function onSignOut(){
+    localStorage.clear();
+    let notSignedIn = document.querySelectorAll('.notSignedIn');
+        notSignedIn.forEach(item => {
+            item.style.display = 'block';
+        })
+        let signedOut = document.querySelectorAll('.signedIn');
+        signedOut.forEach(item => {
+            item.style.display = 'none';
+        })
+        let adminSignedOut = document.querySelectorAll('.adminSignedIn');
+        adminSignedOut.forEach(item => {
+            item.style.display = 'none';
+        })
+}
 
 /**************************
      ADD INGREDIENTS
