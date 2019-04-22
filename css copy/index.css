@@ -1,0 +1,37 @@
+.card-deck{
+    padding: 3rem;
+}
+
+form{
+    margin: 0 auto;
+    width:80%  ;
+}
+
+.carousel-item > img {
+    height: 50vh;
+}
+
+.page{
+    display: none;
+}
+
+.display{
+    display: block;
+}
+
+.nav > li{
+    color: blue;
+    cursor: pointer;
+}
+
+.notSignedIn{
+    display: block;
+}
+
+.signedIn{
+    display: none;
+}
+
+.adminSignedIn{
+    display: none;
+}

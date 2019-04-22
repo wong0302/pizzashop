@@ -1,0 +1,34 @@
+{
+  "name": "pizzashop",
+  "version": "1.0.0",
+  "description": "A whole full-stack solution for a pizza shop.",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=production PORT=433 node app.js",
+    "dev": "DEBUG=pizzashop*,sanitize* NODE_ENV=dev PORT=3030 nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wong0302/pizzashop.git"
+  },
+  "author": "Mohamad Akel <akel0003@algonquinlive.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wong0302/pizzashop/issues"
+  },
+  "homepage": "https://github.com/wong0302/pizzashop#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "express-mongo-sanitize": "^1.3.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.1",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^1.18.11",
+    "validator": "^10.11.0",
+    "xss": "^1.0.6"
+  }
+}
