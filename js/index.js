@@ -825,7 +825,7 @@ function createPizzaIngredients(ingredientsList){
  }
 
  /**************************
-    ORDER OPTIONS ADD                           **       NEW          **
+    ORDER OPTIONS ADD                           
 **************************/
 
 function orderOptionEdit(ingredientsList) {
@@ -945,6 +945,7 @@ function updateOrderPrams(pizza){
 
     totalsSection.appendChild(pizzaPrice);
     totalsSection.appendChild(extrasPrice);
+    orderSummaryList();
 }
 
 /**************************
@@ -961,6 +962,47 @@ function pizzaOrderTotal(){
     //PIZZA ID FOR OBJECTID REF
     let pizzaId = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
     console.log("Pizza ID's", pizzaId);
+}
+
+
+ /**************************
+  CREATE ORDER SUMMARY LIST              
+ **************************/
+
+function orderSummaryList() {
+    let orderList = document.getElementById('orderList');
+    // get request /api/orders
+    // get list of pizzas in order, create forEach loop
+    let orderItem = document.createElement('li');
+    let itemPrice = document.createElement('span');
+    let btnSection = document.createElement('span');
+    let editBtn = document.createElement('button');
+    let deleteBtn = document.createElement('button');
+    let underItem = document.createElement('li');
+    let ingredient = document.createElement('small');
+
+    orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
+    editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
+    editBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
+    deleteBtn.setAttribute('type', 'button')
+    underItem.setAttribute('class', 'list-group-item border-0');
+    ingredient.setAttribute('class', 'text-muted');
+
+    orderItem.textContent = 'Pizza Pizza Name';
+    itemPrice.textContent = '$0.00';
+    editBtn.textContent = 'Edit';
+    deleteBtn.textContent = 'Delete';
+    ingredient.textContent = 'list of ingredients here'
+
+    orderList.appendChild(orderItem);
+    orderItem.appendChild(itemPrice);
+    orderItem.appendChild(btnSection);
+    btnSection.appendChild(editBtn);
+    btnSection.appendChild(deleteBtn);
+    orderList.appendChild(underItem);
+    underItem.appendChild(ingredient);
+    
 }
 
 
@@ -1005,8 +1047,10 @@ function pizzaOrderTotal(){
     return fetch(req)
         .then(response => {
             if (!response.ok) {
+                // userNotification();
                 throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
             } else {
+                // userNotification();
                 console.log('We are so fetchy! YASSSS!');
                 return response.json();
             }
@@ -1015,6 +1059,39 @@ function pizzaOrderTotal(){
             console.error(err.code + ': ' + err.message);
         })
  }
+
+ /**************************
+     USER NOTIFICATIONS
+ **************************/
+
+function userNotification() {
+    let alertSection = document.querySelector('.user-notification');
+    let alertDiv = document.createElement('div');
+    
+    alertDiv.setAttribute('role', 'alert');
+    
+    // create else if statement 
+    
+    // setTimeout((function () {
+    //     // insert message instructions
+    //     this.parentElement.removeChild(this);
+    // }).bind(div), 500);
+    
+    // Info message:
+    alertDiv.classList.add('alert alert-primary');
+    alertDiv.textContent = 'HOLA from team WACKELSTACKEL!';
+    
+    // Success message:
+    alertDiv.classList.add('alert alert-success');
+    alertDiv.textContent = 'BAM! Look at that! You wacked, we stacked!';
+    
+    // Error message: 
+    alertDiv.classList.add('alert alert-warning');
+    alertDiv.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
+    
+    alertSection.appendChild(alertDiv);
+    
+    }
 
  /**************************
              SPA
