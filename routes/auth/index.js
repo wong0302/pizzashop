@@ -1,10 +1,13 @@
 const sanitizeBody = require('../../middleware/sanitizeBody')
 const router = require('express').Router()
+const debug = require('debug')('pizzashop:db')
 
 const User = require('../../models/User')
 
 const authorize = require('../../middleware/auth')
 const isStaff = require ('../../middleware/isStaff')
+
+const ResourceNotFoundError = require('../../exceptions/ResourceNotFound')
 
 
 router.get('/users/', async (req, res) => {
@@ -21,7 +24,7 @@ router.get('/users/me', authorize, async (req, res) => {
 
 //Tested via postman @ 17/4 17:20, Akel, working.
 /*** Change password ***/
-router.patch('/users/me', authorize, async (req, res) => {
+router.patch('/users/me', authorize, async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id)
     user.password = req.body.password
@@ -32,9 +35,10 @@ router.patch('/users/me', authorize, async (req, res) => {
   }
 })
 
-router.post('/users', sanitizeBody, async (req, res) => {
-  //New user, tested via postman @ 17:00, Akel, working.
+//New user, tested via postman @ 17:00, Akel, working.
+router.post('/users', sanitizeBody, async (req, res, next) => {
   try {
+    //Send error if isStaff field is set
     if(req.body.isStaff != null) {
       return res.status(500).send({
         errors: [
@@ -48,7 +52,6 @@ router.post('/users', sanitizeBody, async (req, res) => {
     }
 
     let newUser = new User(req.sanitizedBody)
-    
     //Check if email already exists
     //email exists, tested via postman @ 10/4 17:00, Akel, working.
     const emailExists = !!(await User.countDocuments({email: newUser.email}))
@@ -68,18 +71,13 @@ router.post('/users', sanitizeBody, async (req, res) => {
 
     await newUser.save()
     res.status(201).send({data: newUser})
-  } catch (err) {
-    res.status(500).send({
-      errors: [{
-        status: 'Internal Server Error',
-        code: '500',
-        title: 'Problem saving document to the database'
-      }]
-    })
+  }
+  catch (err) {
+    next(err)
   }
 })
 
-router.patch('/users/:id', isStaff, sanitizeBody, async (req, res) => {
+router.patch('/users/:id', isStaff, sanitizeBody, async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -90,7 +88,7 @@ router.patch('/users/:id', isStaff, sanitizeBody, async (req, res) => {
         runValidators: true
       }
     )
-    if (!user) throw new Error('Resource not found')
+    if (!user) throw new ResourceNotFoundError(`We could not find a user with id: ${req.params.id}`)
     res.send({data: user})
   } catch (err) {
     next(err)

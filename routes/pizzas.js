@@ -1,6 +1,7 @@
 const sanitizeBody = require('../middleware/sanitizeBody')
 const Pizza = require('../models/Pizza')
 const router = require('express').Router()
+const ResourceNotFoundError = require('../exceptions/ResourceNotFound')
 
 //const authorize = require('../middleware/auth')
 const isStaff = require ('../middleware/isStaff')
@@ -19,33 +20,24 @@ router.get('/', async (req, res) => {
   res.send({data: pizzas})
 }) //Tested on 10/4 ~11:00 AM, Akel, working.
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res, next) => {
   try {
     const pizza = await Pizza.findById(req.params.id).populate('ingredients')
-    if (!pizza) throw new Error('Resource not found')
+    if (!pizza) throw new ResourceNotFoundError(`We could not find a pizza with id: ${req.params.id}`)
     res.send({data: pizza})
   } catch (err) {
-    sendResourceNotFound(req, res)
+    next(err)
   }
 }) //Tested on 10/4 ~11:00 AM, Akel, working.
 
-router.post('/', isStaff, sanitizeBody, async (req, res) => {
-  const newPizza = new Pizza(req.sanitizedBody)
-  try {
-    await newPizza.save()
-    res.status(201).send({data: newPizza})
-  } catch (err) {
-    res.status(500).send({
-      errors: [{
-        status: 'Server error',
-        code: '500',
-        title: 'Problem saving document to the database'
-      }]
-    })
-  }
+router.post('/', isStaff, sanitizeBody, async (req, res, next) => {
+  new Pizza(req.sanitizedBody)
+    .save()
+    .then(newPizza => res.status(201).send({data: newPizza}))
+    .catch (next)
 }) //Tested on 21/4 with authorization. Akel.
 
-const update = (overwrite = false) => async (req, res) => {
+const update = (overwrite = false) => async (req, res, next) => {
   try {
     const pizza = await Pizza.findOneAndUpdate(
       req.params.id,
@@ -56,35 +48,24 @@ const update = (overwrite = false) => async (req, res) => {
         runValidators: true
       }
     )
-    if (!pizza) throw new Error('Resource not found')
+    if (!pizza) throw new ResourceNotFoundError(`We could not find a pizza with id: ${req.params.id}`)
     res.send({data: pizza})
   } catch (err) {
-    sendResourceNotFound(res, res)
+    next(err)
   }
 } //Tested on 21/4 with authorization. Akel.
 
 router.put('/:id', isStaff, sanitizeBody, update((overwrite = true)))
 router.patch('/:id', isStaff, sanitizeBody, update((overwrite = false)))
 
-router.delete('/:id', isStaff, async (req, res) => {
+router.delete('/:id', isStaff, async (req, res, next) => {
   try {
     const pizza = await Pizza.findByIdAndRemove(req.params.id)
-    if (!pizza) throw new Error('Resource not found')
+    if (!pizza) throw new ResourceNotFoundError(`We could not find a pizza with id: ${req.params.id}`)
     res.send({data: pizza})
   } catch (err) {
-    sendResourceNotFound(req, res)
+    next(err)
   }
 }) //Tested on 21/4 with authorization. Akel.
-
-function sendResourceNotFound(req, res) {
-  res.status(404).send({
-    errors: [{
-      status: 'Not Found',
-      code: '404',
-      title: 'Resource does not exist',
-      description: `We could not find a pizza with id: ${req.params.id}`
-    }]
-  })
-} //Tested on 10/4 ~11:30 AM with GET request, Akel, working.
 
 module.exports = router

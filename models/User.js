@@ -1,5 +1,7 @@
+const uniqueValidator = require('mongoose-unique-validator')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 14
@@ -7,7 +9,12 @@ const saltRounds = 14
 const userSchema = new mongoose.Schema({
     firstName: {type: String, trim: true, maxlength: 64, required: true},
     lastName: {type: String, trim: true, maxlength: 64, required: true},
-    email: {type: String, trim: true, maxlength: 512, required: true, unique: true},
+    email: {type: String, trim: true, maxlength: 512, required: true, unique: true,
+      set: value => value.toLowerCase(),
+      validate: {
+      validator: value => validator.isEmail(value),
+      message: props => `${props.value} is not a valid email address.`
+    }},
     password: {type: String, trim: true, maxlength: 70, required: true},
     isStaff: {type: Boolean, trim: true, default: false}
 })
@@ -42,6 +49,12 @@ userSchema.methods.toJSON = function() {
   return obj
 }
 
+userSchema.plugin(uniqueValidator, {
+  message: props =>
+    props.path === 'email'
+      ? `The email address '${props.value}' is already registered.`
+      : `The ${props.path} must be unique. '${props.value}' is already in use.`
+})
 
 const Model = mongoose.model('User', userSchema)
 module.exports = Model
