@@ -328,6 +328,7 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
+                  <!-- Name Input -->
                   <label for="formGroupInput">Product Name</label>
                   <input type="text" class="form-control" id="productName" placeholder="Name">
                 </div>
@@ -337,8 +338,9 @@
               <div class="col">
                 <div class="form-group">
                   <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="imgFile">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
+                      <!-- Image URL Input -->
+                      <label for="formGroupInput">Image URL</label>
+                    <input type="text" class="form-control" id="ing-img-input">
                   </div>
                 </div>
               </div>
@@ -347,12 +349,14 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
+                  <!-- Quantity Input -->
                   <label for="formGroupInput2">Quantity</label>
                   <input type="number" class="form-control" id="quantity" placeholder="Amount">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
+                  <!-- Price Input -->
                   <label for="formGroupInput2">Price</label>
                   <input type="number" class="form-control" id="price" placeholder="$0.00">
                 </div>
@@ -360,6 +364,7 @@
               <div class="form-row">
                 <div class="col-6">
                   <div class="form-group">
+                    <!-- Category Input -->
                     <select class="custom-select" required id="categories">
                       <option value="">Catagories</option>
                       <option value="meat">Meat</option>
@@ -376,6 +381,7 @@
                 <div class="col">
                   <div class="form-group">
                     <div class="form-check">
+                      <!-- Gluten free Input -->
                       <input class="form-check-input" type="checkbox" value="" id="isGlutenFree" required>
                       <label class="form-check-label" for="invalidCheck2">
                         Check if Gluten Free
@@ -467,7 +473,7 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
-                  <!-- NAME FIELD -->
+                  <!-- Pizza Name Input -->
                   <label for="formGroupInput">Pizza Name</label>
                   <input type="text" class="form-control" id="pizzaName" placeholder="Name">
                 </div>
@@ -475,19 +481,21 @@
             </div>
 
             <div class="form-row">
-              <div class="col">
-                <div class="form-group">
-                  <!-- PRICE FIELD -->
-                  <label for="formGroupInput2">Price</label>
-                  <input type="number" class="form-control" id="pizzaPrice" placeholder="$0.00">
+                <div class="col">
+                  <div class="form-group">
+                    <div class="custom-file">
+                        <!-- Image URL Input -->
+                        <label for="formGroupInput">Image URL</label>
+                      <input type="text" class="form-control" id="pizza-img-input">
+                    </div>
+                  </div>
                 </div>
-              </div>
             </div>
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
                   <div class="form-check">
-                    <!-- GLUTEN FREE INPUT -->
+                    <!-- Gluten Free Input-->
                     <input class="form-check-input" type="checkbox" value="" id="pizzaGluten" required>
                     <label class="form-check-label" for="invalidCheck2">
                       Check if Gluten Free
@@ -498,6 +506,7 @@
             </div>
             <div class="form-row">
               <div class="col">
+                <!-- Pizza Ingredients Input -->
                 <section class="admin-add-ingredients" id="admin-add-ingredients">
                 </section>
               </div>
