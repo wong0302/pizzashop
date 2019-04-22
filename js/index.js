@@ -930,7 +930,48 @@ async function addIngredients(ev) {
 
      totalsSection.appendChild(pizzaPrice);
      totalsSection.appendChild(extrasPrice);
+     orderSummaryList(); // move later
  }
+
+  /**************************
+  CREATE ORDER SUMMARY LIST              
+ **************************/
+
+function orderSummaryList() {
+    let orderList = document.getElementById('orderList');
+    // get request /api/orders
+    // get list of pizzas in order, create forEach loop
+    let orderItem = document.createElement('li');
+    let itemPrice = document.createElement('span');
+    let btnSection = document.createElement('span');
+    let editBtn = document.createElement('button');
+    let deleteBtn = document.createElement('button');
+    let underItem = document.createElement('li');
+    let ingredient = document.createElement('small');
+
+    orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
+    editBtn.setAttribute('class', 'btn btn-primary btn-sm');
+    editBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
+    deleteBtn.setAttribute('type', 'button')
+    underItem.setAttribute('class', 'list-group-item border-0');
+    ingredient.setAttribute('class', 'text-muted');
+
+    orderItem.textContent = 'Pizza Name';
+    itemPrice.textContent = '$0.00';
+    editBtn.textContent = 'Edit';
+    deleteBtn.textContent = 'X';
+    ingredient.textContent = 'list of ingredients here'
+
+    orderList.appendChild(orderItem);
+    orderItem.appendChild(itemPrice);
+    orderItem.appendChild(btnSection);
+    btnSection.appendChild(editBtn);
+    btnSection.appendChild(deleteBtn);
+    orderItem.appendChild(underItem);
+    underItem.appendChild(ingredient);
+    
+}
 
  /**************************
      STAFF MEMBER NAV               
