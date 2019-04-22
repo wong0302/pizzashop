@@ -7,6 +7,8 @@ const User = require('../models/User')
 const authorize = require('../middleware/auth')
 const isStaff = require ('../middleware/isStaff')
 
+
+//TODO: Fix staff orders check
 //TODO: Test routes
 //TODO: Test sanitization
 
@@ -41,7 +43,7 @@ router.get('/:id', authorize, async (req, res, next) => {
   }
 }) //Tested on 20/4, with Authorization, working, Akel.
 
-router.post('/', sanitizeBody, async (req, res, next) => {
+router.post('/', authorize, sanitizeBody, async (req, res, next) => {
   new Order(req.sanitizedBody)
     .save()
     .then(newOrder => res.status(201).send({data: newOrder}))

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Pizza = require('./Pizza')
+const Ingredient = require('./Ingredient')
 
 const orderSchema = new mongoose.Schema({
     customer: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -30,11 +31,14 @@ orderSchema.pre('save', async function (next) {
     this.price = pizzaCost
     this.tax = tax
     this.total = pizzaCost + deliveryCharge + tax
+
+    if(this.status === 'ordered') await orderSchema.methods.reduceIngredients(this)
+
     next()
 })
 
 orderSchema.post('findOneAndUpdate', async function (doc, next){
-    //console.log("post hook is run, doc is", doc);
+    console.log("post hook is run, doc is", doc);
     await doc.populate('pizzas').execPopulate()
     await doc.save()
     next()
@@ -56,6 +60,20 @@ orderSchema.methods.calcPizzaCost = async function(order) {
     return pizzaCost
 }
 
+orderSchema.methods.reduceIngredients = async function(order) {
+    await order.populate('pizzas').execPopulate()
+
+    let ingredients = await order.pizzas.map(pizza => {
+        return [...pizza.ingredients, ...pizza.extraToppings]
+    })
+
+    let allIngredients = [].concat.apply([], ingredients);
+
+     allIngredients.forEach(async(ingredient) => {await Ingredient.update({ _id:{$in: ingredient}}, {$inc: { quantity: -1}})})
+   // await Ingredient.updateMany({ _id:{$in: allIngredients}}, {$inc: { quantity: -1}})
+    return;
+}
+
 orderSchema.statics.getOrders = async function(userId, orders) {
     const userOrders = orders.filter(order => {
         if(order.customer == userId){
@@ -64,6 +82,7 @@ orderSchema.statics.getOrders = async function(userId, orders) {
     })
     return userOrders
 }
+
 
 const Model = mongoose.model('Order', orderSchema)
 module.exports = Model
