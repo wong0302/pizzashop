@@ -46,6 +46,8 @@
      dropdownSizes.forEach(size => {
      size.addEventListener('click', selectSize);
     })
+
+    document.getElementById('add-button').addEventListener('click', createOrderDraft);
  }
  /**************************
        PASSWORD CHANGE
@@ -984,7 +986,7 @@ function updateOrderPrams(pizza){
     totalsSection.appendChild(pizzaPrice);
    // totalsSection.appendChild(extrasPrice);
     orderSummaryList();
-    selectSize(); 
+    
 }
 
 // size dropdown                                    
@@ -996,6 +998,48 @@ function selectSize(ev) {
     selectedSize.textContent = ev.currentTarget.textContent;
     
     }
+
+/**************************
+     CREATE ORDER DRAFT               
+ **************************/
+
+ function createOrderDraft() {
+    // user input
+    // customer is currentUser variable
+    console.log('This bitch be buying pizzas', currentUser);
+    //let orderType = document.querySelector('input[name="Radios"]:checked').value;
+    //console.log(orderType,'hjkashxjas');
+    let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');;
+
+    //define endpoint for request
+    let url = 'http://127.0.0.1:3030/api/orders';
+
+    let userInput = {
+        customer: currentUser.data._id,
+        //type: orderType,
+        pizzas: pizzaOrder
+    };
+    let jsonData = JSON.stringify(userInput);
+
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+    let headers = new Headers();
+
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+    console.log("Order Input:", userInput);
+
+    //create request object
+    let req = new Request(url, {
+        headers: headers,
+        method: 'POST',
+        mode: 'cors',
+        body: jsonData
+    });
+
+    //fetch
+    fetchAPI(req);
+
+}
 
 
 /**************************
