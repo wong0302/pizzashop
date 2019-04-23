@@ -41,6 +41,11 @@
      document.querySelector('.change-pswd-btn').addEventListener('click', onClickChangePassword);
      document.getElementById('showPassword').addEventListener('click', showPassword);
      document.getElementById('savePassword').addEventListener('click', checkPassword);
+
+     let dropdownSizes = document.querySelectorAll('.sizes');
+     dropdownSizes.forEach(size => {
+     size.addEventListener('click', selectSize);
+    })
  }
  /**************************
        PASSWORD CHANGE
@@ -966,28 +971,13 @@ function updateOrderPrams(pizza){
     selectSize(); 
 }
 
-// size dropdown                 // Probably should fix this - sry Lauren :)   ALSO.. if we keep this please delete this comment
+// size dropdown                                    
 
-function selectSize() {
+function selectSize(ev) {
+
     let selectedSize = document.querySelector('.sizeBtn');
-    let small = document.querySelector('.sm-size');
-    let medium = document.querySelector('.md-size');
-    let large = document.querySelector('.lg-size');
-    let xl = document.querySelector('.xl-size');
-    selectedSize.innerHTML = "Size";                    
-    
-    small.addEventListener('click', () => {
-        selectedSize.textContent = 'Small';
-    });
-    medium.addEventListener('click', () => {
-        selectedSize.textContent = 'Medium';
-    });
-    large.addEventListener('click', () => {
-        selectedSize.textContent = 'Large';
-    });
-    xl.addEventListener('click', () => {
-        selectedSize.textContent = 'Extra Large';
-    });
+    selectedSize.innerHTML = "Size"; 
+    selectedSize.textContent = ev.currentTarget.textContent;
     
     }
 
