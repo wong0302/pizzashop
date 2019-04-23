@@ -302,9 +302,11 @@ async function addIngredients(ev) {
 
     console.log('img url:', imgUrl);
     //Check if Gluten Free is Checked & Set Value
-    let checkVal = undefined;
     if(document.getElementById('isGlutenFree').checked){
         checkVal = true;
+    }
+    if(!document.getElementById('isGlutenFree').checked){
+        checkVal = "false";
     }
     //Determine Categorie Picked
     let categoriesSelected = document.getElementById('categories');
@@ -647,11 +649,15 @@ function createPizzaIngredients(ingredientsList){
     let imgUrl = document.getElementById('pizza-img-input').value
     //Check if Gluten Free is Checked & Set Value
     
-    let checkValue = undefined;
+   // let checkValue = undefined;
     if(document.getElementById('pizzaGluten').checked){
         checkValue = true;
     }
-    console.log(checkValue);
+
+    if(!document.getElementById('pizzaGluten').checked){
+        checkValue = "false";
+    }
+
 
     console.log('img url:', imgUrl);
 
