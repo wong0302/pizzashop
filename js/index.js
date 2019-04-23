@@ -963,7 +963,34 @@ function updateOrderPrams(pizza){
     totalsSection.appendChild(pizzaPrice);
     totalsSection.appendChild(extrasPrice);
     orderSummaryList();
+    selectSize(); 
 }
+
+// size dropdown                 // Probably should fix this - sry Lauren :)   ALSO.. if we keep this please delete this comment
+
+function selectSize() {
+    let selectedSize = document.querySelector('.sizeBtn');
+    let small = document.querySelector('.sm-size');
+    let medium = document.querySelector('.md-size');
+    let large = document.querySelector('.lg-size');
+    let xl = document.querySelector('.xl-size');
+    selectedSize.innerHTML = "Size";                    
+    
+    small.addEventListener('click', () => {
+        selectedSize.textContent = 'Small';
+    });
+    medium.addEventListener('click', () => {
+        selectedSize.textContent = 'Medium';
+    });
+    large.addEventListener('click', () => {
+        selectedSize.textContent = 'Large';
+    });
+    xl.addEventListener('click', () => {
+        selectedSize.textContent = 'Extra Large';
+    });
+    
+    }
+
 
 /**************************
      ORDER TOTAL               
