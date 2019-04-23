@@ -300,11 +300,12 @@ async function addIngredients(ev) {
         imgUrl = document.getElementById('ing-img-input').value
 
 
-        console.log('img url:', imgUrl);
+    console.log('img url:', imgUrl);
     //Check if Gluten Free is Checked & Set Value
-    let checkVal = document.getElementById('isGlutenFree').checked
-    console.log(checkVal);
-
+    let checkVal = undefined;
+    if(document.getElementById('isGlutenFree').checked){
+        checkVal = true;
+    }
     //Determine Categorie Picked
     let categoriesSelected = document.getElementById('categories');
     if (categoriesSelected.selectedIndex == 0) {
@@ -645,15 +646,20 @@ function createPizzaIngredients(ingredientsList){
     //let price = document.getElementById('pizzaPrice').value
     let imgUrl = document.getElementById('pizza-img-input').value
     //Check if Gluten Free is Checked & Set Value
-    let checkedGluten = document.getElementById('pizzaGluten').checked
-    console.log(checkedGluten);
+    
+    let checkValue = undefined;
+    if(document.getElementById('pizzaGluten').checked){
+        checkValue = true;
+    }
+    console.log(checkValue);
+
     console.log('img url:', imgUrl);
 
     let userInput = {
         name: name,
        // price: price,
         imageUrl: imgUrl,
-        isGlutenFree: checkedGluten,
+        isGlutenFree: checkValue,
         ingredients: pizzaIngredientInfo
     };
 
