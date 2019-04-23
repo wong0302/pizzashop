@@ -862,16 +862,17 @@ function orderOptionEdit(ingredientsList) {
         checkboxDivOrder.setAttribute('class', 'form-check');
         checkboxOrder.setAttribute('id', 'user-order-ingredients');
         checkboxOrder.setAttribute('data-id', ingredients._id);
-        checkboxOrder.addEventListener('change', function() {
-            if(event.target.checked) {
-                extraToppingsArray.push(checkboxOrder.getAttribute('data-id'));
-            }
-            if(!event.target.checked) {
-                extraToppingsArray.pop(checkboxOrder.getAttribute('data-id'));
-            }
-            //FOR TESTING: Remove & Replace with Order Btn.
-            pizzaOrderTotal(); 
-        });
+        //checkboxOrder.setAttribute('data-price', ingredients.price);
+        // checkboxOrder.addEventListener('change', function() {
+        //     if(event.target.checked) {
+        //         extraToppingsArray.push(checkboxOrder.getAttribute('data-id'));
+        //     }
+        //     if(!event.target.checked) {
+        //         extraToppingsArray.pop(checkboxOrder.getAttribute('data-id'));
+        //     }
+        //     //FOR TESTING: Remove & Replace with Order Btn.
+        //     pizzaOrderTotal(); 
+        // });
         checkboxOrder.setAttribute('class', 'ingredient-check-input');
         checkboxOrder.setAttribute('type', 'checkbox');
         checkboxOrder.setAttribute('value', ingredients.name);
@@ -884,8 +885,22 @@ function orderOptionEdit(ingredientsList) {
         checkboxDivOrder.appendChild(ingredientNameOrder);
       //  console.log('MOREEEEEEE ID:', ingredients._id);
 
+      checkboxOrder.addEventListener('click', () => {
+        onCheckIngredient(ingredients._id, ingredients.price, checkboxOrder.checked);
+    });
+
     })
 }
+
+function onCheckIngredient(price, checked){
+    let ele = document.querySelector('#total-cost-number')
+    let cost = parseFloat(ele.textContent);
+    if(checked) {
+        ele.textContent = `${cost + price} `;
+    } else if (!checked) {
+        ele.textContent = `${cost - price} `;
+    }
+ }
 
 /**************************
 GET PIZZA DETAILS FOR ORDER
@@ -911,7 +926,6 @@ async function getOrderedPizza(id) {
 **************************/
 
 function updateOrderPrams(pizza){
-    console.log("LAUREN TESTING MORE SHITTTTT YYYASSSSS:", pizza);
     let section = document.querySelector('.order-details');
     section.innerHTML = "";
     let pizzaName = document.createElement('h5');
@@ -957,16 +971,18 @@ function updateOrderPrams(pizza){
     isGlutenFree.appendChild(smallText);
 
     let totalsSection = document.querySelector('.add-to-order');
+    totalsSection.innerHTML = "";
+
     let pizzaPrice = document.createElement('h1');
-    let extrasPrice = document.createElement('p');
+    //let extrasPrice = document.createElement('p');
     pizzaPrice.setAttribute('id', 'pizzaPriceTitle');
     pizzaPrice.setAttribute('data-id', pizza.data._id);
 
-    pizzaPrice.textContent = `Total: $${pizza.data.price} + extras`;
-    extrasPrice.textContent = `Extras: extras price variable (all added together)`;
+    pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${pizza.data.price}</span + extras`;
+    //extrasPrice.textContent = `Extras: extras price variable (all added together)`;
 
     totalsSection.appendChild(pizzaPrice);
-    totalsSection.appendChild(extrasPrice);
+   // totalsSection.appendChild(extrasPrice);
     orderSummaryList();
     selectSize(); 
 }
@@ -986,17 +1002,17 @@ function selectSize(ev) {
      ORDER TOTAL               
 **************************/
 
-function pizzaOrderTotal(){
+// function pizzaOrderTotal(){
 
-    //CURRENT USER
-    console.log("current:", currentUser);
+//     //CURRENT USER
+//     console.log("current:", currentUser);
 
-    //USER EDITED EXTRA TOPPINGS IDS
-    console.log("Ingredient ID's:", extraToppingsArray);
-    //PIZZA ID FOR OBJECTID REF
-    let pizzaId = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
-    console.log("Pizza ID's", pizzaId);
-}
+//     //USER EDITED EXTRA TOPPINGS IDS
+//     console.log("Ingredient ID's:", extraToppingsArray);
+//     //PIZZA ID FOR OBJECTID REF
+//     let pizzaId = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
+//     console.log("Pizza ID's", pizzaId);
+// }
 
 
  /**************************
