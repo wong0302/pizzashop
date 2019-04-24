@@ -945,7 +945,7 @@ function orderOptionEdit(ingredient) {
     checkboxDiv.appendChild(checkbox);
 
     checkbox.addEventListener('click', () => {
-        onCheckIngredient(ingredient._id, ingredient.price, checkbox.checked);
+        onCheckIngredient(ingredient.price, checkbox.checked);
     });
 
  }
