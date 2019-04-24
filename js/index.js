@@ -80,18 +80,22 @@
      // if field is left empty
      if (password1 == '')
          alert("Please enter Password");
+        // userNotification("info","Password Enter Password");
      // if field is left empty 
      else if (password2 == '')
          alert("Please enter confirm password")
+         //userNotification("info","Please enter confirm password");
      // passwords do not match     
      else if (password1 != password2) {
          alert("\nPassword did not match: Please try again...")
+         //userNotification("warning","Password did not Match: Try Again");
          return false;
      }
      // passwords match
      else {
          changePassword();
-         alert("Password Matched!")
+         //alert("Password Matched!")
+         userNotification("success","Password Changed");
          return true;
      }
  }
@@ -147,7 +151,7 @@
         REGISTRATION
 **************************/
 
- function sendSignUpInfo(ev) {
+ async function sendSignUpInfo(ev) {
      ev.preventDefault();
      //user input
      let userFirstName = document.getElementById('firstName').value,
@@ -186,7 +190,9 @@
 
      //body is the data that goes to the API
      //now do the fetch
-     fetchAPI(req);
+     let signedUp = await fetchAPI(req);
+     let signMessage = `Thanks for Signing up ${firstName}`
+     userNotification("success", signMessage);
  }
 
  function sendSignInInfo(ev) {
@@ -355,6 +361,8 @@ async function addIngredients(ev) {
     let ingredientsList = await fetchAPI(req);
     console.log(ingredientsList);
     getIngredients();
+    let message = `${mode} ${ingredientsList.data.name}`;
+    userNotification("info", message);
  }
 
  /**************************
@@ -476,6 +484,9 @@ async function getIngredients() {
 
     let ingredientsList = await fetchAPI(req);
     //console.log(ingredientsList);
+    getPizzas(deleteIngredients);
+    let delMessage = `Deleted: ${ingredientsList.data.name}`;
+    userNotification("info", delMessage);
 
     getIngredients(ingredientsList);
  }
@@ -699,6 +710,8 @@ function createPizzaIngredients(ingredientsList){
     console.log(pizzaUpdate);
     pizzaIngredientInfo.splice(0);
     getPizzas();
+    let message = `${mode} ${pizzaUpdate.data.name}`;
+    userNotification("info", message);
  }
 
  /**************************
@@ -744,10 +757,11 @@ function createPizzaIngredients(ingredientsList){
         method: 'DELETE',
         mode: 'cors'
     });
-    await fetchAPI(req);
-
+    let delPizza = await fetchAPI(req);
     getPizzas(deleteIngredients);
- }
+    let delMessage = `Deleted: ${delPizza.data.name}`;
+    userNotification("info", delMessage);
+}
 
 
  /**************************
@@ -1197,11 +1211,12 @@ function orderSummaryList() {
      FETCH FUNCTION 
  **************************/
 
- function fetchAPI(req) {
+function fetchAPI(req) {
     return fetch(req)
         .then(response => {
             if (!response.ok) {
-                // userNotification();
+                let errmessage = `${response.status} ${response.statusText}`;
+                userNotification("warning", errmessage);
                 throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
             } else {
                 // userNotification();
@@ -1217,34 +1232,38 @@ function orderSummaryList() {
  /**************************
      USER NOTIFICATIONS
  **************************/
+//Add Set Timeout when you have wifi 
 
-function userNotification() {
-    let alertSection = document.querySelector('.user-notification');
-    let alertDiv = document.createElement('div');
-    
-    alertDiv.setAttribute('role', 'alert');
-    
+function userNotification(type, message) {
+    let alertSection = document.getElementById('userNotifications');
+    let alertDiv = document.createElement('p');
+    let alertHeading = document.createElement('h4');
+
+    //setTimeout((function () {
+    if(type === "success"){
+        alertSection.setAttribute('class', 'alert alert-success alert-dismissible fade show');
+        alertHeading.textContent = 'BAM! Look at that! You wacked, we stacked!';
+    }
+
+    if(type === "warning"){
+        alertSection.setAttribute('class', 'alert alert-warning alert-dismissible fade show');
+        alertHeading.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
+    }
+
+    if(type === "info"){
+        alertSection.setAttribute('class','alert alert-primary');
+        alertHeading.textContent = 'HOLA from team WACKELSTACKEL!';
+    }
+
+    alertDiv.textContent = message + "!";
     // create else if statement 
+       
+        //this.parentElement.removeChild(this);
+    //}).bind(div), 500);
     
-    // setTimeout((function () {
-    //     // insert message instructions
-    //     this.parentElement.removeChild(this);
-    // }).bind(div), 500);
-    
-    // Info message:
-    alertDiv.classList.add('alert alert-primary');
-    alertDiv.textContent = 'HOLA from team WACKELSTACKEL!';
-    
-    // Success message:
-    alertDiv.classList.add('alert alert-success');
-    alertDiv.textContent = 'BAM! Look at that! You wacked, we stacked!';
-    
-    // Error message: 
-    alertDiv.classList.add('alert alert-warning');
-    alertDiv.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
-    
+    alertSection.appendChild(alertHeading);
     alertSection.appendChild(alertDiv);
-    
+
     }
 
  /**************************
