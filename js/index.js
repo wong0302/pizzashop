@@ -45,24 +45,29 @@
 
      let dropdownSizes = document.querySelectorAll('.sizes');
      dropdownSizes.forEach(size => {
-     size.addEventListener('click', selectSize);
-    })
+         size.addEventListener('click', selectSize);
+     })
 
-    //Add to cart button
-    document.getElementById('add-button').addEventListener('click', () => {
-        //check if a draft exists. Createe order if not, else update order.
-        let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
-        let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
-        pizzaCart.push(pizzaOrder);
+     //Add to cart button
+     document.getElementById('add-button').addEventListener('click', () => {
+         //check if a draft exists. Createe order if not, else update order.
+         let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
+         let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
+         pizzaCart.push(pizzaOrder);
 
-        console.log("order Id", orderId);
-        orderId == null ? createOrderDraft() : updateOrder('add')
-    });
+         console.log("order Id", orderId);
+         orderId == null ? createOrderDraft() : updateOrder('add')
+     });
 
-    //Checkout button
-    document.querySelector('#checkoutButton').addEventListener('click', () => {
-        updateOrder('checkout')
-    });
+     //Checkout button
+     document.querySelector('#checkoutButton').addEventListener('click', () => {
+         updateOrder('checkout')
+     });
+
+     // event listener for pick up and delivery radios                      
+     document.querySelectorAll('.orderType').forEach(type => {
+         type.addEventListener('click', addressForm);
+     })
  }
  /**************************
        PASSWORD CHANGE
@@ -95,11 +100,11 @@
      // if field is left empty
      if (password1 == '')
          alert("Please enter Password");
-        // userNotification("info","Password Enter Password");
+     // userNotification("info","Password Enter Password");
      // if field is left empty 
      else if (password2 == '')
          alert("Please enter confirm password")
-         //userNotification("info","Please enter confirm password");
+     //userNotification("info","Please enter confirm password");
      // passwords do not match     
      else if (password1 != password2) {
          alert("\nPassword did not match: Please try again...")
@@ -110,7 +115,7 @@
      else {
          changePassword();
          //alert("Password Matched!")
-         userNotification("success","Password Changed");
+         userNotification("success", "Password Changed");
          return true;
      }
  }
@@ -162,9 +167,9 @@
 
  }
 
-/**************************
-        REGISTRATION
-**************************/
+ /**************************
+         REGISTRATION
+ **************************/
 
  async function sendSignUpInfo(ev) {
      ev.preventDefault();
@@ -264,9 +269,9 @@
 
  }
 
-/**************************
-      GET CURRENT USER
-**************************/
+ /**************************
+       GET CURRENT USER
+ **************************/
  function getCurrentUser(authToken) {
      let url = 'http://127.0.0.1:3030/auth/users/me';
 
@@ -297,110 +302,110 @@
          })
  }
 
-/**************************
-        SIGN OUT
-**************************/
-function onSignOut(){
-    localStorage.clear();
-    let notSignedIn = document.querySelectorAll('.notSignedIn');
-        notSignedIn.forEach(item => {
-            item.style.display = 'block';
-        })
-        let signedOut = document.querySelectorAll('.signedIn');
-        signedOut.forEach(item => {
-            item.style.display = 'none';
-        })
-        let adminSignedOut = document.querySelectorAll('.adminSignedIn');
-        adminSignedOut.forEach(item => {
-            item.style.display = 'none';
-        })
-}
+ /**************************
+         SIGN OUT
+ **************************/
+ function onSignOut() {
+     localStorage.clear();
+     let notSignedIn = document.querySelectorAll('.notSignedIn');
+     notSignedIn.forEach(item => {
+         item.style.display = 'block';
+     })
+     let signedOut = document.querySelectorAll('.signedIn');
+     signedOut.forEach(item => {
+         item.style.display = 'none';
+     })
+     let adminSignedOut = document.querySelectorAll('.adminSignedIn');
+     adminSignedOut.forEach(item => {
+         item.style.display = 'none';
+     })
+ }
 
-/**************************
-     ADD INGREDIENTS
-**************************/
+ /**************************
+      ADD INGREDIENTS
+ **************************/
 
-async function addIngredients(ev) {
-    ev.preventDefault();
-    let productName = document.getElementById('productName').value,
-        price = document.getElementById('price').value,
-        quantity = document.getElementById('quantity').value;
-        imgUrl = document.getElementById('ing-img-input').value
+ async function addIngredients(ev) {
+     ev.preventDefault();
+     let productName = document.getElementById('productName').value,
+         price = document.getElementById('price').value,
+         quantity = document.getElementById('quantity').value;
+     imgUrl = document.getElementById('ing-img-input').value
 
 
-    console.log('img url:', imgUrl);
-    //Check if Gluten Free is Checked & Set Value
-    if(document.getElementById('isGlutenFree').checked){
-        checkVal = true;
-    }
-    if(!document.getElementById('isGlutenFree').checked){
-        checkVal = "false";
-    }
-    //Determine Categorie Picked
-    let categoriesSelected = document.getElementById('categories');
-    if (categoriesSelected.selectedIndex == 0) {
-        console.log('select one answer');
+     console.log('img url:', imgUrl);
+     //Check if Gluten Free is Checked & Set Value
+     if (document.getElementById('isGlutenFree').checked) {
+         checkVal = true;
+     }
+     if (!document.getElementById('isGlutenFree').checked) {
+         checkVal = "false";
+     }
+     //Determine Categorie Picked
+     let categoriesSelected = document.getElementById('categories');
+     if (categoriesSelected.selectedIndex == 0) {
+         console.log('select one answer');
 
-    } else {
-        categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
-    }
+     } else {
+         categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
+     }
 
-    let userInput = {
-        name: productName,
-        price: price,
-        quantity: quantity,
-        isGlutenFree: checkVal,
-        imageUrl: imgUrl,
-        categories: categories
-    };
+     let userInput = {
+         name: productName,
+         price: price,
+         quantity: quantity,
+         isGlutenFree: checkVal,
+         imageUrl: imgUrl,
+         categories: categories
+     };
 
-    let jsonData = JSON.stringify(userInput);
+     let jsonData = JSON.stringify(userInput);
 
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    console.log("mode is", mode);
-    //define the end point for the request
-    let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
-    let req = new Request(url, {
-        headers: headers,
-        method: mode == 'add' ? 'POST' : 'PATCH',
-        mode: 'cors',
-        body: jsonData
-    });
-    //body is the data that goes to the API
-    //now do the fetch
-    let ingredientsList = await fetchAPI(req);
-    console.log(ingredientsList);
-    getIngredients();
-    let message = `${mode} ${ingredientsList.data.name}`;
-    userNotification("info", message);
+     console.log("mode is", mode);
+     //define the end point for the request
+     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
+     let req = new Request(url, {
+         headers: headers,
+         method: mode == 'add' ? 'POST' : 'PATCH',
+         mode: 'cors',
+         body: jsonData
+     });
+     //body is the data that goes to the API
+     //now do the fetch
+     let ingredientsList = await fetchAPI(req);
+     console.log(ingredientsList);
+     getIngredients();
+     let message = `${mode} ${ingredientsList.data.name}`;
+     userNotification("info", message);
  }
 
  /**************************
      GET INGREDIENTS
 **************************/
 
-async function getIngredients() {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    let url = 'http://127.0.0.1:3030/api/ingredients';
-    let req = new Request(url, {
-        headers: headers,
-        method: 'GET',
-        mode: 'cors'
-    });
+ async function getIngredients() {
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     let url = 'http://127.0.0.1:3030/api/ingredients';
+     let req = new Request(url, {
+         headers: headers,
+         method: 'GET',
+         mode: 'cors'
+     });
 
-    let ingredientsList = await fetchAPI(req);
-    //console.log(ingredientsList);
+     let ingredientsList = await fetchAPI(req);
+     //console.log(ingredientsList);
 
-    createIngredientCard(ingredientsList);
-    categories(ingredientsList);
-    createPizzaIngredients(ingredientsList);
-}
+     createIngredientCard(ingredientsList);
+     categories(ingredientsList);
+     createPizzaIngredients(ingredientsList);
+ }
 
  /**************************
     CREATE INGREDIENT ROWS
@@ -454,57 +459,57 @@ async function getIngredients() {
      ON EDIT INGREDIENTS
  **************************/
  async function onEditIngredients(id) {
-    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'GET',
-        mode: 'cors'
-    });
-    let ingredients = await fetchAPI(req);
-    document.getElementById('edit-add-ingredients-title').innerHTML = "Edit Ingredients";
+     let req = new Request(url, {
+         headers: headers,
+         method: 'GET',
+         mode: 'cors'
+     });
+     let ingredients = await fetchAPI(req);
+     document.getElementById('edit-add-ingredients-title').innerHTML = "Edit Ingredients";
 
-    document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
-    document.getElementById('productName').value = ingredients.data.name;
-    document.getElementById('price').value = ingredients.data.price;
-    document.getElementById('quantity').value = ingredients.data.quantity;
-    let ingredValue = ingredients.data.categories;
-    document.querySelector('#categories').value = ingredValue;
-    document.getElementById('isGlutenFree').value = ingredients.data.isGlutenFree;
-    console.log(document.getElementById('ingredients-add-edit'));
+     document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
+     document.getElementById('productName').value = ingredients.data.name;
+     document.getElementById('price').value = ingredients.data.price;
+     document.getElementById('quantity').value = ingredients.data.quantity;
+     let ingredValue = ingredients.data.categories;
+     document.querySelector('#categories').value = ingredValue;
+     document.getElementById('isGlutenFree').value = ingredients.data.isGlutenFree;
+     console.log(document.getElementById('ingredients-add-edit'));
 
-    mode = 'edit';
+     mode = 'edit';
  }
 
  /**************************
      DELETE INGREDIENTS
  **************************/
  async function deleteIngredients(id) {
-    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'DELETE',
-        mode: 'cors'
-    });
+     let req = new Request(url, {
+         headers: headers,
+         method: 'DELETE',
+         mode: 'cors'
+     });
 
-    let ingredientsList = await fetchAPI(req);
-    //console.log(ingredientsList);
-    getPizzas(deleteIngredients);
-    let delMessage = `Deleted: ${ingredientsList.data.name}`;
-    userNotification("info", delMessage);
+     let ingredientsList = await fetchAPI(req);
+     //console.log(ingredientsList);
+     getPizzas(deleteIngredients);
+     let delMessage = `Deleted: ${ingredientsList.data.name}`;
+     userNotification("info", delMessage);
 
-    getIngredients(ingredientsList);
+     getIngredients(ingredientsList);
  }
 
  /**************************
@@ -596,11 +601,11 @@ async function getIngredients() {
 
          pizzaName.textContent = pizza.name;
 
-        //  let ingredients = pizza.ingredients.map(ingredient => {
-        //      return ingredient.name;
-        //  })
+         //  let ingredients = pizza.ingredients.map(ingredient => {
+         //      return ingredient.name;
+         //  })
 
-        //  pizzaIngredients.textContent = ingredients.join(", ");
+         //  pizzaIngredients.textContent = ingredients.join(", ");
          // Gluten free
          if (pizza.isGlutenFree == true) {
              smallText.textContent = 'Gluten Free';
@@ -642,143 +647,143 @@ async function getIngredients() {
 CHOOSE PIZZA INGREDIENTS
 **************************/
 
-function createPizzaIngredients(ingredientsList){
-    ingredientsList.data.forEach(item => {
-       let addSection = document.querySelector('.admin-add-ingredients');
-       let checkboxDiv = document.createElement('div');
-       let checkbox = document.createElement('input');
-       let ingredientName = document.createElement('label');
+ function createPizzaIngredients(ingredientsList) {
+     ingredientsList.data.forEach(item => {
+         let addSection = document.querySelector('.admin-add-ingredients');
+         let checkboxDiv = document.createElement('div');
+         let checkbox = document.createElement('input');
+         let ingredientName = document.createElement('label');
 
-       ingredientName.textContent = item.name;
+         ingredientName.textContent = item.name;
 
-       checkboxDiv.setAttribute('class', 'form-check');
-       checkbox.setAttribute('class', 'ingredient-input');
-       checkbox.setAttribute('type', 'checkbox');
-       checkbox.setAttribute('value', item.name);
-       checkbox.setAttribute('data-id', item._id);
-       checkbox.addEventListener('change', function() {
-        if(event.target.checked) {
-            pizzaIngredientInfo.push(item._id);
-        }
-        if(!event.target.checked) {
-            pizzaIngredientInfo.pop(item._id);
-        }
-    });
-       ingredientName.setAttribute('class', 'form-check-label');
-       ingredientName.setAttribute('for', 'defaultCheck');
+         checkboxDiv.setAttribute('class', 'form-check');
+         checkbox.setAttribute('class', 'ingredient-input');
+         checkbox.setAttribute('type', 'checkbox');
+         checkbox.setAttribute('value', item.name);
+         checkbox.setAttribute('data-id', item._id);
+         checkbox.addEventListener('change', function () {
+             if (event.target.checked) {
+                 pizzaIngredientInfo.push(item._id);
+             }
+             if (!event.target.checked) {
+                 pizzaIngredientInfo.pop(item._id);
+             }
+         });
+         ingredientName.setAttribute('class', 'form-check-label');
+         ingredientName.setAttribute('for', 'defaultCheck');
 
-       addSection.appendChild(checkboxDiv);
-       checkboxDiv.appendChild(checkbox);
-       checkboxDiv.appendChild(ingredientName);
-   })
-}
+         addSection.appendChild(checkboxDiv);
+         checkboxDiv.appendChild(checkbox);
+         checkboxDiv.appendChild(ingredientName);
+     })
+ }
  /**************************
          ADD PIZZA
  **************************/
  async function addPizza(ev) {
-    ev.preventDefault();
-    console.log(pizzaIngredientInfo);
-    let name = document.getElementById('pizzaName').value
-    //let price = document.getElementById('pizzaPrice').value
-    let imgUrl = document.getElementById('pizza-img-input').value
-    //Check if Gluten Free is Checked & Set Value
-    
-   // let checkValue = undefined;
-    if(document.getElementById('pizzaGluten').checked){
-        checkValue = true;
-    }
+     ev.preventDefault();
+     console.log(pizzaIngredientInfo);
+     let name = document.getElementById('pizzaName').value
+     //let price = document.getElementById('pizzaPrice').value
+     let imgUrl = document.getElementById('pizza-img-input').value
+     //Check if Gluten Free is Checked & Set Value
 
-    if(!document.getElementById('pizzaGluten').checked){
-        checkValue = "false";
-    }
+     // let checkValue = undefined;
+     if (document.getElementById('pizzaGluten').checked) {
+         checkValue = true;
+     }
+
+     if (!document.getElementById('pizzaGluten').checked) {
+         checkValue = "false";
+     }
 
 
-    console.log('img url:', imgUrl);
+     console.log('img url:', imgUrl);
 
-    let userInput = {
-        name: name,
-       // price: price,
-        imageUrl: imgUrl,
-        isGlutenFree: checkValue,
-        ingredients: pizzaIngredientInfo
-    };
+     let userInput = {
+         name: name,
+         // price: price,
+         imageUrl: imgUrl,
+         isGlutenFree: checkValue,
+         ingredients: pizzaIngredientInfo
+     };
 
-    let jsonData = JSON.stringify(userInput);
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let jsonData = JSON.stringify(userInput);
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    //console.log("mode is", mode);
-    //define the end point for the request
-    let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
-    let req = new Request(url, {
-        headers: headers,
-        method: mode == 'add' ? 'POST' : 'PATCH',
-        mode: 'cors',
-        body: jsonData
-    });
+     //console.log("mode is", mode);
+     //define the end point for the request
+     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
+     let req = new Request(url, {
+         headers: headers,
+         method: mode == 'add' ? 'POST' : 'PATCH',
+         mode: 'cors',
+         body: jsonData
+     });
 
-    //body is the data that goes to the API
-    //now do the fetch
-    let pizzaUpdate = await fetchAPI(req);
-    console.log(pizzaUpdate);
-    pizzaIngredientInfo.splice(0);
-    getPizzas();
-    let message = `${mode} ${pizzaUpdate.data.name}`;
-    userNotification("info", message);
+     //body is the data that goes to the API
+     //now do the fetch
+     let pizzaUpdate = await fetchAPI(req);
+     console.log(pizzaUpdate);
+     pizzaIngredientInfo.splice(0);
+     getPizzas();
+     let message = `${mode} ${pizzaUpdate.data.name}`;
+     userNotification("info", message);
  }
 
  /**************************
         ON EDIT PIZZA
  **************************/
  async function onEditPizza(id) {
-    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'GET',
-        mode: 'cors'
-    });
-    let pizza = await fetchAPI(req);
-    document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
+     let req = new Request(url, {
+         headers: headers,
+         method: 'GET',
+         mode: 'cors'
+     });
+     let pizza = await fetchAPI(req);
+     document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
 
-    document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
-    document.getElementById('pizzaName').value = pizza.data.name;
-   // document.getElementById('pizzaPrice').value = pizza.data.price;
-    document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
+     document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
+     document.getElementById('pizzaName').value = pizza.data.name;
+     // document.getElementById('pizzaPrice').value = pizza.data.price;
+     document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
 
-    console.log(document.getElementById('pizzas-add-edit'));
+     console.log(document.getElementById('pizzas-add-edit'));
 
-    mode = 'edit';
-}
+     mode = 'edit';
+ }
  /**************************
          DELETE PIZZA
  **************************/
  async function deletePizza(id) {
-    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'DELETE',
-        mode: 'cors'
-    });
-    let delPizza = await fetchAPI(req);
-    getPizzas(deleteIngredients);
-    let delMessage = `Deleted: ${delPizza.data.name}`;
-    userNotification("info", delMessage);
-}
+     let req = new Request(url, {
+         headers: headers,
+         method: 'DELETE',
+         mode: 'cors'
+     });
+     let delPizza = await fetchAPI(req);
+     getPizzas(deleteIngredients);
+     let delMessage = `Deleted: ${delPizza.data.name}`;
+     userNotification("info", delMessage);
+ }
 
 
  /**************************
@@ -852,389 +857,406 @@ function createPizzaIngredients(ingredientsList){
      })
  }
 
-/**************************
-        PATCH USERS
- **************************/
+ /**************************
+         PATCH USERS
+  **************************/
  async function toggleStaff(id, check) {
-    let url = `http://127.0.0.1:3030/auth/users/${id}`;
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let url = `http://127.0.0.1:3030/auth/users/${id}`;
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
-    let userInput = {
-        isStaff: check === true ? 'true' : 'false'
-    };
+     let userInput = {
+         isStaff: check === true ? 'true' : 'false'
+     };
 
-    let jsonData = JSON.stringify(userInput);
+     let jsonData = JSON.stringify(userInput);
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'PATCH',
-        mode: 'cors',
-        body: jsonData
-    });
+     let req = new Request(url, {
+         headers: headers,
+         method: 'PATCH',
+         mode: 'cors',
+         body: jsonData
+     });
 
-    await fetchAPI(req);
+     await fetchAPI(req);
  }
 
-/**************************
-    ORDER OPTIONS EDIT                          
-**************************/
-
-
-function categories(ingredientsList) {
-//Creates ingredient List inside each category
-    ingredientsList.data.forEach(ingredient => {
-        switch (ingredient.categories) {
-            case 'meat':
-                //Statements executed when the
-                console.log('This is meat', ingredient.name, ingredient.categories);
-                //result of expression matches value1
-                orderOptionEdit(ingredient);
-                break;
-            case 'spicy':
-                //console.log('This is spicy', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'vegetarian':
-                //console.log('This is vegetarian', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'vegan':
-                //console.log('This is vegan', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'halal':
-                //console.log('This is halal', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'kosher':
-                //console.log('This is kosher', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'cheese':
-                //console.log('This is cheese', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-            case 'seasonings':
-                //console.log('This is seasonings', ingredients.name, ingredients.categories);
-                orderOptionEdit(ingredient);
-                break;
-
-        }
-
-    })
-
-}
-
-/**************************
-CREATE ORDER INGREDIENT LIST                          
-**************************/
-
-function orderOptionEdit(ingredient) {
-    let editSectionOrder = document.querySelector('.'+ingredient.categories);
-    let tr = document.createElement('tr');
-    let tdImg = document.createElement('td');
-    let tdName = document.createElement('td');
-    let tdPrice = document.createElement('td');
-    let tdCheck = document.createElement('td');
-    let imgThumbnail = document.createElement('img');
-    let checkboxDiv = document.createElement('div');
-    let checkbox = document.createElement('input');
-
-    tdImg.setAttribute('class', 'img-container-size');
-    imgThumbnail.setAttribute('src', ingredient.imageUrl);
-    imgThumbnail.setAttribute('alt', ingredient.name);
-    imgThumbnail.setAttribute('class', 'img-fluid');  // may change based on size
-    checkboxDiv.setAttribute('class', 'form-check');
-    checkbox.setAttribute('id', 'user-order-ingredients');
-    checkbox.setAttribute('data-id', ingredient._id);
-    checkbox.addEventListener('change', function () {
-        if (event.target.checked) {
-            extraToppingsArray.push(checkbox.getAttribute('data-id'));
-        }
-        if (!event.target.checked) {
-            extraToppingsArray.pop(checkbox.getAttribute('data-id'));
-        }
-    });
-    checkbox.setAttribute('class', 'ingredient-check-input');
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.setAttribute('value', ingredient.name);
-    checkbox.setAttribute('data-id', ingredient._id);
-
-    tdName.textContent = ingredient.name;
-    tdPrice.textContent = `$${ingredient.price}`;
-
-    editSectionOrder.appendChild(tr);
-    tr.appendChild(tdImg);
-    tdImg.appendChild(imgThumbnail);
-    tr.appendChild(tdName);
-    tr.appendChild(tdPrice);
-    tr.appendChild(tdCheck);
-    tdCheck.appendChild(checkboxDiv);
-    checkboxDiv.appendChild(checkbox);
-
-    checkbox.addEventListener('click', () => {
-        onCheckIngredient(ingredient.price, checkbox.checked);
-    });
-
- }
-
-function onCheckIngredient(price, checked){
-    let ele = document.querySelector('#total-cost-number')
-    let cost = parseFloat(ele.textContent);
-    if(checked) {
-        ele.textContent = `${cost + price} `;
-    } else if (!checked) {
-        ele.textContent = `${cost - price} `;
-    }
- }
-
-/**************************
-GET PIZZA DETAILS FOR ORDER
-**************************/
-
-async function getOrderedPizza(id) {
-    console.log('THIS PIZZA DATA: ', id, );
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
-    let req = new Request(url, {
-        headers: headers,
-        method: 'GET',
-        mode: 'cors'
-    });
-
-    let pizza = await fetchAPI(req);
-    updateOrderPrams(pizza);
-}
-
-/**************************
-    ORDER OPTION DETAILS 
-**************************/
-
-function updateOrderPrams(pizza){
-    let section = document.querySelector('.order-details');
-    section.innerHTML = "";
-    let pizzaName = document.createElement('h5');
-    let pizzaIngredients = document.createElement('p');
-    let isGlutenFree = document.createElement('p');
-    let smallText = document.createElement('small');
-    let pizzaImg = document.querySelector('#pizza-order-img');
-
-    pizzaName.setAttribute('class', 'card-title');
-    pizzaIngredients.setAttribute('class', 'card-text');
-    isGlutenFree.setAttribute('class', 'card-text');
-    smallText.setAttribute('class', 'text-muted');
-
-    pizzaImg.setAttribute('src', pizza.data.imageUrl);
-    pizzaImg.setAttribute('alt', pizza.data.name);
-
-    pizzaName.textContent = pizza.data.name;
-
-    let ingredients = pizza.data.ingredients.map(ingredient => {
-        return ingredient.name;
-    })
-
-    pizzaIngredients.textContent = ingredients.join(", ");
-
-    let pizzaToppings = pizza.data.ingredients;
-    let checkbox = document.querySelectorAll('.ingredient-check-input');
-
-    pizzaToppings.forEach(ingredient => {
-        for (let i = 0; i < checkbox.length; i++) {
-            if (ingredient._id === checkbox[i].getAttribute('data-id')) {
-                checkbox[i].checked = true;
-            }else{
-                checkbox[i].checked = false;
-            }
-        }
-    })
-
-    // Gluten free
-    if(pizza.data.isGlutenFree == true) {
-        smallText.textContent = 'Gluten Free';
-    } else {
-        smallText.textContent = ' ';
-    }
-    section.appendChild(pizzaName);
-    section.appendChild(pizzaIngredients);
-    section.appendChild(isGlutenFree);
-    isGlutenFree.appendChild(smallText);
-
-    let totalsSection = document.querySelector('.add-to-order');
-    totalsSection.innerHTML = "";
-
-    let pizzaPrice = document.createElement('h1');
-    //let extrasPrice = document.createElement('p');
-    pizzaPrice.setAttribute('id', 'pizzaPriceTitle');
-    pizzaPrice.setAttribute('data-id', pizza.data._id);
-
-    pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${pizza.data.price}</span + extras`;
-    //extrasPrice.textContent = `Extras: extras price variable (all added together)`;
-
-    totalsSection.appendChild(pizzaPrice);
-   // totalsSection.appendChild(extrasPrice);
-}
-
-// size dropdown                                    
-
-function selectSize(ev) {
-
-    let selectedSize = document.querySelector('.sizeBtn');
-    selectedSize.innerHTML = "Size"; 
-    selectedSize.textContent = ev.currentTarget.textContent;
-    
-    }
-
-/**************************
-     CREATE ORDER DRAFT               
+ /**************************
+     ORDER OPTIONS EDIT                          
  **************************/
+
+
+ function categories(ingredientsList) {
+     //Creates ingredient List inside each category
+     ingredientsList.data.forEach(ingredient => {
+         switch (ingredient.categories) {
+             case 'meat':
+                 //Statements executed when the
+                 console.log('This is meat', ingredient.name, ingredient.categories);
+                 //result of expression matches value1
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'spicy':
+                 //console.log('This is spicy', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'vegetarian':
+                 //console.log('This is vegetarian', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'vegan':
+                 //console.log('This is vegan', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'halal':
+                 //console.log('This is halal', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'kosher':
+                 //console.log('This is kosher', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'cheese':
+                 //console.log('This is cheese', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+             case 'seasonings':
+                 //console.log('This is seasonings', ingredients.name, ingredients.categories);
+                 orderOptionEdit(ingredient);
+                 break;
+
+         }
+
+     })
+
+ }
+
+ /**************************
+ CREATE ORDER INGREDIENT LIST                          
+ **************************/
+
+ function orderOptionEdit(ingredient) {
+     let editSectionOrder = document.querySelector('.' + ingredient.categories);
+     let tr = document.createElement('tr');
+     let tdImg = document.createElement('td');
+     let tdName = document.createElement('td');
+     let tdPrice = document.createElement('td');
+     let tdCheck = document.createElement('td');
+     let imgThumbnail = document.createElement('img');
+     let checkboxDiv = document.createElement('div');
+     let checkbox = document.createElement('input');
+
+     tdImg.setAttribute('class', 'img-container-size');
+     imgThumbnail.setAttribute('src', ingredient.imageUrl);
+     imgThumbnail.setAttribute('alt', ingredient.name);
+     imgThumbnail.setAttribute('class', 'img-fluid'); // may change based on size
+     checkboxDiv.setAttribute('class', 'form-check');
+     checkbox.setAttribute('id', 'user-order-ingredients');
+     checkbox.setAttribute('data-id', ingredient._id);
+     checkbox.addEventListener('change', function () {
+         if (event.target.checked) {
+             extraToppingsArray.push(checkbox.getAttribute('data-id'));
+         }
+         if (!event.target.checked) {
+             extraToppingsArray.pop(checkbox.getAttribute('data-id'));
+         }
+     });
+     checkbox.setAttribute('class', 'ingredient-check-input');
+     checkbox.setAttribute('type', 'checkbox');
+     checkbox.setAttribute('value', ingredient.name);
+     checkbox.setAttribute('data-id', ingredient._id);
+
+     tdName.textContent = ingredient.name;
+     tdPrice.textContent = `$${ingredient.price}`;
+
+     editSectionOrder.appendChild(tr);
+     tr.appendChild(tdImg);
+     tdImg.appendChild(imgThumbnail);
+     tr.appendChild(tdName);
+     tr.appendChild(tdPrice);
+     tr.appendChild(tdCheck);
+     tdCheck.appendChild(checkboxDiv);
+     checkboxDiv.appendChild(checkbox);
+
+     checkbox.addEventListener('click', () => {
+         onCheckIngredient(ingredient.price, checkbox.checked);
+     });
+
+ }
+
+ function onCheckIngredient(price, checked) {
+     let ele = document.querySelector('#total-cost-number')
+     let cost = parseFloat(ele.textContent);
+     if (checked) {
+         ele.textContent = `${cost + price} `;
+     } else if (!checked) {
+         ele.textContent = `${cost - price} `;
+     }
+ }
+
+ /**************************
+ GET PIZZA DETAILS FOR ORDER
+ **************************/
+
+ async function getOrderedPizza(id) {
+     console.log('THIS PIZZA DATA: ', id, );
+     let headers = new Headers();
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let req = new Request(url, {
+         headers: headers,
+         method: 'GET',
+         mode: 'cors'
+     });
+
+     let pizza = await fetchAPI(req);
+     updateOrderPrams(pizza);
+ }
+
+ /**************************
+     ORDER OPTION DETAILS 
+ **************************/
+
+ function updateOrderPrams(pizza) {
+     let section = document.querySelector('.order-details');
+     section.innerHTML = "";
+     let pizzaName = document.createElement('h5');
+     let pizzaIngredients = document.createElement('p');
+     let isGlutenFree = document.createElement('p');
+     let smallText = document.createElement('small');
+     let pizzaImg = document.querySelector('#pizza-order-img');
+
+     pizzaName.setAttribute('class', 'card-title');
+     pizzaIngredients.setAttribute('class', 'card-text');
+     isGlutenFree.setAttribute('class', 'card-text');
+     smallText.setAttribute('class', 'text-muted');
+
+     pizzaImg.setAttribute('src', pizza.data.imageUrl);
+     pizzaImg.setAttribute('alt', pizza.data.name);
+
+     pizzaName.textContent = pizza.data.name;
+
+     let ingredients = pizza.data.ingredients.map(ingredient => {
+         return ingredient.name;
+     })
+
+     pizzaIngredients.textContent = ingredients.join(", ");
+
+     let pizzaToppings = pizza.data.ingredients;
+     let checkbox = document.querySelectorAll('.ingredient-check-input');
+
+     pizzaToppings.forEach(ingredient => {
+         for (let i = 0; i < checkbox.length; i++) {
+             if (ingredient._id === checkbox[i].getAttribute('data-id')) {
+                 checkbox[i].checked = true;
+             } else {
+                 checkbox[i].checked = false;
+             }
+         }
+     })
+
+     // Gluten free
+     if (pizza.data.isGlutenFree == true) {
+         smallText.textContent = 'Gluten Free';
+     } else {
+         smallText.textContent = ' ';
+     }
+     section.appendChild(pizzaName);
+     section.appendChild(pizzaIngredients);
+     section.appendChild(isGlutenFree);
+     isGlutenFree.appendChild(smallText);
+
+     let totalsSection = document.querySelector('.add-to-order');
+     totalsSection.innerHTML = "";
+
+     let pizzaPrice = document.createElement('h1');
+     //let extrasPrice = document.createElement('p');
+     pizzaPrice.setAttribute('id', 'pizzaPriceTitle');
+     pizzaPrice.setAttribute('data-id', pizza.data._id);
+
+     pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${pizza.data.price}</span + extras`;
+     //extrasPrice.textContent = `Extras: extras price variable (all added together)`;
+
+     totalsSection.appendChild(pizzaPrice);
+     // totalsSection.appendChild(extrasPrice);
+ }
+
+ // size dropdown                                    
+
+ function selectSize(ev) {
+
+     let selectedSize = document.querySelector('.sizeBtn');
+     selectedSize.innerHTML = "Size";
+     selectedSize.textContent = ev.currentTarget.textContent;
+
+ }
+
+ /**************************
+      CREATE ORDER DRAFT               
+  **************************/
 
  async function createOrderDraft() {
-    // customer is currentUser variable
-    console.log('This bitch be buying pizzas', currentUser);
+     // customer is currentUser variable
+     console.log('This bitch be buying pizzas', currentUser);
 
-    let url = 'http://127.0.0.1:3030/api/orders';
+     let url = 'http://127.0.0.1:3030/api/orders';
 
-    let userInput = {
-        customer: currentUser.data._id,
-        //type: orderType,
-        pizzas: pizzaCart
-    };
-    let jsonData = JSON.stringify(userInput);
+     let userInput = {
+         customer: currentUser.data._id,
+         //type: orderType,
+         pizzas: pizzaCart
+     };
+     let jsonData = JSON.stringify(userInput);
 
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
-    let headers = new Headers();
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let headers = new Headers();
 
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
-    console.log("Order Input:", userInput);
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
+     console.log("Order Input:", userInput);
 
-    //create request object
-    let req = new Request(url, {
-        headers: headers,
-        method: 'POST',
-        mode: 'cors',
-        body: jsonData
-    });
+     //create request object
+     let req = new Request(url, {
+         headers: headers,
+         method: 'POST',
+         mode: 'cors',
+         body: jsonData
+     });
 
-    //fetch
-    let order = await fetchAPI(req);
-    document.querySelector('#orderSummary').setAttribute('data-id', order.data._id);
+     //fetch
+     let order = await fetchAPI(req);
+     document.querySelector('#orderSummary').setAttribute('data-id', order.data._id);
 
-    orderSummaryList(order);
-}
+     orderSummaryList(order);
+ }
 
-async function updateOrder(clickedOn){
-    //console.log('This bitch be buying more pizzas', currentUser);
+ async function updateOrder(clickedOn) {
+     //console.log('This bitch be buying more pizzas', currentUser);
 
-    let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
-    let orderType = document.querySelector('input[name="orderType"]:checked').value;
+     let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
+     let orderType = document.querySelector('input[name="orderType"]:checked').value;
 
-    let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
+     let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
 
-    let userInput = {
-        type: orderType,
-        status: clickedOn === 'checkout' ? 'ordered' : 'draft',
-        pizzas: pizzaCart
-    };
-    let jsonData = JSON.stringify(userInput);
+     let userInput = {
+         type: orderType,
+         status: clickedOn === 'checkout' ? 'ordered' : 'draft',
+         pizzas: pizzaCart
+     };
+     let jsonData = JSON.stringify(userInput);
 
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
-    let headers = new Headers();
+     let authToken = JSON.parse(localStorage.getItem(tokenKey));
+     let headers = new Headers();
 
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-    headers.append('Authorization', 'Bearer ' + authToken)
-    console.log("Order Input:", userInput);
+     headers.append('Content-Type', 'application/json;charset=UTF-8');
+     headers.append('Authorization', 'Bearer ' + authToken)
+     console.log("Order Input:", userInput);
 
-    let req = new Request(url, {
-        headers: headers,
-        method: 'PATCH',
-        mode: 'cors',
-        body: jsonData
-    });
+     let req = new Request(url, {
+         headers: headers,
+         method: 'PATCH',
+         mode: 'cors',
+         body: jsonData
+     });
 
-    
-    let order = await fetchAPI(req);
 
-    // only on resolved promise
-    if(clickedOn === 'checkout') {
-        //crappy approach
-        pizzaCart = [];
-        document.getElementById('orderList').innerHTML = "";
-        document.querySelector('#subtotal').textContent = `Sub-total: $0.00`;
-        document.querySelector('#deliveryFee').textContent =`Delivery Fee: $0.00`;
-        document.querySelector('#taxTotal').textContent = `Tax: $0.00`;
-        document.querySelector('#totalCost').textContent = `Total: $0.00`;
+     let order = await fetchAPI(req);
 
-        document.querySelector('#orderSummary').setAttribute('data-id', null); //not tested
-        return;
-    }
-    console.log("Updated order:", order);
+     // only on resolved promise
+     if (clickedOn === 'checkout') {
+         //crappy approach
+         pizzaCart = [];
+         document.getElementById('orderList').innerHTML = "";
+         document.querySelector('#subtotal').textContent = `Sub-total: $0.00`;
+         document.querySelector('#deliveryFee').textContent = `Delivery Fee: $0.00`;
+         document.querySelector('#taxTotal').textContent = `Tax: $0.00`;
+         document.querySelector('#totalCost').textContent = `Total: $0.00`;
 
-    orderSummaryList(order);
-}
+         document.querySelector('#orderSummary').setAttribute('data-id', null); //not tested
+         return;
+     }
+     console.log("Updated order:", order);
+
+     orderSummaryList(order);
+ }
 
  /**************************
   CREATE ORDER SUMMARY LIST              
  **************************/
 
-function orderSummaryList(order) {
-    let orderList = document.getElementById('orderList');
-    // get request /api/orders
-    // get list of pizzas in order, create forEach loop
-    orderList.innerHTML = "";
+ function orderSummaryList(order) {
+     let orderList = document.getElementById('orderList');
+     // get request /api/orders
+     // get list of pizzas in order, create forEach loop
+     orderList.innerHTML = "";
 
-    order.data.pizzas.forEach(pizza => {
-        let orderItem = document.createElement('li');
-        let itemPrice = document.createElement('span');
-        let btnSection = document.createElement('span');
-        let editBtn = document.createElement('button');
-        let deleteBtn = document.createElement('button');
-        let underItem = document.createElement('li');
-        let ingredient = document.createElement('small');
+     order.data.pizzas.forEach(pizza => {
+         let orderItem = document.createElement('li');
+         let itemPrice = document.createElement('span');
+         let btnSection = document.createElement('span');
+         let editBtn = document.createElement('button');
+         let deleteBtn = document.createElement('button');
+         let underItem = document.createElement('li');
+         let ingredient = document.createElement('small');
 
-        orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
-        editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
-        editBtn.setAttribute('type', 'button');
-        deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
-        deleteBtn.setAttribute('type', 'button')
-        underItem.setAttribute('class', 'list-group-item border-0');
-        ingredient.setAttribute('class', 'text-muted');
+         orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
+         editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
+         editBtn.setAttribute('type', 'button');
+         deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
+         deleteBtn.setAttribute('type', 'button')
+         underItem.setAttribute('class', 'list-group-item border-0');
+         ingredient.setAttribute('class', 'text-muted');
 
-        orderItem.textContent = pizza.name;
-        itemPrice.textContent = pizza.price;
-        editBtn.textContent = 'Edit';
-        deleteBtn.textContent = 'Delete';
-        ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
+         orderItem.textContent = pizza.name;
+         itemPrice.textContent = pizza.price;
+         editBtn.textContent = 'Edit';
+         deleteBtn.textContent = 'Delete';
+         ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
 
-        orderList.appendChild(orderItem);
-        orderItem.appendChild(itemPrice);
-        orderItem.appendChild(btnSection);
-        btnSection.appendChild(editBtn);
-        btnSection.appendChild(deleteBtn);
-        orderList.appendChild(underItem);
-        underItem.appendChild(ingredient);
+         orderList.appendChild(orderItem);
+         orderItem.appendChild(itemPrice);
+         orderItem.appendChild(btnSection);
+         btnSection.appendChild(editBtn);
+         btnSection.appendChild(deleteBtn);
+         orderList.appendChild(underItem);
+         underItem.appendChild(ingredient);
 
-        deleteBtn.addEventListener('click', () => {
-            console.log('pizza id:', pizza._id);
-            let index = pizzaCart.indexOf(pizza._id);
-            console.log('index:', index);
-            if (index != -1) pizzaCart.splice(index, 1);
-            updateOrder('delete');
-        })
-    })
+         deleteBtn.addEventListener('click', () => {
+             console.log('pizza id:', pizza._id);
+             let index = pizzaCart.indexOf(pizza._id);
+             console.log('index:', index);
+             if (index != -1) pizzaCart.splice(index, 1);
+             updateOrder('delete');
+         })
+     })
 
-    //let orderTotalSection = document.querySelector('#orderTotal');
+     //let orderTotalSection = document.querySelector('#orderTotal');
 
-    document.querySelector('#subtotal').textContent = `Sub-total: $${order.data.price}`;
-    document.querySelector('#deliveryFee').textContent =`Delivery Fee: $${order.data.deliveryCharge}`;
-    document.querySelector('#taxTotal').textContent = `Tax: $${order.data.tax}`;
-    document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
-}
+     document.querySelector('#subtotal').textContent = `Sub-total: $${order.data.price}`;
+     document.querySelector('#deliveryFee').textContent = `Delivery Fee: $${order.data.deliveryCharge}`;
+     document.querySelector('#taxTotal').textContent = `Tax: $${order.data.tax}`;
+     document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
+ }
+
+ function addressForm() {
+     // Toggles address form
+     let orderType = document.querySelector('input[name="orderType"]:checked').value;
+     let addressForm = document.querySelector('.address-form');
+     //console.log(orderType,'order type');
+     if (orderType == 'delivery') {
+         console.log('they want delivery');
+         addressForm.classList.add('display');
+
+     } else {
+         console.log('they want to pick up');
+         addressForm.classList.remove('display');
+     }
+
+
+ }
 
  /**************************
      STAFF MEMBER NAV               
@@ -1273,60 +1295,60 @@ function orderSummaryList(order) {
      FETCH FUNCTION 
  **************************/
 
-function fetchAPI(req) {
-    return fetch(req)
-        .then(response => {
-            if (!response.ok) {
-                let errmessage = `${response.status} ${response.statusText}`;
-                userNotification("warning", errmessage);
-                throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
-            } else {
-                // userNotification();
-                console.log('We are so fetchy! YASSSS!');
-                return response.json();
-            }
-        })
-        .catch(err => {
-            console.error(err.code + ': ' + err.message);
-        })
+ function fetchAPI(req) {
+     return fetch(req)
+         .then(response => {
+             if (!response.ok) {
+                 let errmessage = `${response.status} ${response.statusText}`;
+                 userNotification("warning", errmessage);
+                 throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
+             } else {
+                 // userNotification();
+                 console.log('We are so fetchy! YASSSS!');
+                 return response.json();
+             }
+         })
+         .catch(err => {
+             console.error(err.code + ': ' + err.message);
+         })
  }
 
  /**************************
      USER NOTIFICATIONS
  **************************/
-//Add Set Timeout when you have wifi 
+ //Add Set Timeout when you have wifi 
 
-function userNotification(type, message) {
-    let alertSection = document.getElementById('userNotifications');
-    let alertDiv = document.createElement('p');
-    let alertHeading = document.createElement('h4');
+ function userNotification(type, message) {
+     let alertSection = document.getElementById('userNotifications');
+     let alertDiv = document.createElement('p');
+     let alertHeading = document.createElement('h4');
 
-    //setTimeout((function () {
-    if(type === "success"){
-        alertSection.setAttribute('class', 'alert alert-success alert-dismissible fade show');
-        alertHeading.textContent = 'BAM! Look at that! You wacked, we stacked!';
-    }
+     //setTimeout((function () {
+     if (type === "success") {
+         alertSection.setAttribute('class', 'alert alert-success alert-dismissible fade show');
+         alertHeading.textContent = 'BAM! Look at that! You wacked, we stacked!';
+     }
 
-    if(type === "warning"){
-        alertSection.setAttribute('class', 'alert alert-warning alert-dismissible fade show');
-        alertHeading.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
-    }
+     if (type === "warning") {
+         alertSection.setAttribute('class', 'alert alert-warning alert-dismissible fade show');
+         alertHeading.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
+     }
 
-    if(type === "info"){
-        alertSection.setAttribute('class','alert alert-primary');
-        alertHeading.textContent = 'HOLA from team WACKELSTACKEL!';
-    }
+     if (type === "info") {
+         alertSection.setAttribute('class', 'alert alert-primary');
+         alertHeading.textContent = 'HOLA from team WACKELSTACKEL!';
+     }
 
-    alertDiv.textContent = message + "!";
-    // create else if statement 
-       
-        //this.parentElement.removeChild(this);
-    //}).bind(div), 500);
-    
-    alertSection.appendChild(alertHeading);
-    alertSection.appendChild(alertDiv);
+     alertDiv.textContent = message + "!";
+     // create else if statement 
 
-    }
+     //this.parentElement.removeChild(this);
+     //}).bind(div), 500);
+
+     alertSection.appendChild(alertHeading);
+     alertSection.appendChild(alertDiv);
+
+ }
 
  /**************************
              SPA

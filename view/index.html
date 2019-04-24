@@ -638,22 +638,7 @@
                           </div>
                         </div>
 
-                        <!-- In Progress: input boolean -> if delivery, add delivery fee and address input fields -->
-                        <h5 class="card-title pt-5">Order Instructions</h5>
-                        <div class="form-check">
-                          <input class="form-check-input orderType" data-target="pickup" type="radio"
-                            name="orderType" id="pickup" value="pickup" checked>
-                          <label class="form-check-label" for="pickup">
-                            Pick-up
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
-                            value="delivery">
-                          <label class="form-check-label" for="delivery">
-                            Delivery
-                          </label>
-                        </div>
+           
 
                       </td>
                     </tr>
@@ -805,7 +790,27 @@
 
               <div class="col-8 col-sm-6">
                 <form>
-                  <div class="form-row">
+             <!-- PICK UP OR DELIVERY RADIO BUTTONS -->
+             <h5 class="card-title">Order Instructions</h5>
+             <div class="form-check">
+               <input class="form-check-input orderType" data-target="pickup" type="radio"
+                 name="orderType" id="pickup" value="pickup" checked>
+               <label class="form-check-label" for="pickup">
+                 Pick-up
+               </label>
+             </div>
+             <div class="form-check">
+               <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
+                 value="delivery">
+               <label class="form-check-label" for="delivery">
+                 Delivery
+               </label>
+             </div>
+
+<!-- address form starts here-->
+
+             <section class="address-form page">
+                  <div class="form-row pt-3">
                     <div class="form-group col">
                       <label for="inputAddress">Address</label>
                       <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
@@ -831,6 +836,8 @@
                       <input type="text" class="form-control" id="inputZip">
                     </div>
                   </div>
+                  </section>
+                  <!-- address form ends here -->
                 </form>
 
               </div>
