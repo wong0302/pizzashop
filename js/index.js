@@ -257,11 +257,10 @@
              let data = result.data.token;
              console.log('data', data);
              localStorage.setItem(tokenKey, JSON.stringify(data));
-             // navbar for signed in user
-
-
+             
              getCurrentUser(data);
              getUsers();
+             checkToken();
          })
          .catch(err => {
              console.error('We are failing');
@@ -319,6 +318,7 @@
      adminSignedOut.forEach(item => {
          item.style.display = 'none';
      })
+     checkToken();
  }
 
  /**************************
@@ -637,7 +637,7 @@
          //pizzaIngredients.setAttribute('class', 'card-text');
          smallText.setAttribute('class', 'card-text');
          glutenFree.setAttribute('class', 'text-muted');
-         selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary navigation');
+         selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary navigation select-button');
          selectBtn.setAttribute('data-target', 'order-view');
 
          cardDeck.appendChild(columnDiv);
@@ -649,14 +649,49 @@
          cardBody.appendChild(smallText);
          smallText.appendChild(glutenFree);
          cardBody.appendChild(selectBtn);
-
-         selectBtn.addEventListener('click', navigate);
          selectBtn.addEventListener('click', () => getOrderedPizza(pizza._id));
      })
-
+     checkToken();
  }
 
- /**************************
+/**************************
+ONLY SIGNEDIN USER CAN ORDER
+**************************/
+
+function checkToken(){
+   
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+    let select = document.querySelectorAll('.select-button');
+    // user with valid token is taken to back menu / user without valid valid token toggles signIn?/signUp? modal   ************NEW
+     console.log('TOKENNNSSS', authToken);
+     if(!authToken) {
+         // user not signed in
+        select.forEach(button => {
+            button.addEventListener('click', changeNav)
+        })     
+     } else {
+         // signed in user
+         select.forEach(button => {
+             console.log('is this shit working?')
+             button.removeEventListener('click', changeNav)
+             button.removeAttribute('data-toggle', 'modal')
+             button.setAttribute('data-target', 'order-view')
+             button.setAttribute('class', 'nav-item nav-link btn btn-primary select-button navigation');
+             button.addEventListener('click',navigate) 
+         })
+     }
+ }
+
+ function changeNav(button) {
+       // removing/ adding previous listeners/attributes/classes
+        button.currentTarget.removeEventListener('click', navigate)
+        button.currentTarget.removeAttribute('data-target', 'order-view')
+        button.currentTarget.setAttribute('data-target', '#whoDat');
+        button.currentTarget.classList.remove('navigation');
+        button.currentTarget.setAttribute('data-toggle', 'modal')
+ }
+
+/**************************
 CHOOSE PIZZA INGREDIENTS
 **************************/
 
@@ -1268,6 +1303,29 @@ CHOOSE PIZZA INGREDIENTS
          addressForm.classList.remove('display');
      }
 
+
+ }
+
+  /**************************
+        EMPTY CART             
+ **************************/
+
+ // if cart is empty "view cart" button should trigger message that reads "your cart is empty" 
+ function listenToMe(pizza) {
+    console.log('eeeep', pizza);
+if (pizza == null) {
+    console.log('you did not buy anything you idiot!', pizza);
+    document.getElementById('cartBtn').addEventListener('click', () => {
+        let cart = document.getElementById('order-cart');
+        let h3 = document.createElement('h3');
+   
+        h3.setAttribute('class', 'text-center text-muted');
+        h3.textContent = 'Your cart is empty';
+   
+        cart.appendChild(h3);
+    });
+    return;
+}
 
  }
 
