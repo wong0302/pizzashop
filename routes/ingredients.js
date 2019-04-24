@@ -16,7 +16,7 @@ const isStaff = require ('../middleware/isStaff')
 */
 
 router.get('/', async (req, res) => {
-  const ingredients = await Ingredient.find()
+  const ingredients = await Ingredient.getIngredients(req.query.instock)
   res.send({data: ingredients})
 })  //Tested on 10/4 ~10:00 AM, Akel, working.
 

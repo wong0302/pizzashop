@@ -9,5 +9,10 @@ const ingredientSchema = new mongoose.Schema({
 	categories: {type: String, trim: true, lowercase: true, enum: ['meat', 'spicy', 'vegetarian', 'vegan', 'halal', 'kosher', 'cheese', 'seasonings']}
 })
 
+ingredientSchema.statics.getIngredients = function(inStock){
+  if(inStock) return this.find({quantity: {$gte: 1}})
+  if(!inStock) return this.find()
+}
+
 const Model = mongoose.model('Ingredient', ingredientSchema)
 module.exports = Model
