@@ -1,9 +1,10 @@
  let pages = null //SPA
  let tokenKey = 'tokenKey'
- let currentUser = null; //Currently logged in useer
+ let currentUser = null; //Currently logged in user
  let mode = null; // Add/Edit mode
  let pizzaIngredientInfo = [];
- let extraToppingsArray = [];
+ //let extraToppingsArray = [];
+ let pizzaCart = [];
 
  document.addEventListener('DOMContentLoaded', () => {
      pages = document.querySelectorAll('.page');
@@ -47,7 +48,21 @@
      size.addEventListener('click', selectSize);
     })
 
-    document.getElementById('add-button').addEventListener('click', createOrderDraft);
+    //Add to cart button
+    document.getElementById('add-button').addEventListener('click', () => {
+        //check if a draft exists. Createe order if not, else update order.
+        let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
+        let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
+        pizzaCart.push(pizzaOrder);
+
+        console.log("order Id", orderId);
+        orderId == null ? createOrderDraft() : updateOrder('add')
+    });
+
+    //Checkout button
+    document.querySelector('#checkoutButton').addEventListener('click', () => {
+        updateOrder('checkout')
+    });
  }
  /**************************
        PASSWORD CHANGE
@@ -1061,7 +1076,7 @@ function updateOrderPrams(pizza){
 
     totalsSection.appendChild(pizzaPrice);
    // totalsSection.appendChild(extrasPrice);
-    orderSummaryList();
+    
     
 }
 
@@ -1079,21 +1094,19 @@ function selectSize(ev) {
      CREATE ORDER DRAFT               
  **************************/
 
- function createOrderDraft() {
-    // user input
+ async function createOrderDraft() {
     // customer is currentUser variable
     console.log('This bitch be buying pizzas', currentUser);
     //let orderType = document.querySelector('input[name="Radios"]:checked').value;
-    //console.log(orderType,'hjkashxjas');
-    let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');;
-
+    //let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');;
+    //pizzaCart.push(pizzaOrder);
     //define endpoint for request
     let url = 'http://127.0.0.1:3030/api/orders';
 
     let userInput = {
         customer: currentUser.data._id,
         //type: orderType,
-        pizzas: pizzaOrder
+        pizzas: pizzaCart
     };
     let jsonData = JSON.stringify(userInput);
 
@@ -1113,68 +1126,117 @@ function selectSize(ev) {
     });
 
     //fetch
-    fetchAPI(req);
+    let order = await fetchAPI(req);
+    document.querySelector('#orderSummary').setAttribute('data-id', order.data._id);
 
+    orderSummaryList(order);
 }
 
+async function updateOrder(clickedOn){
+    //console.log('This bitch be buying more pizzas', currentUser);
 
-/**************************
-     ORDER TOTAL               
-**************************/
+    let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
+    let orderType = document.querySelector('input[name="orderType"]:checked').value;
 
-// function pizzaOrderTotal(){
+    let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
 
-//     //CURRENT USER
-//     console.log("current:", currentUser);
+    let userInput = {
+        type: orderType,
+        status: clickedOn === 'checkout' ? 'ordered' : 'draft',
+        pizzas: pizzaCart
+    };
+    let jsonData = JSON.stringify(userInput);
 
-//     //USER EDITED EXTRA TOPPINGS IDS
-//     console.log("Ingredient ID's:", extraToppingsArray);
-//     //PIZZA ID FOR OBJECTID REF
-//     let pizzaId = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
-//     console.log("Pizza ID's", pizzaId);
-// }
+    let authToken = JSON.parse(localStorage.getItem(tokenKey));
+    let headers = new Headers();
 
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+    headers.append('Authorization', 'Bearer ' + authToken)
+    console.log("Order Input:", userInput);
+
+    let req = new Request(url, {
+        headers: headers,
+        method: 'PATCH',
+        mode: 'cors',
+        body: jsonData
+    });
+
+    
+    let order = await fetchAPI(req);
+
+    // only on resolved promise
+    if(clickedOn === 'checkout') {
+        //crappy approach
+        pizzaCart = [];
+        document.getElementById('orderList').innerHTML = "";
+        document.querySelector('#subtotal').textContent = `Sub-total: $0.00`;
+        document.querySelector('#deliveryFee').textContent =`Delivery Fee: $0.00`;
+        document.querySelector('#taxTotal').textContent = `Tax: $0.00`;
+        document.querySelector('#totalCost').textContent = `Total: $0.00`;
+        return;
+    }
+    console.log("Updated order:", order);
+
+    orderSummaryList(order);
+}
 
  /**************************
   CREATE ORDER SUMMARY LIST              
  **************************/
 
-function orderSummaryList() {
+function orderSummaryList(order) {
     let orderList = document.getElementById('orderList');
     // get request /api/orders
     // get list of pizzas in order, create forEach loop
-    let orderItem = document.createElement('li');
-    let itemPrice = document.createElement('span');
-    let btnSection = document.createElement('span');
-    let editBtn = document.createElement('button');
-    let deleteBtn = document.createElement('button');
-    let underItem = document.createElement('li');
-    let ingredient = document.createElement('small');
+    orderList.innerHTML = "";
 
-    orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
-    editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
-    editBtn.setAttribute('type', 'button');
-    deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
-    deleteBtn.setAttribute('type', 'button')
-    underItem.setAttribute('class', 'list-group-item border-0');
-    ingredient.setAttribute('class', 'text-muted');
+    order.data.pizzas.forEach(pizza => {
+        let orderItem = document.createElement('li');
+        let itemPrice = document.createElement('span');
+        let btnSection = document.createElement('span');
+        let editBtn = document.createElement('button');
+        let deleteBtn = document.createElement('button');
+        let underItem = document.createElement('li');
+        let ingredient = document.createElement('small');
 
-    orderItem.textContent = 'Pizza Pizza Name';
-    itemPrice.textContent = '$0.00';
-    editBtn.textContent = 'Edit';
-    deleteBtn.textContent = 'Delete';
-    ingredient.textContent = 'list of ingredients here'
+        orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
+        editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
+        editBtn.setAttribute('type', 'button');
+        deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
+        deleteBtn.setAttribute('type', 'button')
+        underItem.setAttribute('class', 'list-group-item border-0');
+        ingredient.setAttribute('class', 'text-muted');
 
-    orderList.appendChild(orderItem);
-    orderItem.appendChild(itemPrice);
-    orderItem.appendChild(btnSection);
-    btnSection.appendChild(editBtn);
-    btnSection.appendChild(deleteBtn);
-    orderList.appendChild(underItem);
-    underItem.appendChild(ingredient);
-    
+        orderItem.textContent = pizza.name;
+        itemPrice.textContent = pizza.price;
+        editBtn.textContent = 'Edit';
+        deleteBtn.textContent = 'Delete';
+        ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
+
+        orderList.appendChild(orderItem);
+        orderItem.appendChild(itemPrice);
+        orderItem.appendChild(btnSection);
+        btnSection.appendChild(editBtn);
+        btnSection.appendChild(deleteBtn);
+        orderList.appendChild(underItem);
+        underItem.appendChild(ingredient);
+
+        deleteBtn.addEventListener('click', () => {
+            console.log('pizza id:', pizza._id);
+            let index = pizzaCart.indexOf(pizza._id);
+            console.log('index:', index);
+            if (index != -1) pizzaCart.splice(index, 1);
+            updateOrder('delete');
+        })
+    })
+
+    //let orderTotalSection = document.querySelector('#orderTotal');
+
+    document.querySelector('#subtotal').textContent = `Sub-total: $${order.data.price}`;
+    document.querySelector('#deliveryFee').textContent =`Delivery Fee: $${order.data.deliveryCharge}`;
+    document.querySelector('#taxTotal').textContent = `Tax: $${order.data.tax}`;
+    document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
 }
-
 
  /**************************
      STAFF MEMBER NAV               

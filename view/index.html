@@ -642,15 +642,15 @@
                         <h5 class="card-title pt-5">Order Instructions</h5>
                         <div class="form-check">
                           <input class="form-check-input orderType" data-target="pickup" type="radio"
-                            name="exampleRadios" id="pickup" value="pickup" checked>
-                          <label class="form-check-label" for="exampleRadios1">
+                            name="orderType" id="pickup" value="pickup" checked>
+                          <label class="form-check-label" for="pickup">
                             Pick-up
                           </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input orderType" type="radio" name="exampleRadios" id="delivery"
+                          <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
                             value="delivery">
-                          <label class="form-check-label" for="exampleRadios2">
+                          <label class="form-check-label" for="delivery">
                             Delivery
                           </label>
                         </div>
@@ -786,28 +786,24 @@
 
             <div class="row">
               <div class="col-8 col-sm-6">
-
                 <ul class="list-group list-group-flush" id="orderList">
-
                   <!--list item-->
-
                 </ul>
 
-                <div class="text-right pt-3">
+                <div class="text-right pt-3" id="orderTotal">
                   <!-- LAUREN TODO:  Create JS for this -->
-                  <p>Sub-total: $0.00</p>
+                  <p id="subtotal">Sub-total: $0.00</p>
 
-                  <p>Delivery Fee: $0.00</p>
+                  <p id="deliveryFee">Delivery Fee: $0.00</p>
 
-                  <p>Tax: $0.00</p>
+                  <p id="taxTotal">Tax: $0.00</p>
 
-                  <p>Total: $0.00</p>
+                  <p id="totalCost">Total: $0.00</p>
 
                 </div>
-
               </div>
-              <div class="col-8 col-sm-6">
 
+              <div class="col-8 col-sm-6">
                 <form>
                   <div class="form-row">
                     <div class="form-group col">
@@ -835,28 +831,19 @@
                       <input type="text" class="form-control" id="inputZip">
                     </div>
                   </div>
-
-
                 </form>
 
               </div>
-
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Checkout</button>
+            <button type="button" class="btn btn-primary" id="checkoutButton">Checkout</button>
           </div>
         </div>
       </div>
     </div>
-
-
-
   </section>
-
-
 
   <script type="text/javascript" src="/js/index.js"></script>
 </body>
