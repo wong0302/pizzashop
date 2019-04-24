@@ -341,7 +341,7 @@
      if (!document.getElementById('isGlutenFree').checked) {
          checkVal = "false";
      }
-     //Determine Categorie Picked
+     //Determine Category Picked
      let categoriesSelected = document.getElementById('categories');
      if (categoriesSelected.selectedIndex == 0) {
          console.log('select one answer');
@@ -420,6 +420,7 @@
          let tr = document.createElement('tr');
          let ingredient = document.createElement('td');
          let price = document.createElement('td');
+         let gluten = document.createElement('td');
          let quantity = document.createElement('td');
          let category = document.createElement('td');
          let actions = document.createElement('td');
@@ -430,7 +431,12 @@
          price.textContent = item.price; // insert price variable
          category.textContent = item.categories; // insert category variable
          quantity.textContent = item.quantity; // insert quantity variable
-         //gluten.textContent = 'gluten free variable'; // insert gluten variable
+         if(item.isGlutenFree === true){
+            gluten.textContent = "Gluten Free"
+         }else{
+            gluten.textContent = "Gluten"
+
+         }
          editBtn.textContent = 'Edit';
          deleteBtn.textContent = 'Delete';
          editBtn.setAttribute('type', 'button');
@@ -444,12 +450,14 @@
          deleteBtn.setAttribute('data-id', item.id);
          deleteBtn.addEventListener('click', () => deleteIngredients(item._id));
 
-         tbody.appendChild(tr);
+       
          tr.appendChild(ingredient);
          tr.appendChild(price);
+         tr.appendChild(gluten);
          tr.appendChild(quantity);
          tr.appendChild(category);
          tr.appendChild(actions);
+         tbody.appendChild(tr);
          actions.appendChild(editBtn);
          actions.appendChild(deleteBtn);
      })
@@ -551,7 +559,12 @@
 
          name.textContent = pizza.name
          price.textContent = pizza.price;
-         glutenFree.textContent = pizza.isGlutenFree;
+         if(pizza.isGlutenFree === true){
+            glutenFree.textContent = "Gluten Free"
+         }else{
+            glutenFree.textContent = "Gluten"
+
+         }
          editBtn.textContent = 'Edit';
          deleteBtn.textContent = 'Delete';
 
