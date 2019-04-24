@@ -1316,12 +1316,22 @@ CHOOSE PIZZA INGREDIENTS
  /**************************
      USER NOTIFICATIONS
  **************************/
- //Add Set Timeout when you have wifi 
-
- function userNotification(type, message) {
-     let alertSection = document.getElementById('userNotifications');
-     let alertDiv = document.createElement('p');
-     let alertHeading = document.createElement('h4');
+function userNotification(type, message) {
+    let alertstrap = document.querySelector('#alertSection');
+    let alertSection = document.createElement('div');
+    let alertDiv = document.createElement('p');
+    let alertHeading = document.createElement('h4');
+    let closebutton = document.createElement('button');
+    let buttonspan = document.createElement('span');
+    
+     alertSection.setAttribute('role','alert');
+     alertSection.setAttribute('id','userNotifications');
+     closebutton.setAttribute('class','close');
+     closebutton.setAttribute('data-dismiss','alert');
+     closebutton.setAttribute('aria-label','close');
+     buttonspan.setAttribute('aria-hidden', 'true');
+     buttonspan.setAttribute('class', 'closebtn');
+     buttonspan.innerHTML = '&times;';
 
      //setTimeout((function () {
      if (type === "success") {
@@ -1329,25 +1339,30 @@ CHOOSE PIZZA INGREDIENTS
          alertHeading.textContent = 'BAM! Look at that! You wacked, we stacked!';
      }
 
-     if (type === "warning") {
+     else if (type === "warning") {
          alertSection.setAttribute('class', 'alert alert-warning alert-dismissible fade show');
          alertHeading.textContent = 'WHHHAAAT? Something was wacked and it did not stack!';
      }
 
-     if (type === "info") {
-         alertSection.setAttribute('class', 'alert alert-primary');
+     else if (type === "info") {
+         alertSection.setAttribute('class', 'alert alert-primary alert-dismissible fade show');
          alertHeading.textContent = 'HOLA from team WACKELSTACKEL!';
      }
 
      alertDiv.textContent = message + "!";
-     // create else if statement 
 
-     //this.parentElement.removeChild(this);
-     //}).bind(div), 500);
 
+     closebutton.appendChild(buttonspan);
+     alertSection.appendChild(closebutton);
      alertSection.appendChild(alertHeading);
      alertSection.appendChild(alertDiv);
+     alertstrap.appendChild(alertSection);
 
+     setTimeout("close()", 5000);
+ }
+
+ function close() {
+     document.querySelector(".closebtn").click();
  }
 
  /**************************
