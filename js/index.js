@@ -375,7 +375,7 @@ async function getIngredients() {
     //console.log(ingredientsList);
 
     createIngredientCard(ingredientsList);
-    orderOptionEdit(ingredientsList);
+    categories(ingredientsList);
     createPizzaIngredients(ingredientsList);
 }
 
@@ -848,51 +848,107 @@ function createPizzaIngredients(ingredientsList){
     await fetchAPI(req);
  }
 
- /**************************
-    ORDER OPTIONS ADD                           
+/**************************
+    ORDER OPTIONS EDIT                          
 **************************/
 
-function orderOptionEdit(ingredientsList) {
-    ingredientsList.data.forEach(ingredients => {
-        let addSectionOrder = document.querySelector('.user-add-options');
-        let checkboxDivOrder = document.createElement('div');
-        let checkboxOrder = document.createElement('input');
-        let ingredientNameOrder = document.createElement('label');
 
-        ingredientNameOrder.textContent = ingredients.name;
+function categories(ingredientsList) {
+//Creates ingredient List inside each category
+    ingredientsList.data.forEach(ingredient => {
+        switch (ingredient.categories) {
+            case 'meat':
+                //Statements executed when the
+                console.log('This is meat', ingredient.name, ingredient.categories);
+                //result of expression matches value1
+                orderOptionEdit(ingredient);
+                break;
+            case 'spicy':
+                //console.log('This is spicy', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'vegetarian':
+                //console.log('This is vegetarian', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'vegan':
+                //console.log('This is vegan', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'halal':
+                //console.log('This is halal', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'kosher':
+                //console.log('This is kosher', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'cheese':
+                //console.log('This is cheese', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
+            case 'seasonings':
+                //console.log('This is seasonings', ingredients.name, ingredients.categories);
+                orderOptionEdit(ingredient);
+                break;
 
-        checkboxDivOrder.setAttribute('class', 'form-check');
-        checkboxOrder.setAttribute('id', 'user-order-ingredients');
-        checkboxOrder.setAttribute('data-id', ingredients._id);
-        //checkboxOrder.setAttribute('data-price', ingredients.price);
-        // checkboxOrder.addEventListener('change', function() {
-        //     if(event.target.checked) {
-        //         extraToppingsArray.push(checkboxOrder.getAttribute('data-id'));
-        //     }
-        //     if(!event.target.checked) {
-        //         extraToppingsArray.pop(checkboxOrder.getAttribute('data-id'));
-        //     }
-        //     //FOR TESTING: Remove & Replace with Order Btn.
-        //     pizzaOrderTotal(); 
-        // });
-        checkboxOrder.setAttribute('class', 'ingredient-check-input');
-        checkboxOrder.setAttribute('type', 'checkbox');
-        checkboxOrder.setAttribute('value', ingredients.name);
-        checkboxOrder.setAttribute('data-id', ingredients._id);
-        ingredientNameOrder.setAttribute('class', 'form-check-label');
-        ingredientNameOrder.setAttribute('for', 'defaultCheck');
-
-        addSectionOrder.appendChild(checkboxDivOrder);
-        checkboxDivOrder.appendChild(checkboxOrder);
-        checkboxDivOrder.appendChild(ingredientNameOrder);
-      //  console.log('MOREEEEEEE ID:', ingredients._id);
-
-      checkboxOrder.addEventListener('click', () => {
-        onCheckIngredient(ingredients._id, ingredients.price, checkboxOrder.checked);
-    });
+        }
 
     })
+
 }
+
+/**************************
+CREATE ORDER INGREDIENT LIST                          
+**************************/
+
+function orderOptionEdit(ingredient) {
+    let editSectionOrder = document.querySelector('.'+ingredient.categories);
+    let tr = document.createElement('tr');
+    let tdImg = document.createElement('td');
+    let tdName = document.createElement('td');
+    let tdPrice = document.createElement('td');
+    let tdCheck = document.createElement('td');
+    let imgThumbnail = document.createElement('img');
+    let checkboxDiv = document.createElement('div');
+    let checkbox = document.createElement('input');
+
+    imgThumbnail.setAttribute('src', ingredient.imageUrl);
+    imgThumbnail.setAttribute('alt', ingredient.name);
+    imgThumbnail.setAttribute('class', 'img-thumbnail');  // may change based on size
+    checkboxDiv.setAttribute('class', 'form-check');
+    checkbox.setAttribute('id', 'user-order-ingredients');
+    checkbox.setAttribute('data-id', ingredient._id);
+    checkbox.addEventListener('change', function () {
+        if (event.target.checked) {
+            extraToppingsArray.push(checkbox.getAttribute('data-id'));
+        }
+        if (!event.target.checked) {
+            extraToppingsArray.pop(checkbox.getAttribute('data-id'));
+        }
+    });
+    checkbox.setAttribute('class', 'ingredient-check-input');
+    checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('value', ingredient.name);
+    checkbox.setAttribute('data-id', ingredient._id);
+
+    tdName.textContent = ingredient.name;
+    tdPrice.textContent = `$${ingredient.price}`;
+
+    editSectionOrder.appendChild(tr);
+    tr.appendChild(tdImg);
+    tdImg.appendChild(imgThumbnail);
+    tr.appendChild(tdName);
+    tr.appendChild(tdPrice);
+    tr.appendChild(tdCheck);
+    tdCheck.appendChild(checkboxDiv);
+    checkboxDiv.appendChild(checkbox);
+
+    checkbox.addEventListener('click', () => {
+        onCheckIngredient(ingredients._id, ingredients.price, checkbox.checked);
+    });
+
+ }
 
 function onCheckIngredient(price, checked){
     let ele = document.querySelector('#total-cost-number')

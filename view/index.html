@@ -19,7 +19,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
-  <title>Sign In Page</title>
+  <title>Wakelstackel</title>
 </head>
 
 <body>
@@ -68,7 +68,8 @@
           <div class="dropdown-menu dropdown-menu-right">
             <button class="dropdown-item change-pswd-btn" type="button" data-toggle="modal"
               data-target="#resetPassword">Change Password</button>
-            <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home">Sign Out</button>
+            <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home">Sign
+              Out</button>
           </div>
         </div>
       </li>
@@ -328,7 +329,6 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
-                  <!-- Name Input -->
                   <label for="formGroupInput">Product Name</label>
                   <input type="text" class="form-control" id="productName" placeholder="Name">
                 </div>
@@ -338,9 +338,8 @@
               <div class="col">
                 <div class="form-group">
                   <div class="custom-file">
-                      <!-- Image URL Input -->
-                      <label for="formGroupInput">Image URL</label>
-                    <input type="text" class="form-control" id="ing-img-input">
+                    <input type="file" class="custom-file-input" id="imgFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
                   </div>
                 </div>
               </div>
@@ -349,14 +348,12 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
-                  <!-- Quantity Input -->
                   <label for="formGroupInput2">Quantity</label>
                   <input type="number" class="form-control" id="quantity" placeholder="Amount">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
-                  <!-- Price Input -->
                   <label for="formGroupInput2">Price</label>
                   <input type="number" class="form-control" id="price" placeholder="$0.00">
                 </div>
@@ -364,7 +361,6 @@
               <div class="form-row">
                 <div class="col-6">
                   <div class="form-group">
-                    <!-- Category Input -->
                     <select class="custom-select" required id="categories">
                       <option value="">Catagories</option>
                       <option value="meat">Meat</option>
@@ -381,9 +377,8 @@
                 <div class="col">
                   <div class="form-group">
                     <div class="form-check">
-                      <!-- Gluten free Input -->
-                      <input class="form-check-input" type="checkbox" id="isGlutenFree">>
-                      <label class="form-check-label" for="isGlutenFree">
+                      <input class="form-check-input" type="checkbox" value="" id="isGlutenFree" required>
+                      <label class="form-check-label" for="invalidCheck2">
                         Check if Gluten Free
                       </label>
                     </div>
@@ -473,7 +468,7 @@
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
-                  <!-- Pizza Name Input -->
+                  <!-- NAME FIELD -->
                   <label for="formGroupInput">Pizza Name</label>
                   <input type="text" class="form-control" id="pizzaName" placeholder="Name">
                 </div>
@@ -481,22 +476,20 @@
             </div>
 
             <div class="form-row">
-                <div class="col">
-                  <div class="form-group">
-                    <div class="custom-file">
-                        <!-- Image URL Input -->
-                        <label for="formGroupInput">Image URL</label>
-                      <input type="text" class="form-control" id="pizza-img-input">
-                    </div>
-                  </div>
+              <div class="col">
+                <div class="form-group">
+                  <!-- PRICE FIELD -->
+                  <label for="formGroupInput2">Price</label>
+                  <input type="number" class="form-control" id="pizzaPrice" placeholder="$0.00">
                 </div>
+              </div>
             </div>
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
                   <div class="form-check">
-                    <!-- Gluten Free Input-->
-                    <input class="form-check-input" type="checkbox" id="pizzaGluten">
+                    <!-- GLUTEN FREE INPUT -->
+                    <input class="form-check-input" type="checkbox" value="" id="pizzaGluten" required>
                     <label class="form-check-label" for="invalidCheck2">
                       Check if Gluten Free
                     </label>
@@ -506,7 +499,6 @@
             </div>
             <div class="form-row">
               <div class="col">
-                <!-- Pizza Ingredients Input -->
                 <section class="admin-add-ingredients" id="admin-add-ingredients">
                 </section>
               </div>
@@ -573,82 +565,175 @@
         <div class="col-md-8">
           <div class="card-body">
             <!-- ORDER OPTION NAV -->
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <h2>Customize</h2>
-              </li>
-            </ul>
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-details-tab" data-toggle="tab" href="#nav-details"
+                  role="tab" aria-controls="nav-details" aria-selected="true">Details</a>
+                <a class="nav-item nav-link" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab"
+                  aria-controls="nav-edit" aria-selected="false">Edit Ingredients</a>
 
-            <table class="table-responsive table-borderless">
-              <tbody>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+                <!-- PIZZA DETAILS TAB BODY -->
 
-                <tr>
-                  <!-- PIZZA DETAILS -->
-                  <td class="align-baseline p-5">
-                    <section class="order-details" id="order-details">
+                <table class="table-responsive table-borderless">
+                  <tbody>
 
-                    </section>
+                    <tr>
+                      <!-- PIZZA DETAILS -->
+                      <td class="align-baseline p-5">
+                        <section class="order-details" id="order-details">
 
-                    <!-- SIZE DROPDOWN -->
-                    <!-- NEW ADD -> moved size dropdown and radio buttons inside table -->
-                    <h5 class="card-title pt-5">Select Size</h5>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-secondary dropdown-toggle sizeBtn" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        Size
-                      </button>
-                      <div class="dropdown-menu dropdown-menu-left">
-                        <button class="dropdown-item sm-size sizes" type="button">Small</button>
-                        <button class="dropdown-item md-size sizes" type="button">Medium</button>
-                        <button class="dropdown-item lg-size sizes" type="button">Large</button>
-                        <button class="dropdown-item xl-size sizes" type="button">Extra
-                          Large</button>
-                      </div>
+                        </section>
+
+                        <!-- SIZE DROPDOWN -->
+                        <!-- NEW ADD -> moved size dropdown and radio buttons inside table -->
+
+                        <h5 class="card-title pt-5">Select Size</h5>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary dropdown-toggle sizeBtn" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Size
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-left">
+                            <button class="dropdown-item sm-size sizes" type="button">Small</button>
+                            <button class="dropdown-item md-size sizes" type="button">Medium</button>
+                            <button class="dropdown-item lg-size sizes" type="button">Large</button>
+                            <button class="dropdown-item xl-size sizes" type="button">Extra
+                              Large</button>
+                          </div>
+                        </div>
+
+                        <!-- In Progress: input boolean -> if delivery, add delivery fee and address input fields -->
+                        <h5 class="card-title pt-5">Order Instructions</h5>
+                        <div class="form-check">
+                          <input class="form-check-input orderType" data-target="pickup" type="radio"
+                            name="exampleRadios" id="pickup" value="pickup" checked>
+                          <label class="form-check-label" for="exampleRadios1">
+                            Pick-up
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input orderType" type="radio" name="exampleRadios" id="delivery"
+                            value="delivery">
+                          <label class="form-check-label" for="exampleRadios2">
+                            Delivery
+                          </label>
+                        </div>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+
+
+              </div>
+              <div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+
+                <!-- INGREDIENTS CATEGORY NAV -->
+                <div class="row pt-5">
+                  <div class="col-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      <a class="nav-link active" id="v-pills-meat-tab" data-toggle="pill" href="#v-pills-meat"
+                        role="tab" aria-controls="v-pills-meat" aria-selected="true">Meat</a>
+                      <a class="nav-link" id="v-pills-spicy-tab" data-toggle="pill" href="#v-pills-spicy" role="tab"
+                        aria-controls="v-pills-spicy" aria-selected="false">Spicy</a>
+                      <a class="nav-link" id="v-pills-vegetarian-tab" data-toggle="pill" href="#v-pills-vegetarian"
+                        role="tab" aria-controls="v-pills-vegetarian" aria-selected="false">Vegetarian</a>
+                      <a class="nav-link" id="v-pills-vegan-tab" data-toggle="pill" href="#v-pills-vegan" role="tab"
+                        aria-controls="v-pills-vegan" aria-selected="false">Vegan</a>
+                      <a class="nav-link" id="v-pills-halal-tab" data-toggle="pill" href="#v-pills-halal" role="tab"
+                        aria-controls="v-pills-halal" aria-selected="false">Halal</a>
+                      <a class="nav-link" id="v-pills-kosher-tab" data-toggle="pill" href="#v-pills-kosher" role="tab"
+                        aria-controls="v-pills-kosher" aria-selected="false">Kosher</a>
+                      <a class="nav-link" id="v-pills-cheese-tab" data-toggle="pill" href="#v-pills-cheese" role="tab"
+                        aria-controls="v-pills-cheese" aria-selected="false">Cheese</a>
+                      <a class="nav-link" id="v-pills-seasonings-tab" data-toggle="pill" href="#v-pills-seasonings"
+                        role="tab" aria-controls="v-pills-seasonings" aria-selected="false">Seasonings</a>
                     </div>
+                  </div>
+                  <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                      <div class="tab-pane fade show active" id="v-pills-meat" role="tabpanel"
+                        aria-labelledby="v-pills-meat-tab">
+                        <table class="table table-borderless">
+                          <tbody class="meat">
 
-                    <!-- In Progress: input boolean -> if delivery, add delivery fee and address input fields -->
-                    <h5 class="card-title pt-5">Order Instructions</h5>
-                    <div class="form-check">
-                      <input class="form-check-input orderType" type="radio" name="Radios"
-                        value="pickup" checked>
-                      <label class="form-check-label" for="exampleRadios1">
-                        Pick-up
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input orderType" type="radio" name="Radios"
-                        value="delivery">
-                      <label class="form-check-label" for="exampleRadios2">
-                        Delivery
-                      </label>
-                    </div>
-
-                  </td>
-
-                  <!-- EDIT INGREDIENTS -->
-                  <td class="align-baseline p-5">
-                    <h5 class="card-title">Edit Ingredients</h5>
-                    <section class="user-add-options" id="user-add-options">
-                      <div class="table-responsive-sm">
-                        <table class="table">
-
+                          </tbody>
                         </table>
                       </div>
-                    </section>
-                  </td>
+                      <div class="tab-pane fade" id="v-pills-spicy" role="tabpanel" aria-labelledby="v-pills-spicy-tab">
+                        <table class="table table-borderless">
+                          <tbody class="spicy">
 
-                  <!-- ORDER BUTTON           In Progress: h1-> reads price of pizza
-                                                                           p -> cost of extras added together -->
-                  <td class="align-baseline pl-5">
-                    <!-- NEW ADD -> align content -->
-                    <section class="add-to-order" id="add-to-order">
-                      <!-- order price totals appended here -->
-                    </section>
-                    <button type="button" class="btn btn-primary" id="add-button" data-toggle="modal" data-target="#orderSummary">Add to Order</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-vegetarian" role="tabpanel"
+                        aria-labelledby="v-pills-vegetarian-tab">
+                        <table class="table table-borderless">
+                          <tbody class="vegetarian">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-vegan" role="tabpanel" aria-labelledby="v-pills-vegan-tab">
+                        <table class="table table-borderless">
+                          <tbody class="vegan">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-halal" role="tabpanel" aria-labelledby="v-pills-halal-tab">
+                        <table class="table table-borderless">
+                          <tbody class="halal">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade kosher" id="v-pills-kosher" role="tabpanel"
+                        aria-labelledby="v-pills-kosher-tab">
+                        <table class="table table-borderless">
+                          <tbody class="kosher">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-cheese" role="tabpanel"
+                        aria-labelledby="v-pills-cheese-tab">
+                        <table class="table table-borderless">
+                          <tbody class="cheese">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-seasonings" role="tabpanel"
+                        aria-labelledby="v-pills-seasonings-tab">
+                        <table class="table table-borderless">
+                          <tbody class="seasonings">
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+
+            <section class="add-to-order" id="add-to-order">
+                                    
+              <!-- order price totals appended here -->
+                                  </section>
+            <button type="button" class="btn btn-primary" id="add-button" data-toggle="modal"
+              data-target="#orderSummary">Add to Order</button>
+
 
 
           </div>
@@ -663,92 +748,94 @@
     </div>
 
 
-  <!--------------------------
+    <!--------------------------
        ORDER SUMMARY PAGE 
   --------------------------->
 
-  <div class="modal" id="orderSummary" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Order Summary</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+    <div class="modal" id="orderSummary" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Order Summary</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
 
-          <div class="row">
-            <div class="col-8 col-sm-6">
+            <div class="row">
+              <div class="col-8 col-sm-6">
 
                 <ul class="list-group list-group-flush" id="orderList">
-                 
+
                   <!--list item-->
-                
-                  </ul>
+
+                </ul>
 
                 <div class="text-right pt-3">
-                 <!-- LAUREN TODO:  Create JS for this -->
-                      <p>Sub-total: $0.00</p>
+                  <!-- LAUREN TODO:  Create JS for this -->
+                  <p>Sub-total: $0.00</p>
 
-                      <p>Delivery Fee: $0.00</p>
-          
-                      <p>Tax: $0.00</p>
-          
-                      <p>Total: $0.00</p>
+                  <p>Delivery Fee: $0.00</p>
 
-                    </div>
+                  <p>Tax: $0.00</p>
 
-            </div>
-            <div class="col-8 col-sm-6">
+                  <p>Total: $0.00</p>
+
+                </div>
+
+              </div>
+              <div class="col-8 col-sm-6">
 
                 <form>
-                    <div class="form-row">
-                      <div class="form-group col">
-                        <label for="inputAddress">Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                      </div>
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="inputAddress">Address</label>
+                      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
                     </div>
+                  </div>
 
-                    <div class="form-row">
-                        <div class="form-group col">
-                          <label for="inputCity">City</label>
-                          <input type="text" class="form-control" id="inputCity" placeholder="City">
-                        </div>
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="inputCity">City</label>
+                      <input type="text" class="form-control" id="inputCity" placeholder="City">
                     </div>
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputState">Province</label>
-                        <select id="inputState" class="form-control">
-                          <option selected>Choose...</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label for="inputZip">Postal Code</label>
-                        <input type="text" class="form-control" id="inputZip">
-                      </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputState">Province</label>
+                      <select id="inputState" class="form-control">
+                        <option selected>Choose...</option>
+                        <option>...</option>
+                      </select>
                     </div>
-                
-                   
-                  </form>
+                    <div class="form-group col-md-4">
+                      <label for="inputZip">Postal Code</label>
+                      <input type="text" class="form-control" id="inputZip">
+                    </div>
+                  </div>
+
+
+                </form>
+
+              </div>
 
             </div>
 
           </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Checkout</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Checkout</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
 
 
   </section>
+
+
 
   <script type="text/javascript" src="/js/index.js"></script>
 </body>
