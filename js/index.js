@@ -452,6 +452,7 @@ async function getIngredients() {
         mode: 'cors'
     });
     let ingredients = await fetchAPI(req);
+    document.getElementById('edit-add-ingredients-title').innerHTML = "Edit Ingredients";
 
     document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
     document.getElementById('productName').value = ingredients.data.name;
@@ -731,10 +732,11 @@ function createPizzaIngredients(ingredientsList){
         mode: 'cors'
     });
     let pizza = await fetchAPI(req);
+    document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
 
     document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
     document.getElementById('pizzaName').value = pizza.data.name;
-    document.getElementById('pizzaPrice').value = pizza.data.price;
+   // document.getElementById('pizzaPrice').value = pizza.data.price;
     document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
 
     console.log(document.getElementById('pizzas-add-edit'));
