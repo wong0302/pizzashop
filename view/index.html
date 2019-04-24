@@ -570,17 +570,21 @@
       <div class="row no-gutters">
         <div class="col-md-4">
           <!-- bootstrap card instead of image -->
+          <div class="card borderless">
+              <img class="card-img-top" id="pizza-order-img">
+              <div class="card-body">
+                  <div class="card-body text-center p-4">
+                      <section class="add-to-order p-3" id="add-to-order">
+                                              
+                        <!-- order price totals appended here -->
+                      </section>
+                      <button type="button" class="btn btn-primary" id="add-button" data-toggle="modal"
+                        data-target="#orderSummary">Add to Order</button>
+                    </div>
+              </div>
+            </div>
 
-
-          <img src="..." class="card-img-top img-fluid" alt="...">
-          <div class="card-body text-center p-4">
-            <section class="add-to-order p-3" id="add-to-order">
-                                    
-              <!-- order price totals appended here -->
-            </section>
-            <button type="button" class="btn btn-primary" id="add-button" data-toggle="modal"
-              data-target="#orderSummary">Add to Order</button>
-          </div>
+          
         </div>
         <div class="col-md-8">
           <div class="card-body">

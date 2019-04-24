@@ -990,11 +990,15 @@ function updateOrderPrams(pizza){
     let pizzaIngredients = document.createElement('p');
     let isGlutenFree = document.createElement('p');
     let smallText = document.createElement('small');
+    let pizzaImg = document.querySelector('#pizza-order-img');
 
     pizzaName.setAttribute('class', 'card-title');
     pizzaIngredients.setAttribute('class', 'card-text');
     isGlutenFree.setAttribute('class', 'card-text');
     smallText.setAttribute('class', 'text-muted');
+
+    pizzaImg.setAttribute('src', pizza.data.imageUrl);
+    pizzaImg.setAttribute('alt', pizza.data.name);
 
     pizzaName.textContent = pizza.data.name;
 

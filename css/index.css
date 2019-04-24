@@ -35,3 +35,7 @@ form{
 .adminSignedIn{
     display: none;
 }
+
+.borderless{
+    border: none !important;
+}
