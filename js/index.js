@@ -944,9 +944,10 @@ function orderOptionEdit(ingredient) {
     let checkboxDiv = document.createElement('div');
     let checkbox = document.createElement('input');
 
+    tdImg.setAttribute('class', 'img-container-size');
     imgThumbnail.setAttribute('src', ingredient.imageUrl);
     imgThumbnail.setAttribute('alt', ingredient.name);
-    imgThumbnail.setAttribute('class', 'img-thumbnail');  // may change based on size
+    imgThumbnail.setAttribute('class', 'img-fluid');  // may change based on size
     checkboxDiv.setAttribute('class', 'form-check');
     checkbox.setAttribute('id', 'user-order-ingredients');
     checkbox.setAttribute('data-id', ingredient._id);
@@ -1076,8 +1077,6 @@ function updateOrderPrams(pizza){
 
     totalsSection.appendChild(pizzaPrice);
    // totalsSection.appendChild(extrasPrice);
-    
-    
 }
 
 // size dropdown                                    
@@ -1097,10 +1096,7 @@ function selectSize(ev) {
  async function createOrderDraft() {
     // customer is currentUser variable
     console.log('This bitch be buying pizzas', currentUser);
-    //let orderType = document.querySelector('input[name="Radios"]:checked').value;
-    //let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');;
-    //pizzaCart.push(pizzaOrder);
-    //define endpoint for request
+
     let url = 'http://127.0.0.1:3030/api/orders';
 
     let userInput = {
@@ -1173,6 +1169,8 @@ async function updateOrder(clickedOn){
         document.querySelector('#deliveryFee').textContent =`Delivery Fee: $0.00`;
         document.querySelector('#taxTotal').textContent = `Tax: $0.00`;
         document.querySelector('#totalCost').textContent = `Total: $0.00`;
+
+        document.querySelector('#orderSummary').setAttribute('data-id', null); //not tested
         return;
     }
     console.log("Updated order:", order);

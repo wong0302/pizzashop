@@ -39,3 +39,7 @@ form{
 .borderless{
     border: none !important;
 }
+
+.img-container-size{
+    width: 15%;
+}
