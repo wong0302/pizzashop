@@ -1019,20 +1019,28 @@ CHOOSE PIZZA INGREDIENTS
      checkboxDiv.setAttribute('class', 'form-check');
      checkbox.setAttribute('id', 'user-order-ingredients');
      checkbox.setAttribute('data-id', ingredient._id);
-     checkbox.addEventListener('change', function () {
-         if (event.target.checked) {
-             extraToppingsArray.push(checkbox.getAttribute('data-id'));
-         }
-         if (!event.target.checked) {
-             extraToppingsArray.pop(checkbox.getAttribute('data-id'));
-         }
-     });
+    //  checkbox.addEventListener('change', function () {
+    //      if (event.target.checked) {
+    //          extraToppingsArray.push(checkbox.getAttribute('data-id'));
+    //      }
+    //      if (!event.target.checked) {
+    //          extraToppingsArray.pop(checkbox.getAttribute('data-id'));
+    //      }
+    //  });
      checkbox.setAttribute('class', 'ingredient-check-input');
      checkbox.setAttribute('type', 'checkbox');
      checkbox.setAttribute('value', ingredient.name);
      checkbox.setAttribute('data-id', ingredient._id);
+    
+     if(ingredient.quantity < 1) {
+        checkbox.disabled = true;
+        tdName.innerHTML = `${ingredient.name} <i class="text-danger">(out of stock)</i>`;
+    } else { 
+        checkbox.disabled = false ;
+        tdName.innerHTML = ingredient.name;
+    }
 
-     tdName.textContent = ingredient.name;
+     
      tdPrice.textContent = `$${ingredient.price}`;
 
      editSectionOrder.appendChild(tr);
@@ -1047,7 +1055,6 @@ CHOOSE PIZZA INGREDIENTS
      checkbox.addEventListener('click', () => {
          onCheckIngredient(ingredient.price, checkbox.checked);
      });
-
  }
 
  function onCheckIngredient(price, checked) {
