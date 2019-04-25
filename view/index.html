@@ -27,61 +27,66 @@
 
 <body>
   <div id="alertSection"></div>
+
   <!--------------------------
                 NAV 
   --------------------------->
-  <section class="navbar bg-dark sticky-top">
+  <section class="navbar bg-dark navbar-expand-lg sticky-top d-flex">
 
-    <ul class="nav justify-content-end">
-      <li class="nav-item navigation nav-link active" data-target="home">Home</li>
-      <li class="nav-item nav-link navigation" data-target="menu">Menu</li>
+    <ul class="nav">
+      <li class="nav-item navigation nav-link active" data-target="home" href="/index.html">Home</li>
+      <li class="nav-item nav-link navigation" data-target="menu" href="/menu.html">Menu</li>
+    </ul>
 
-      <!--------- ADMIN --------->
+    <!-- This should dissapear when user is signed in", add click listener in js -->
+     
+    <button class="navbar-toggler navbar-dark navbar-collapse-sm navbar-light mb-2" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavDropdown">
+      
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item notSignedIn nav-link text-right text-white" data-toggle="modal" data-target="#signInModal" href="/signin.html">Sign In
+      </li>
+      <li class="nav-item notSignedIn nav-link text-right text-white" data-toggle="modal" data-target="#signUpModal" href="/register.html">Sign Up
+      </li>
+
+      <!-- LOGGED IN USER NAV -->
+      <li class="nav-item signedIn">
+        <div class="btn-group float-right">
+            <button type="button" class="btn btn-secondary bg-dark border-0 nav-modal" id="cartBtn" data-toggle="modal"
+            data-target="#orderSummary" href="/cart.html"><i class="fas fa-shopping-cart pr-3"></i>View Cart<span class="cart-count badge badge-dark">0</span></button>
+        </li>
+<!--------- ADMIN --------->
       <!-- This nav should only appear when a staff member is signed in -->
       <li class="nav-item adminSignedIn">
-        <div class="btn-group">
+        <div class="btn-group float-right">
           <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Admin
           </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item navigation" type="button" data-target="ingredients-view">Ingredients</button>
-            <button class="dropdown-item navigation" type="button" data-target="pizzas-view">Pizzas</button>
-            <button class="dropdown-item navigation" type="button" data-target="users-view">Users</button>
+          <div class="dropdown-menu">
+              <span class="dropdown-item-text">
+            <button class="dropdown-item navigation" type="button" data-target="ingredients-view" href="/admin/ingredients.html">Ingredients</button>
+            <button class="dropdown-item navigation" type="button" data-target="pizzas-view" href="/admin/pizzas.html">Pizzas</button>
+            <button class="dropdown-item navigation" type="button" data-target="users-view" href="/admin/users.html">Users</button>
           </div>
         </div>
       </li>
-    </ul>
-
-
-    <!-- This should dissapear when user is signed in", add click listener in js -->
-    <ul class="nav navbar-right">
-      <li class="nav-item notSignedIn nav-link" data-toggle="modal" data-target="#signInModal" href="signIn">Sign In
-      </li>
-      <li class="nav-item notSignedIn nav-link" data-toggle="modal" data-target="#signUpModal" href="signUp">Sign Up
-      </li>
-
-      <!-- LOGGED IN USER NAV -->
-
-      <li class="nav-item signedIn">
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary bg-dark border-0 nav-modal" id="cartBtn" data-toggle="modal"
-            data-target="#orderSummary"><i class="fas fa-shopping-cart pr-3"></i>View Cart<span class="cart-count badge badge-dark">0</span></button>
-
-          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
+        <li class="nav-item signedIn">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle float-right" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Account
           </button>
           <div class="dropdown-menu dropdown-menu-right">
             <button class="dropdown-item change-pswd-btn" type="button" data-toggle="modal"
-              data-target="#resetPassword">Change Password</button>
-            <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home">Sign
+              data-target="#resetPassword" href="/profile.html">Change Password</button>
+            <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home" href="/index.html">Sign
               Out</button>
           </div>
-        </div>
       </li>
     </ul>
-
+    </div>
   </section>
 
   <!----------- HEADER ----------->
