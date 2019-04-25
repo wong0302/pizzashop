@@ -467,7 +467,7 @@
          deleteBtn.setAttribute('data-toggle', 'modal');
          deleteBtn.setAttribute('data-target', '#deleteModal');
          deletedIngredient.setAttribute('data-id', item._id);
-         document.getElementById('deleteModalBodyPizza').innerHTML =`Are you sure you want to ${item.name}`;
+         //document.getElementById('deleteModalBody').innerHTML =`Are you sure you want to delete?`;
 
          tr.appendChild(ingredient);
          tr.appendChild(price);
@@ -534,11 +534,11 @@
 
      let ingredientsList = await fetchAPI(req);
      //console.log(ingredientsList);
-     getPizzas(deleteIngredients);
-     let delMessage = `Deleted: ${ingredientsList.data.name}`;
+     getPizzas(ingredientsList);
+     let delMessage = `Deleted`;
      userNotification("info", delMessage);
 
-     //getIngredients(ingredientsList);
+     getIngredients(ingredientsList);
  }
 
  /**************************
