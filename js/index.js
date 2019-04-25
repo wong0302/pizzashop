@@ -866,7 +866,7 @@ CHOOSE PIZZA INGREDIENTS
          //let editBtn = document.createElement('p');
          //let deleteBtn = document.createElement('p');
 
-         checkbox.setAttribute('class', 'ingredient-check-input');
+         checkbox.setAttribute('class', 'user-check-input');
          checkbox.setAttribute('type', 'checkbox');
          // tr.setAttribute('data-id', user._id);
          firstName.textContent = user.firstName;
