@@ -11,6 +11,7 @@
      pages[0].classList.add('display');
      getIngredients();
      getPizzas();
+     getUsers();
      changeURL();
      addListeners();
 
@@ -265,7 +266,6 @@
              localStorage.setItem(tokenKey, JSON.stringify(data));
              
              getCurrentUser(data);
-             getUsers();
              checkToken();
          })
          .catch(err => {
