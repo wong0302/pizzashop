@@ -72,6 +72,8 @@
      document.querySelectorAll('.orderType').forEach(type => {
          type.addEventListener('click', addressForm);
      })
+
+     document.querySelector('#cartBtn').addEventListener('click', CartDisplay);
  }
  /**************************
        PASSWORD CHANGE
@@ -1217,6 +1219,7 @@ CHOOSE PIZZA INGREDIENTS
      console.log("Updated order:", order);
 
      orderSummaryList(order);
+     CartDisplay();
  }
 
  /**************************
@@ -1291,8 +1294,6 @@ CHOOSE PIZZA INGREDIENTS
          console.log('they want to pick up');
          addressForm.classList.remove('display');
      }
-
-
  }
 
   /**************************
@@ -1300,23 +1301,19 @@ CHOOSE PIZZA INGREDIENTS
  **************************/
 
  // if cart is empty "view cart" button should trigger message that reads "your cart is empty" 
- function listenToMe(pizza) {
-    console.log('eeeep', pizza);
-if (pizza == null) {
-    console.log('you did not buy anything you idiot!', pizza);
-    document.getElementById('cartBtn').addEventListener('click', () => {
-        let cart = document.getElementById('order-cart');
-        let h3 = document.createElement('h3');
-   
-        h3.setAttribute('class', 'text-center text-muted');
-        h3.textContent = 'Your cart is empty';
-   
-        cart.appendChild(h3);
-    });
-    return;
-}
+ function CartDisplay() {
+    console.log("pizaaa cart", pizzaCart)
+    if (pizzaCart.length == 0) {
+        document.querySelector('#order-cart').classList.add('hide');
+        document.querySelector('#cart-empty').classList.remove('hide');
+        document.querySelector('#checkoutButton').disabled = true;
 
- }
+    } else {
+        document.querySelector('#cart-empty').classList.add('hide');
+        document.querySelector('#order-cart').classList.remove('hide');
+        document.querySelector('#checkoutButton').disabled = false;
+    }
+}
 
  /**************************
      STAFF MEMBER NAV               

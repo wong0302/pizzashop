@@ -30,11 +30,19 @@ form{
     cursor: pointer;
 }
 
+
+/* Can replace with hide and show classes? Akel */
 .notSignedIn{
     display: block;
 }
-
 .signedIn{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+.hide{
     display: none;
 }
 
