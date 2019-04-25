@@ -1173,16 +1173,20 @@ CHOOSE PIZZA INGREDIENTS
 
  async function updateOrder(clickedOn) {
      //console.log('This bitch be buying more pizzas', currentUser);
-
+     let address = null;
      let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
      let orderType = document.querySelector('input[name="orderType"]:checked').value;
-
+     
+     if(orderType == 'delivery') address = document.querySelector('#inputAddress').value
+         
+    
      let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
 
      let userInput = {
          type: orderType,
          status: clickedOn === 'checkout' ? 'ordered' : 'draft',
-         pizzas: pizzaCart
+         pizzas: pizzaCart,
+         address: address
      };
      let jsonData = JSON.stringify(userInput);
 
@@ -1213,12 +1217,11 @@ CHOOSE PIZZA INGREDIENTS
          document.querySelector('#taxTotal').textContent = `Tax: $0.00`;
          document.querySelector('#totalCost').textContent = `Total: $0.00`;
 
-         document.querySelector('#orderSummary').setAttribute('data-id', null); //not tested
+         document.querySelector('#orderSummary').removeAttribute('data-id'); //not tested
+         userNotification("success", signMessage);
          return;
      }
      console.log("Updated order:", order);
-
-     orderSummaryList(order);
      CartDisplay();
  }
 
@@ -1240,7 +1243,7 @@ CHOOSE PIZZA INGREDIENTS
          let editBtn = document.createElement('button');
          let deleteBtn = document.createElement('button');
          let underItem = document.createElement('li');
-         let ingredient = document.createElement('small');
+         //let ingredient = document.createElement('small');
 
          orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
          editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
@@ -1248,13 +1251,13 @@ CHOOSE PIZZA INGREDIENTS
          deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
          deleteBtn.setAttribute('type', 'button')
          underItem.setAttribute('class', 'list-group-item border-0');
-         ingredient.setAttribute('class', 'text-muted');
+         //ingredient.setAttribute('class', 'text-muted');
 
          orderItem.textContent = pizza.name;
          itemPrice.textContent = pizza.price;
          editBtn.textContent = 'Edit';
          deleteBtn.textContent = 'Delete';
-         ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
+         //ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
 
          orderList.appendChild(orderItem);
          orderItem.appendChild(itemPrice);
@@ -1262,7 +1265,7 @@ CHOOSE PIZZA INGREDIENTS
          btnSection.appendChild(editBtn);
          btnSection.appendChild(deleteBtn);
          orderList.appendChild(underItem);
-         underItem.appendChild(ingredient);
+        // underItem.appendChild(ingredient);
 
          deleteBtn.addEventListener('click', () => {
              console.log('pizza id:', pizza._id);
@@ -1276,7 +1279,7 @@ CHOOSE PIZZA INGREDIENTS
      //let orderTotalSection = document.querySelector('#orderTotal');
 
      document.querySelector('#subtotal').textContent = `Sub-total: $${order.data.price}`;
-     document.querySelector('#deliveryFee').textContent = `Delivery Fee: $${order.data.deliveryCharge}`;
+     document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $0.00';
      document.querySelector('#taxTotal').textContent = `Tax: $${order.data.tax}`;
      document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
  }
@@ -1289,11 +1292,12 @@ CHOOSE PIZZA INGREDIENTS
      if (orderType == 'delivery') {
          console.log('they want delivery');
          addressForm.classList.add('display');
-
+         document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $5.00';
 
      } else {
          console.log('they want to pick up');
          addressForm.classList.remove('display');
+         document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $0.00';
      }
  }
 
@@ -1444,7 +1448,7 @@ function userNotification(type, message) {
     let subTitle = document.querySelector('.lead');
     switch(target) {
         case 'home':
-           title.textContent = "AKELSTACKEL Pizza";
+           title.textContent = "WAKELSTACKEL Pizza";
            subTitle.textContent = "Dreams really do come true, when you have the right slice.";
            break;
        case 'menu':
