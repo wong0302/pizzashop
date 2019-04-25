@@ -69,7 +69,14 @@
 
      //Checkout button
      document.querySelector('#checkoutButton').addEventListener('click', () => {
-         updateOrder('checkout')
+        let orderType = document.querySelector('input[name="orderType"]:checked').value;
+        let inputAddress = document.getElementById('inputAddress').value;
+        let addressLabel = document.getElementById('addressLabel');
+        if (inputAddress == '' && orderType == 'delivery') {
+                addressLabel.innerHTML = 'Address <i class="text-danger">*</i>';
+        } else {
+            updateOrder('checkout');
+        }
      });
 
      // event listener for pick up and delivery radios                      
@@ -1232,6 +1239,7 @@ CHOOSE PIZZA INGREDIENTS
          document.querySelector('#totalCost').textContent = `Total: $0.00`;
 
          document.querySelector('#orderSummary').removeAttribute('data-id'); //not tested
+         let signMessage = 'Your order has been placed!';               // AKELLLLLLLLL REMEMBER THIS *********************
          userNotification("success", signMessage);
          return;
      }
