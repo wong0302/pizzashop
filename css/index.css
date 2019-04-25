@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+
 .card-deck{
     padding: 3rem;
 }
@@ -52,6 +53,7 @@ form{
 
 .borderless{
     border: none !important;
+    border-right: 1px solid #ddd !important;
 }
 
 .img-container-size{
@@ -74,4 +76,17 @@ form{
 
 .jumbotron{
     margin-bottom: 0 !important;
+    /* https://www.pexels.com/photo/closeup-photography-of-pizza-on-white-surface-724219/ */
+    background-image: url("../img/jumbo-bg.jpeg") !important;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-img-top{
+   height: 30vh;
+}
+
+.select-button{
+    margin: auto;
+    padding: 0.5rem 3.5rem !important;
 }

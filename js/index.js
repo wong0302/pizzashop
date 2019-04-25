@@ -613,7 +613,7 @@
          //let pizzaIngredients = document.createElement('p');
          let smallText = document.createElement('p');
          let glutenFree = document.createElement('small');
-         let selectBtn = document.createElement('li');
+         let selectBtn = document.createElement('button');
          // let selectBtn = document.createElement('a');
 
          //<li class="nav-item navigation nav-link active" data-target="home">
@@ -629,12 +629,12 @@
          if (pizza.isGlutenFree == true) {
              smallText.textContent = 'Gluten Free';
          } else {
-             smallText.textContent = ' ';
+             smallText.textContent = 'Not Gluten Free';
          }
          selectBtn.textContent = 'Select';
 
          columnDiv.setAttribute('class', 'col-md-6 col-xl-4 py-4 d-flex');
-         cardDiv.setAttribute('class', 'card text-center cardDiv');
+         cardDiv.setAttribute('class', 'card text-center cardDiv shadow');
          pizzaImg.setAttribute('src', pizza.imageUrl);
          pizzaImg.setAttribute('class', 'card-img-top');
          pizzaImg.setAttribute('alt', pizza.name);
@@ -643,7 +643,7 @@
          //pizzaIngredients.setAttribute('class', 'card-text');
          smallText.setAttribute('class', 'card-text');
          glutenFree.setAttribute('class', 'text-muted');
-         selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary select-button');
+         selectBtn.setAttribute('class', 'nav-item nav-link btn-lg btn-primary select-button');
          //selectBtn.setAttribute('data-target', 'order-view');
         // selectBtn.setAttribute('class', 'select-button');
 
