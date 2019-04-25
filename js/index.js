@@ -43,6 +43,9 @@
      //Add/Edit modal submit buttons
      document.getElementById('submitIngredientBtn').addEventListener('click', addIngredients);
      document.getElementById('submitPizzaButton').addEventListener('click', addPizza);
+     document.getElementById('deleteRowPizza').addEventListener('click', deletePizza);
+     document.getElementById('deleteRow').addEventListener('click', deleteIngredients);
+
 
      document.querySelector('.change-pswd-btn').addEventListener('click', onClickChangePassword);
      document.getElementById('showPassword').addEventListener('click', showPassword);
@@ -423,6 +426,7 @@
 
      ingredientsList.data.forEach(item => {
          let tbody = document.querySelector('.table-body');
+         let deletedIngredient = document.getElementById('deleteRow');
          let tr = document.createElement('tr');
          let ingredient = document.createElement('td');
          let price = document.createElement('td');
@@ -455,10 +459,8 @@
          deleteBtn.setAttribute('class', 'fas fa-times text-danger');
          deleteBtn.setAttribute('data-toggle', 'modal');
          deleteBtn.setAttribute('data-target', '#deleteModal');
+         deletedIngredient.setAttribute('data-id', item._id);
 
-         //deleteBtn.setAttribute('data-id', pizza.id);
-         deleteBtn.addEventListener('click', () => confirmDeleteIngredient(item));
-       
          tr.appendChild(ingredient);
          tr.appendChild(price);
          tr.appendChild(gluten);
@@ -502,20 +504,12 @@
      mode = 'edit';
  }
 
-  /**************************
-    CONFIRM DELETE INGREDIENTS
- **************************/
-
- function confirmDeleteIngredient(ingredient){
-    let id = ingredient._id;
-    document.getElementById('deleteModalBody').innerHTML= `Are you sure you want to delete ${ingredient.name}?`;
-    document.getElementById('deleteRow').addEventListener('click', () => deleteIngredients(id));
-    console.log(id);
-}
  /**************************
      DELETE INGREDIENTS
  **************************/
- async function deleteIngredients(id) {
+ async function deleteIngredients() {
+    let id = document.getElementById('deleteRow').getAttribute('data-id');
+    console.log("Trying to delete", id);
      let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
@@ -535,7 +529,7 @@
      let delMessage = `Deleted: ${ingredientsList.data.name}`;
      userNotification("info", delMessage);
 
-     getIngredients(ingredientsList);
+     //getIngredients(ingredientsList);
  }
 
  /**************************
@@ -567,6 +561,7 @@
      section.innerHTML = "";
      pizzasList.data.forEach(pizza => {
          let tbody = document.querySelector('#pizzas-view > .table > .table-body');
+         let deletedPizza = document.getElementById('deleteRowPizza');
          let tr = document.createElement('tr');
          let name = document.createElement('td');
          let price = document.createElement('td');
@@ -583,10 +578,6 @@
             glutenFree.textContent = "Gluten"
 
          }
-        // editBtn.textContent = 'Edit';
-        // deleteBtn.textContent = 'Delete';
-
-         //actions.setAttribute('data-id', pizza.id);
 
         // editBtn.setAttribute('type', 'button');
          editBtn.setAttribute('class', 'fas text-primary fa-pen mr-4');
@@ -594,11 +585,10 @@
          editBtn.setAttribute('data-target', '#add-edit-pizza');
          editBtn.addEventListener('click', () => onEditPizza(pizza._id));
 
-        // deleteBtn.setAttribute('type', 'button');
          deleteBtn.setAttribute('class', 'fas fa-times text-danger');
          deleteBtn.setAttribute('data-toggle', 'modal');
-         deleteBtn.setAttribute('data-target', '#deleteModal');
-         deleteBtn.addEventListener('click', () => confirmDeletePizza(pizza));
+         deleteBtn.setAttribute('data-target', '#deleteModalPizza'); //changed
+         deletedPizza.setAttribute('data-id', pizza._id);
 
          tbody.appendChild(tr);
          tr.appendChild(name);
@@ -815,21 +805,13 @@ CHOOSE PIZZA INGREDIENTS
 
      mode = 'edit';
  }
- /**************************
-    CONFIRM DELETE PIZZA
- **************************/
-
- function confirmDeletePizza(pizza){
-    let id = pizza._id;
-    document.getElementById('deleteModalBody').innerHTML= `Are you sure you want to delete ${pizza.name}?`;
-    document.getElementById('deleteRow').addEventListener('click', () => deletePizza(id));
-    console.log(id);
-}
 
  /**************************
          DELETE PIZZA
  **************************/
- async function deletePizza(id) {
+ async function deletePizza() {
+     let id = document.getElementById('deleteRowPizza').getAttribute('data-id');
+     console.log("Trying to delete", id);
      let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
@@ -1451,8 +1433,13 @@ function userNotification(type, message) {
      alertSection.appendChild(alertHeading);
      alertSection.appendChild(alertDiv);
      alertstrap.appendChild(alertSection);
-
-     setTimeout("close()", 5000);
+     setTimeout(
+        function() {
+         let noti = document.getElementById("userNotifications");
+          noti.remove();
+        },
+        5000
+      );
  }
 
  function close() {
