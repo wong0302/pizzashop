@@ -641,8 +641,9 @@
          //pizzaIngredients.setAttribute('class', 'card-text');
          smallText.setAttribute('class', 'card-text');
          glutenFree.setAttribute('class', 'text-muted');
-         selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary navigation select-button');
-         selectBtn.setAttribute('data-target', 'order-view');
+         selectBtn.setAttribute('class', 'nav-item nav-link btn btn-primary select-button');
+         //selectBtn.setAttribute('data-target', 'order-view');
+        // selectBtn.setAttribute('class', 'select-button');
 
          cardDeck.appendChild(columnDiv);
          columnDiv.appendChild(cardDiv);
@@ -661,39 +662,22 @@
 /**************************
 ONLY SIGNEDIN USER CAN ORDER
 **************************/
-
 function checkToken(){
-   
-    let authToken = JSON.parse(localStorage.getItem(tokenKey));
     let select = document.querySelectorAll('.select-button');
-    // user with valid token is taken to back menu / user without valid valid token toggles signIn?/signUp? modal   ************NEW
-     console.log('TOKENNNSSS', authToken);
-     if(!authToken) {
-         // user not signed in
-        select.forEach(button => {
-            button.addEventListener('click', changeNav)
-        })     
-     } else {
-         // signed in user
-         select.forEach(button => {
-             console.log('is this shit working?')
-             button.removeEventListener('click', changeNav)
-             button.removeAttribute('data-toggle', 'modal')
-             button.setAttribute('data-target', 'order-view')
-             button.setAttribute('class', 'nav-item nav-link btn btn-primary select-button navigation');
-             button.addEventListener('click',navigate) 
-         })
-     }
- }
-
- function changeNav(button) {
-       // removing/ adding previous listeners/attributes/classes
-        button.currentTarget.removeEventListener('click', navigate)
-        button.currentTarget.removeAttribute('data-target', 'order-view')
-        button.currentTarget.setAttribute('data-target', '#whoDat');
-        button.currentTarget.classList.remove('navigation');
-        button.currentTarget.setAttribute('data-toggle', 'modal')
- }
+    select.forEach(button => {
+        if(JSON.parse(localStorage.getItem(tokenKey))) {
+            button.setAttribute('class', 'nav-item nav-link btn btn-primary navigation select-button');
+            button.setAttribute('data-target', 'order-view');
+            button.addEventListener('click', navigate);
+        } else {
+            button.setAttribute('class', 'nav-item nav-link btn btn-primary select-button');
+            button.removeEventListener('click', navigate);
+            button.classList.remove('navigation');
+            button.setAttribute('data-target', '#whoDat');
+            button.setAttribute('data-toggle', 'modal')
+        }
+    })
+}
 
 /**************************
 CHOOSE PIZZA INGREDIENTS
