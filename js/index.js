@@ -361,7 +361,7 @@
 
      let userInput = {
          name: productName,
-         price: price,
+         price: price * 100,
          quantity: quantity,
          isGlutenFree: checkVal,
          imageUrl: imgUrl,
@@ -438,7 +438,7 @@
          let deleteBtn = document.createElement('i');
 
          ingredient.textContent = item.name // insert ingredient name variable
-         price.textContent = item.price; // insert price variable
+         price.textContent = (item.price/100).toFixed(2); // insert price variable
          category.textContent = item.categories; // insert category variable
          quantity.textContent = item.quantity; // insert quantity variable
          if(item.isGlutenFree === true){
@@ -494,7 +494,7 @@
 
      document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
      document.getElementById('productName').value = ingredients.data.name;
-     document.getElementById('price').value = ingredients.data.price;
+     document.getElementById('price').value = (ingredients.data.price/100).toFixed(2);
      document.getElementById('quantity').value = ingredients.data.quantity;
      let ingredValue = ingredients.data.categories;
      document.querySelector('#categories').value = ingredValue;
@@ -571,7 +571,7 @@
          let deleteBtn = document.createElement('i');
 
          name.textContent = pizza.name
-         price.textContent = pizza.price;
+         price.textContent = (pizza.price/100).toFixed(2);
          if(pizza.isGlutenFree === true){
             glutenFree.textContent = "Gluten Free"
          }else{
@@ -1023,7 +1023,7 @@ CHOOSE PIZZA INGREDIENTS
     }
 
      
-     tdPrice.textContent = `$${ingredient.price}`;
+     tdPrice.textContent = `$${(ingredient.price/100).toFixed(2)}`;
 
      editSectionOrder.appendChild(tr);
      tr.appendChild(tdImg);
@@ -1043,9 +1043,9 @@ CHOOSE PIZZA INGREDIENTS
      let ele = document.querySelector('#total-cost-number')
      let cost = parseFloat(ele.textContent);
      if (checked) {
-         ele.textContent = `${cost + price} `;
+         ele.textContent = `${cost + price}`;
      } else if (!checked) {
-         ele.textContent = `${cost - price} `;
+         ele.textContent = `${cost - price}`;
      }
  }
 
@@ -1129,7 +1129,7 @@ CHOOSE PIZZA INGREDIENTS
      pizzaPrice.setAttribute('id', 'pizzaPriceTitle');
      pizzaPrice.setAttribute('data-id', pizza.data._id);
 
-     pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${pizza.data.price}</span + extras`;
+     pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${(pizza.data.price/100).toFixed(2)}</span + extras`;
      //extrasPrice.textContent = `Extras: extras price variable (all added together)`;
 
      totalsSection.appendChild(pizzaPrice);
@@ -1268,7 +1268,7 @@ CHOOSE PIZZA INGREDIENTS
          //ingredient.setAttribute('class', 'text-muted');
 
          orderItem.textContent = pizza.name;
-         itemPrice.textContent = pizza.price;
+         itemPrice.textContent = (pizza.price/100).toFixed(2);
          editBtn.textContent = 'Edit';
          deleteBtn.textContent = 'Delete';
          //ingredient.textContent = 'list of ingredients here' //pizza.ingredients.join(', ') displays ID
@@ -1292,9 +1292,9 @@ CHOOSE PIZZA INGREDIENTS
 
      //let orderTotalSection = document.querySelector('#orderTotal');
 
-     document.querySelector('#subtotal').textContent = `Sub-total: $${order.data.price}`;
+     document.querySelector('#subtotal').textContent = `Sub-total: $${(order.data.price/100).toFixed(2)}`;
      document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $0.00';
-     document.querySelector('#taxTotal').textContent = `Tax: $${order.data.tax}`;
+     document.querySelector('#taxTotal').textContent = `Tax: $${(order.data.tax/100).toFixed(2)}`;
      document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
  }
 
