@@ -1434,6 +1434,42 @@ function userNotification(type, message) {
      document.querySelector('.display').classList.remove('display');
      let target = tapped.getAttribute('data-target');
      document.getElementById(target).classList.add('display');
+
+     setPageHeader(target);
+ }
+
+/**************************
+        PAGE HEADER
+ **************************/
+ function setPageHeader(target){
+    let title = document.querySelector('.title');
+    let subTitle = document.querySelector('.lead');
+    switch(target) {
+        case 'home':
+           title.textContent = "AKELSTACKEL Pizza";
+           subTitle.textContent = "Dreams really do come true, when you have the right slice.";
+           break;
+       case 'menu':
+           title.textContent = "Menu";
+           subTitle.textContent = "Wakelstackel's Menu";
+           break;
+       case 'ingredients-view':
+           title.textContent = "Ingredients";
+           subTitle.textContent = "Wakelstackel's Ingredients Inventory";
+           break;
+       case 'pizzas-view':
+           title.textContent = "Pizzas";
+           subTitle.textContent = "Wakelstackel's Pizzas List";
+           break;
+       case 'users-view':
+           title.textContent = "Users";
+           subTitle.textContent = "Wakelstackel's Users List";
+           break;
+       case 'order-view':
+           title.textContent = "Order Options";
+           subTitle.textContent = "Pick how you want it wacked and stacked!";
+           break;
+    }
  }
 
  /**************************
