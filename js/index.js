@@ -1230,6 +1230,7 @@ CHOOSE PIZZA INGREDIENTS
      let orderList = document.getElementById('orderList');
      // get request /api/orders
      // get list of pizzas in order, create forEach loop
+     document.querySelector('.cart-count').textContent = pizzaCart.length;
      orderList.innerHTML = "";
 
      order.data.pizzas.forEach(pizza => {
