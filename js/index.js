@@ -412,8 +412,8 @@
      //console.log(ingredientsList);
 
      createIngredientCard(ingredientsList);
-     categories(ingredientsList);
      createPizzaIngredients(ingredientsList);
+     categories(ingredientsList);
  }
 
  /**************************
@@ -460,6 +460,7 @@
          deleteBtn.setAttribute('data-toggle', 'modal');
          deleteBtn.setAttribute('data-target', '#deleteModal');
          deletedIngredient.setAttribute('data-id', item._id);
+         document.getElementById('deleteModalBodyPizza').innerHTML =`Are you sure you want to ${item.name}`;
 
          tr.appendChild(ingredient);
          tr.appendChild(price);
@@ -490,6 +491,7 @@
          mode: 'cors'
      });
      let ingredients = await fetchAPI(req);
+
      document.getElementById('edit-add-ingredients-title').innerHTML = "Edit Ingredients";
 
      document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
@@ -690,6 +692,8 @@ CHOOSE PIZZA INGREDIENTS
 **************************/
 
  function createPizzaIngredients(ingredientsList) {
+    let section = document.querySelector('.admin-add-ingredients');
+    section.innerHTML = "";
      ingredientsList.data.forEach(item => {
          let addSection = document.querySelector('.admin-add-ingredients');
          let checkboxDiv = document.createElement('div');
@@ -725,6 +729,7 @@ CHOOSE PIZZA INGREDIENTS
  async function addPizza(ev) {
      ev.preventDefault();
      console.log(pizzaIngredientInfo);
+     let ingredients = pizzaIngredientInfo._id;
      let name = document.getElementById('pizzaName').value
      //let price = document.getElementById('pizzaPrice').value
      let imgUrl = document.getElementById('pizza-img-input').value
@@ -747,7 +752,7 @@ CHOOSE PIZZA INGREDIENTS
          // price: price,
          imageUrl: imgUrl,
          isGlutenFree: checkValue,
-         ingredients: pizzaIngredientInfo
+         ingredients: ingredients
      };
 
      let jsonData = JSON.stringify(userInput);
@@ -794,13 +799,13 @@ CHOOSE PIZZA INGREDIENTS
          mode: 'cors'
      });
      let pizza = await fetchAPI(req);
-     document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
 
+
+     document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
      document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
      document.getElementById('pizzaName').value = pizza.data.name;
      // document.getElementById('pizzaPrice').value = pizza.data.price;
      document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
-
      console.log(document.getElementById('pizzas-add-edit'));
 
      mode = 'edit';
