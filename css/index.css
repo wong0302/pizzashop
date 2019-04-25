@@ -1,3 +1,9 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
 .card-deck{
     padding: 3rem;
 }
@@ -20,7 +26,7 @@ form{
 }
 
 .nav > li{
-    color: blue;
+    color: #FFF;
     cursor: pointer;
 }
 
@@ -53,3 +59,7 @@ form{
     z-index: 4;
 }
 
+.table{
+   margin: 0 auto;
+   width: 95% !important; 
+}

@@ -19,6 +19,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
   </script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <title>Wakelstackel</title>
 </head>
 
@@ -27,7 +30,7 @@
   <!--------------------------
                 NAV 
   --------------------------->
-  <section class="navbar">
+  <section class="navbar bg-dark sticky-top">
 
     <ul class="nav justify-content-end">
       <li class="nav-item navigation nav-link active" data-target="home">Home</li>
@@ -37,8 +40,8 @@
       <!-- This nav should only appear when a staff member is signed in -->
       <li class="nav-item adminSignedIn">
         <div class="btn-group">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             Admin
           </button>
           <div class="dropdown-menu dropdown-menu-right">
@@ -62,8 +65,8 @@
 
       <li class="nav-item signedIn">
         <div class="btn-group">
-          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
             Account
           </button>
           <div class="dropdown-menu dropdown-menu-right">
@@ -293,7 +296,7 @@
       </div>
     </div>
     <button type="button" id="addIngredientsButton" data-toggle="modal" data-target="#editIngredients"
-      class="btn btn-primary">Add Ingredients</button>
+      class="btn btn-primary float-right mr-3 mb-3">Add Ingredients</button>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -315,16 +318,16 @@
       INGREDIENTS EDIT PAGE 
   --------------------------->
 
-  <section class="ingredients-add-edit" id="ingredients-add-edit">
-  <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-        <h5 class="modal-title" id="edit-add-ingredients-title">Add Ingredients</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+    <section class="ingredients-add-edit" id="ingredients-add-edit">
+    <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit-add-ingredients-title">Add Ingredients</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
                     
           <!------------- FORM -------------->
                      <form id="ingredientsForm">
@@ -338,15 +341,15 @@
             </div>
             <div class="form-row">
               <div class="col">
-                  <div class="form-group">
-                      <div class="custom-file">
+                <div class="form-group">
+                  <div class="custom-file">
 
-      <!-- Image URL Input -->
-                            <label for="formGroupInput">Image URL</label>
-                          <input type="text" class="form-control" id="ing-img-input">
-                        </div>
-                    </div>
+                    <!-- Image URL Input -->
+                    <label for="formGroupInput">Image URL</label>
+                    <input type="text" class="form-control" id="ing-img-input">
+                  </div>
                 </div>
+              </div>
             </div>
 
             <div class="form-row">
@@ -392,26 +395,23 @@
                        
                         <div class="invalid-feedback">Example invalid custom select feedback</div>
                       </div> -->
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" id="submitIngredientBtn" class="btn btn-primary" data-dismiss="modal">Add</button>
-                      </div>
-        
-                    </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="button" id="submitIngredientBtn" class="btn btn-primary"
+                    data-dismiss="modal">Add</button>
                 </div>
+
               </div>
             </div>
-
-
-        </form>
-      </section>
-
+        </div>
+      </div>
+          </form>
+        
+  </section>
   <!--------------------------
           MENU PAGE 
   --------------------------->
   <section class="menu page" id="menu">
-
-      
     <!------- HEADER ------>
         <div class="jumbotron jumbotron-fluid">
               <div class="container">
@@ -419,11 +419,10 @@
                 </div>
             </div>
     <!-- view cart button -->
-      <button type="button" class="btn btn-primary nav-modal" id="cartBtn" data-toggle="modal" data-target="#orderSummary">View Cart</button>
-      <div class="card-deck">
-        </div>
+    <button type="button" class="btn btn-primary nav-modal" id="cartBtn" data-toggle="modal"
+      data-target="#orderSummary">View Cart</button>
+      <div class="card-deck"></div>
   </section>
-
   <!--------------------------
           PIZZAS PAGE 
   --------------------------->
@@ -436,7 +435,7 @@
     </div>
 
     <button type="button" id="addPizzaButton" data-toggle="modal" data-target="#add-edit-pizza"
-      class="btn btn-primary">Add Pizza</button>
+      class="btn btn-primary float-right mr-3 mb-3">Add Pizza</button>
 
     <table class="table table-hover">
       <thead>
@@ -455,7 +454,7 @@
   <!--------------------------
       PIZZA ADD/EDIT PAGE 
   --------------------------->
-  <section class="pizzas-add-edit" id="pizzas-add-edit">
+  <span class="pizzas-add-edit" id="pizzas-add-edit">
         <div class="modal" id="add-edit-pizza" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -467,52 +466,52 @@
           </div>
                     
           <!------------- FORM -------------->
-                       <form id="pizzaForm">
+                    <form id="pizzaForm">
             <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
+              <div class="col">
+                <div class="form-group">
 
-      <!-- Pizza Name Input -->
-                        <label for="formGroupInput">Pizza Name</label>
-                        <input type="text" class="form-control" id="pizzaName" placeholder="Name">
-                      </div>
+                  <!-- Pizza Name Input -->
+                  <label for="formGroupInput">Pizza Name</label>
+                  <input type="text" class="form-control" id="pizzaName" placeholder="Name">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <div class="custom-file">
+
+                    <!-- Image URL Input -->
+                    <label for="formGroupInput">Image URL</label>
+                    <input type="text" class="form-control" id="pizza-img-input">
                   </div>
+                </div>
               </div>
-
+            </div>
             <div class="form-row">
-                  <div class="col">
-                      <div class="form-group">
-                          <div class="custom-file">
+              <div class="col">
+                <div class="form-group">
+                  <div class="form-check">
 
-        <!-- Image URL Input -->
-                                <label for="formGroupInput">Image URL</label>
-                              <input type="text" class="form-control" id="pizza-img-input">
-                            </div>
-                        </div>
-                    </div>
-              </div>
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <div class="form-check">
-
-        <!-- Gluten Free Input-->
-                            <input class="form-check-input" type="checkbox" id="pizzaGluten">
-                            <label class="form-check-label" for="invalidCheck2">
-                                Check if Gluten Free
-                              </label>
-                          </div>
-                      </div>
+                    <!-- Gluten Free Input-->
+                    <input class="form-check-input" type="checkbox" id="pizzaGluten">
+                    <label class="form-check-label" for="invalidCheck2">
+                      Check if Gluten Free
+                    </label>
                   </div>
+                </div>
               </div>
+            </div>
             <div class="form-row">
-                <div class="col">
+              <div class="col">
 
-    <!-- Pizza Ingredients Input -->
-                    <section class="admin-add-ingredients" id="admin-add-ingredients">
-                      </section>
-                  </div>
+                <!-- Pizza Ingredients Input -->
+                <section class="admin-add-ingredients" id="admin-add-ingredients">
+                </section>
               </div>
+            </div>
           </form>
 
           <div class="modal-footer">
@@ -524,7 +523,7 @@
       </div>
     </div>
     </div>
-  </section>
+  </span>
 
   <!--------------------------
           USERS PAGE 
@@ -551,14 +550,10 @@
       </tbody>
     </table>
   </section>
-
-
   <!--------------------------
         ORDER OPTION PAGE 
   --------------------------->
-
   <section class="order-option page" id="order-view">
-
     <!-- HEADER -->
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
@@ -572,31 +567,32 @@
         <div class="col-md-4">
           <!-- bootstrap card instead of image -->
           <div class="card borderless">
-              <img class="card-img-top" id="pizza-order-img">
-              <div class="card-body">
-                  <div class="card-body text-center p-4">
-                      <section class="add-to-order p-3" id="add-to-order">
-                                              
-                        <!-- order price totals appended here -->
-                      </section>
-                      <button type="button" class="btn btn-primary navigation" id="add-button" data-toggle="modal"
-                      data-target="menu">Add to Order</button>
-                    </div>
+            <img class="card-img-top" id="pizza-order-img">
+            <div class="card-body">
+              <div class="card-body text-center p-4">
+                <section class="add-to-order p-3" id="add-to-order">
+                                        
+                  <!-- order price totals appended here -->
+                </section>
+                <button type="button" class="btn btn-primary navigation" id="add-button" data-toggle="modal"
+                  data-target="menu">Add to Order</button>
               </div>
             </div>
+          </div>
 
-          
+
         </div>
         <div class="col-md-8">
           <div class="card-body">
             <!-- ORDER OPTION NAV -->
             <nav>
-              <div class="nav nav-tabs d-flex mb-3" id="nav-tab" role="tablist">
+              <div class="nav d-flex mb-3" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active px-5" id="nav-details-tab" data-toggle="tab" href="#nav-details"
                   role="tab" aria-controls="nav-details" aria-selected="true">Details</a>
                 <a class="nav-item nav-link px-5" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab"
                   aria-controls="nav-edit" aria-selected="false">Edit Ingredients</a>
-                  <button type="button" class="btn btn-primary ml-auto mb-2 navigation" data-target="menu">Back to Menu</button>
+                <button type="bu</strike>tton" class="btn btn-primary ml-auto mb-2 navigation" data-target="menu">Back
+                  to Menu</button>
               </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -631,7 +627,7 @@
                           </div>
                         </div>
 
-           
+
 
                       </td>
                     </tr>
@@ -747,7 +743,7 @@
     </div>
 
   </section>
-    <!--------------------------
+  <!--------------------------
        ORDER SUMMARY PAGE 
   --------------------------->
   <section class="order-summary">
@@ -783,52 +779,52 @@
 
               <div class="col-8 col-sm-6">
                 <form>
-             <!-- PICK UP OR DELIVERY RADIO BUTTONS -->
-             <h5 class="card-title">Order Instructions</h5>
-             <div class="form-check">
-               <input class="form-check-input orderType" data-target="pickup" type="radio"
-                 name="orderType" id="pickup" value="pickup" checked>
-               <label class="form-check-label" for="pickup">
-                 Pick-up
-               </label>
-             </div>
-             <div class="form-check">
-               <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
-                 value="delivery">
-               <label class="form-check-label" for="delivery">
-                 Delivery
-               </label>
-             </div>
-
-<!-- address form starts here-->
-
-             <section class="address-form page">
-                  <div class="form-row pt-3">
-                    <div class="form-group col">
-                      <label for="inputAddress">Address</label>
-                      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-                    </div>
+                  <!-- PICK UP OR DELIVERY RADIO BUTTONS -->
+                  <h5 class="card-title">Order Instructions</h5>
+                  <div class="form-check">
+                    <input class="form-check-input orderType" data-target="pickup" type="radio" name="orderType"
+                      id="pickup" value="pickup" checked>
+                    <label class="form-check-label" for="pickup">
+                      Pick-up
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
+                      value="delivery">
+                    <label class="form-check-label" for="delivery">
+                      Delivery
+                    </label>
                   </div>
 
-                  <div class="form-row">
-                    <div class="form-group col">
-                      <label for="inputCity">City</label>
-                      <input type="text" class="form-control" id="inputCity" placeholder="City">
+                  <!-- address form starts here-->
+
+                  <section class="address-form page">
+                    <div class="form-row pt-3">
+                      <div class="form-group col">
+                        <label for="inputAddress">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="form-group col-md-6">
-                      <label for="inputState">Province</label>
-                      <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                      </select>
+
+                    <div class="form-row">
+                      <div class="form-group col">
+                        <label for="inputCity">City</label>
+                        <input type="text" class="form-control" id="inputCity" placeholder="City">
+                      </div>
                     </div>
-                    <div class="form-group col-md-4">
-                      <label for="inputZip">Postal Code</label>
-                      <input type="text" class="form-control" id="inputZip">
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Province</label>
+                        <select id="inputState" class="form-control">
+                          <option selected>Choose...</option>
+                          <option>...</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputZip">Postal Code</label>
+                        <input type="text" class="form-control" id="inputZip">
+                      </div>
                     </div>
-                  </div>
                   </section>
                   <!-- address form ends here -->
                 </form>
@@ -861,8 +857,10 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <button type="button" class="btn btn-primary px-3 m-5" data-toggle="modal" data-target="#signInModal" data-dismiss="modal">Sign In</button>
-          <button type="button" class="btn btn-primary m-5" data-toggle="modal" data-target="#signUpModal" data-dismiss="modal">Sign Up</button>
+          <button type="button" class="btn btn-primary px-3 m-5" data-toggle="modal" data-target="#signInModal"
+            data-dismiss="modal">Sign In</button>
+          <button type="button" class="btn btn-primary m-5" data-toggle="modal" data-target="#signUpModal"
+            data-dismiss="modal">Sign Up</button>
         </div>
       </div>
     </div>

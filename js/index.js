@@ -13,6 +13,10 @@
      getPizzas();
      changeURL();
      addListeners();
+
+     if(JSON.parse(localStorage.getItem(tokenKey))) {
+        getCurrentUser(JSON.parse(localStorage.getItem(tokenKey)))
+     }
  });
 
  function addListeners() {
@@ -424,8 +428,8 @@
          let quantity = document.createElement('td');
          let category = document.createElement('td');
          let actions = document.createElement('td');
-         let editBtn = document.createElement('p');
-         let deleteBtn = document.createElement('p');
+         let editBtn = document.createElement('i');
+         let deleteBtn = document.createElement('i');
 
          ingredient.textContent = item.name // insert ingredient name variable
          price.textContent = item.price; // insert price variable
@@ -437,16 +441,16 @@
             gluten.textContent = "Gluten"
 
          }
-         editBtn.textContent = 'Edit';
-         deleteBtn.textContent = 'Delete';
-         editBtn.setAttribute('type', 'button');
-         editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+         //editBtn.innerHTML = '<i class="fas text-primary fa-pen"></i>';
+         //deleteBtn.innerHTML = '<i class="fas fa-times text-danger"></i>';
+         //editBtn.setAttribute('type', 'button');
+         editBtn.setAttribute('class', 'fas text-primary fa-pen mr-4');
          editBtn.setAttribute('data-toggle', 'modal');
          editBtn.setAttribute('data-target', '#editIngredients');
          editBtn.addEventListener('click', () => onEditIngredients(item._id));
          //console.log("edit button:", editBtn);
-         deleteBtn.setAttribute('type', 'button');
-         deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+         //deleteBtn.setAttribute('type', 'button');
+         deleteBtn.setAttribute('class', 'fas fa-times text-danger');
          deleteBtn.setAttribute('data-id', item.id);
          deleteBtn.addEventListener('click', () => deleteIngredients(item._id));
 
@@ -554,8 +558,8 @@
          let price = document.createElement('td');
          let glutenFree = document.createElement('td');
          let actions = document.createElement('td');
-         let editBtn = document.createElement('p');
-         let deleteBtn = document.createElement('p');
+         let editBtn = document.createElement('i');
+         let deleteBtn = document.createElement('i');
 
          name.textContent = pizza.name
          price.textContent = pizza.price;
@@ -565,19 +569,19 @@
             glutenFree.textContent = "Gluten"
 
          }
-         editBtn.textContent = 'Edit';
-         deleteBtn.textContent = 'Delete';
+        // editBtn.textContent = 'Edit';
+        // deleteBtn.textContent = 'Delete';
 
          //actions.setAttribute('data-id', pizza.id);
 
-         editBtn.setAttribute('type', 'button');
-         editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        // editBtn.setAttribute('type', 'button');
+         editBtn.setAttribute('class', 'fas text-primary fa-pen mr-4');
          editBtn.setAttribute('data-toggle', 'modal');
          editBtn.setAttribute('data-target', '#add-edit-pizza');
          editBtn.addEventListener('click', () => onEditPizza(pizza._id));
 
-         deleteBtn.setAttribute('type', 'button');
-         deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
+        // deleteBtn.setAttribute('type', 'button');
+         deleteBtn.setAttribute('class', 'fas fa-times text-danger');
          //deleteBtn.setAttribute('data-id', pizza.id);
          deleteBtn.addEventListener('click', () => deletePizza(pizza._id));
 
@@ -1297,6 +1301,7 @@ CHOOSE PIZZA INGREDIENTS
      if (orderType == 'delivery') {
          console.log('they want delivery');
          addressForm.classList.add('display');
+
 
      } else {
          console.log('they want to pick up');
