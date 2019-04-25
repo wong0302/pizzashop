@@ -2,7 +2,7 @@
  let tokenKey = 'tokenKey'
  let currentUser = null; //Currently logged in user
  let mode = null; // Add/Edit mode
- let pizzaIngredientInfo = [];
+ //let pizzaIngredientInfo = [];
  //let extraToppingsArray = [];
  let pizzaCart = [];
 
@@ -714,14 +714,14 @@ CHOOSE PIZZA INGREDIENTS
          checkbox.setAttribute('type', 'checkbox');
          checkbox.setAttribute('value', item.name);
          checkbox.setAttribute('data-id', item._id);
-         checkbox.addEventListener('change', function () {
-             if (event.target.checked) {
-                 pizzaIngredientInfo.push(item._id);
-             }
-             if (!event.target.checked) {
-                 pizzaIngredientInfo.pop(item._id);
-             }
-         });
+        //  checkbox.addEventListener('change', function () {
+        //      if (event.target.checked) {
+        //          pizzaIngredientInfo.push(item._id);
+        //      }
+        //      if (!event.target.checked) {
+        //          pizzaIngredientInfo.pop(item._id);
+        //      }
+        //  });
          ingredientName.setAttribute('class', 'form-check-label');
          ingredientName.setAttribute('for', 'defaultCheck');
 
@@ -735,14 +735,15 @@ CHOOSE PIZZA INGREDIENTS
  **************************/
  async function addPizza(ev) {
      ev.preventDefault();
-     console.log(pizzaIngredientInfo);
-     let ingredients = pizzaIngredientInfo._id;
+     //console.log(pizzaIngredientInfo);
+    // let ingredients = pizzaIngredientInfo._id;
      let name = document.getElementById('pizzaName').value
      //let price = document.getElementById('pizzaPrice').value
      let imgUrl = document.getElementById('pizza-img-input').value
      //Check if Gluten Free is Checked & Set Value
 
-     // let checkValue = undefined;
+     let checkValue = null;
+
      if (document.getElementById('pizzaGluten').checked) {
          checkValue = true;
      }
@@ -750,9 +751,18 @@ CHOOSE PIZZA INGREDIENTS
      if (!document.getElementById('pizzaGluten').checked) {
          checkValue = "false";
      }
-
+     let ingredients = [];
+     let checkedIngredients = document.querySelectorAll('.ingredient-input');
+     checkedIngredients.forEach(ingredient => {
+         if(ingredient.checked) {
+            ingredients.push(ingredient.getAttribute('data-id'));
+         }
+     })
 
      console.log('img url:', imgUrl);
+     console.log("name :", name);
+     console.log("isGlutenfree:", checkValue);
+     console.log("ingredients:", ingredients);
 
      let userInput = {
          name: name,
@@ -783,7 +793,7 @@ CHOOSE PIZZA INGREDIENTS
      //now do the fetch
      let pizzaUpdate = await fetchAPI(req);
      console.log(pizzaUpdate);
-     pizzaIngredientInfo.splice(0);
+     //pizzaIngredientInfo.splice(0);
      getPizzas();
      let message = `${mode} ${pizzaUpdate.data.name}`;
      userNotification("info", message);
