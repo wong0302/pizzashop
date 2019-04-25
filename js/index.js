@@ -453,9 +453,11 @@
          //console.log("edit button:", editBtn);
          //deleteBtn.setAttribute('type', 'button');
          deleteBtn.setAttribute('class', 'fas fa-times text-danger');
-         deleteBtn.setAttribute('data-id', item.id);
-         deleteBtn.addEventListener('click', () => deleteIngredients(item._id));
+         deleteBtn.setAttribute('data-toggle', 'modal');
+         deleteBtn.setAttribute('data-target', '#deleteModal');
 
+         //deleteBtn.setAttribute('data-id', pizza.id);
+         deleteBtn.addEventListener('click', () => confirmDeleteIngredient(item));
        
          tr.appendChild(ingredient);
          tr.appendChild(price);
@@ -500,6 +502,16 @@
      mode = 'edit';
  }
 
+  /**************************
+    CONFIRM DELETE INGREDIENTS
+ **************************/
+
+ function confirmDeleteIngredient(ingredient){
+    let id = ingredient._id;
+    document.getElementById('deleteModalBody').innerHTML= `Are you sure you want to delete ${ingredient.name}?`;
+    document.getElementById('deleteRow').addEventListener('click', () => deleteIngredients(id));
+    console.log(id);
+}
  /**************************
      DELETE INGREDIENTS
  **************************/
@@ -584,8 +596,9 @@
 
         // deleteBtn.setAttribute('type', 'button');
          deleteBtn.setAttribute('class', 'fas fa-times text-danger');
-         //deleteBtn.setAttribute('data-id', pizza.id);
-         deleteBtn.addEventListener('click', () => deletePizza(pizza._id));
+         deleteBtn.setAttribute('data-toggle', 'modal');
+         deleteBtn.setAttribute('data-target', '#deleteModal');
+         deleteBtn.addEventListener('click', () => confirmDeletePizza(pizza));
 
          tbody.appendChild(tr);
          tr.appendChild(name);
@@ -596,6 +609,7 @@
          actions.appendChild(deleteBtn);
      })
  }
+
 
  /**************************
  CREATE PIZZA CARDS FOR MENU
@@ -801,6 +815,17 @@ CHOOSE PIZZA INGREDIENTS
 
      mode = 'edit';
  }
+ /**************************
+    CONFIRM DELETE PIZZA
+ **************************/
+
+ function confirmDeletePizza(pizza){
+    let id = pizza._id;
+    document.getElementById('deleteModalBody').innerHTML= `Are you sure you want to delete ${pizza.name}?`;
+    document.getElementById('deleteRow').addEventListener('click', () => deletePizza(id));
+    console.log(id);
+}
+
  /**************************
          DELETE PIZZA
  **************************/
