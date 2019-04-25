@@ -807,12 +807,25 @@ CHOOSE PIZZA INGREDIENTS
      });
      let pizza = await fetchAPI(req);
 
-
      document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
      document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
      document.getElementById('pizzaName').value = pizza.data.name;
-     // document.getElementById('pizzaPrice').value = pizza.data.price;
-     document.getElementById('pizzaGluten').value = pizza.data.isGlutenFree;
+     document.getElementById('pizza-img-input').value = pizza.data.imageUrl;
+     let ingredientsList = document.querySelectorAll('.ingredient-input');
+     //Uncheck the pizza edit ingredients checkboxes
+     for(let i = 0; i < ingredientsList.length; i++){
+        ingredientsList[i].checked = false;
+     }
+     
+     pizza.data.ingredients.forEach(ingredient => {
+    
+         for(let i = 0; i < ingredientsList.length; i++){
+             if(ingredient._id == ingredientsList[i].getAttribute('data-id')) {
+                 ingredientsList[i].checked = true;
+             } 
+         }
+     })
+     document.getElementById('pizzaGluten').checked = pizza.data.isGlutenFree;
      console.log(document.getElementById('pizzas-add-edit'));
 
      mode = 'edit';
