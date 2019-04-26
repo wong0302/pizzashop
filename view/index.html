@@ -60,12 +60,12 @@
 <!--------- ADMIN --------->
       <!-- This nav should only appear when a staff member is signed in -->
       <li class="nav-item adminSignedIn">
-        <div class="btn-group float-right">
+        <div class="dropdown btn-group float-right">
           <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Admin
           </button>
-          <div class="dropdown-menu">
+          <div class="dropdown-menu dropdown-menu-right">
               <span class="dropdown-item-text">
             <button class="dropdown-item navigation" type="button" data-target="ingredients-view" href="/admin/ingredients.html">Ingredients</button>
             <button class="dropdown-item navigation" type="button" data-target="pizzas-view" href="/admin/pizzas.html">Pizzas</button>
@@ -74,7 +74,8 @@
         </div>
       </li>
         <li class="nav-item signedIn">
-          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle float-right" data-toggle="dropdown"
+            <div class="dropdown btn-group float-right">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Account
           </button>
@@ -83,6 +84,7 @@
               data-target="#resetPassword" href="/profile.html">Change Password</button>
             <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home" href="/index.html">Sign
               Out</button>
+          </div>
           </div>
       </li>
     </ul>
