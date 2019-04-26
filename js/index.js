@@ -111,8 +111,13 @@
  **************************/
 
  function onClickChangePassword() {
-     document.querySelector('#pswd-name').textContent = `${currentUser.data.firstName} ${currentUser.data.lastName}`
-     document.querySelector('#pswd-email').textContent = currentUser.data.email
+    let userName = document.querySelector('#pswd-name');
+    let userEmail = document.querySelector('#pswd-email');
+    userName.textContent = `${currentUser.data.firstName} ${currentUser.data.lastName}`
+    userEmail.textContent = currentUser.data.email
+    //margin
+    userName.setAttribute('class', 'ml-5');
+    userEmail.setAttribute('class', 'ml-5')
  }
 
  // show hidden password by checkbox
