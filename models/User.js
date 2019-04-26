@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const saltRounds = 14
 
 const userSchema = new mongoose.Schema({

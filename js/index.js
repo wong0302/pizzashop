@@ -6,6 +6,9 @@
  //let extraToppingsArray = [];
  let pizzaCart = [];
 
+ //BaseUrl = 'https://localhost:3030';
+ BaseUrl = 'https://akel0003.edumedia.ca/';
+
  document.addEventListener('DOMContentLoaded', () => {
      pages = document.querySelectorAll('.page');
      pages[0].classList.add('display');
@@ -243,7 +246,7 @@
      let newPassword = document.getElementById('newPassword').value;
 
      // define the end point for the request
-     let url = 'http://127.0.0.1:3030/auth/users/me';
+     let url = `${BaseUrl}/auth/users/me`;
 
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
@@ -299,7 +302,7 @@
      userType = document.getElementById('userType').value;
 
      //define the end point for the request
-     let url = 'http://127.0.0.1:3030/auth/users';
+     let url = `${BaseUrl}/auth/users`;
 
      let userInput = {
          firstName: userFirstName,
@@ -340,7 +343,7 @@
      let userEmail = document.getElementById('signInEmail').value,
          userPassword = document.getElementById('signInPassword').value;
 
-     let url = 'http://127.0.0.1:3030/auth/tokens';
+     let url = `${BaseUrl}/auth/tokens`;
 
      let signInInput = {
          email: userEmail,
@@ -389,7 +392,7 @@
        GET CURRENT USER
  **************************/
  function getCurrentUser(authToken) {
-     let url = 'http://127.0.0.1:3030/auth/users/me';
+     let url = `${BaseUrl}/auth/users/me`;
 
      const headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
@@ -486,7 +489,7 @@
 
      console.log("mode is", mode);
      //define the end point for the request
-     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/ingredients' : `http://127.0.0.1:3030/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
+     let url = (mode == 'add' ? `${BaseUrl}/api/ingredients` : `${BaseUrl}/api/ingredients/${document.querySelector('#ingredients-add-edit').getAttribute('data-id')}`);
      let req = new Request(url, {
          headers: headers,
          method: mode == 'add' ? 'POST' : 'PATCH',
@@ -509,7 +512,7 @@
  async function getIngredients() {
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
-     let url = 'http://127.0.0.1:3030/api/ingredients';
+     let url = `${BaseUrl}/api/ingredients`;
      let req = new Request(url, {
          headers: headers,
          method: 'GET',
@@ -586,7 +589,7 @@
      ON EDIT INGREDIENTS
  **************************/
  async function onEditIngredients(id) {
-     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+     let url = `${BaseUrl}/api/ingredients/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let headers = new Headers();
@@ -621,7 +624,7 @@
  async function deleteIngredients() {
     let id = document.getElementById('deleteRow').getAttribute('data-id');
     console.log("Trying to delete", id);
-     let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+     let url = `${BaseUrl}/api/ingredients/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let headers = new Headers();
@@ -650,7 +653,7 @@
      /*** No authentication reqyired ***/
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
-     let url = 'http://127.0.0.1:3030/api/pizzas';
+     let url = `${BaseUrl}/api/pizzas`;
      let req = new Request(url, {
          headers: headers,
          method: 'GET',
@@ -716,7 +719,7 @@
     let headers = new Headers();
     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let url = `${BaseUrl}/api/ingredients/${id}`;
     let req = new Request(url, {
         headers: headers,
         method: 'GET',
@@ -908,7 +911,7 @@ CHOOSE PIZZA INGREDIENTS
       console.log("mode is", mode);
       console.log("Id is",id);
      //define the end point for the request
-     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${id}`);
+     let url = (mode == 'add' ? `${BaseUrl}/api/pizzas` : `${BaseUrl}/api/pizzas/${id}`);
      let req = new Request(url, {
          headers: headers,
          method: mode == 'add' ? 'POST' : 'PATCH',
@@ -930,7 +933,7 @@ CHOOSE PIZZA INGREDIENTS
         ON EDIT PIZZA
  **************************/
  async function onEditPizza(id) {
-     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let url = `${BaseUrl}/api/pizzas/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let headers = new Headers();
@@ -974,7 +977,7 @@ CHOOSE PIZZA INGREDIENTS
  async function deletePizza() {
      let id = document.getElementById('deleteRowPizza').getAttribute('data-id');
      console.log("Trying to delete", id);
-     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let url = `${BaseUrl}/api/pizzas/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let headers = new Headers();
@@ -999,7 +1002,7 @@ CHOOSE PIZZA INGREDIENTS
  async function getUsers() {
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
-     let url = 'http://127.0.0.1:3030/auth/users';
+     let url = `${BaseUrl}/auth/users`;
      let req = new Request(url, {
          headers: headers,
          method: 'GET',
@@ -1068,7 +1071,7 @@ CHOOSE PIZZA INGREDIENTS
          PATCH USERS
   **************************/
  async function toggleStaff(id, check) {
-     let url = `http://127.0.0.1:3030/auth/users/${id}`;
+     let url = `${BaseUrl}/auth/users/${id}`;
      let authToken = JSON.parse(localStorage.getItem(tokenKey));
 
      let userInput = {
@@ -1224,7 +1227,7 @@ CHOOSE PIZZA INGREDIENTS
      //console.log('THIS PIZZA DATA: ', id, );
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
-     let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
+     let url = `${BaseUrl}/api/pizzas/${id}`;
      let req = new Request(url, {
          headers: headers,
          method: 'GET',
@@ -1321,7 +1324,7 @@ CHOOSE PIZZA INGREDIENTS
      // customer is currentUser variable
      console.log('This bitch be buying pizzas', currentUser);
 
-     let url = 'http://127.0.0.1:3030/api/orders';
+     let url = `${BaseUrl}/api/orders`;
 
      let userInput = {
          customer: currentUser.data._id,
@@ -1360,7 +1363,7 @@ CHOOSE PIZZA INGREDIENTS
      
      if(orderType == 'delivery') address = document.querySelector('#inputAddress').value
 
-     let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
+     let url = `${BaseUrl}/api/orders/${orderId}`;
 
      let userInput = {
          type: orderType,
