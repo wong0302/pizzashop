@@ -611,68 +611,100 @@
  }
 
 
+ async function getIngredient(id) {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+    let url = `http://127.0.0.1:3030/api/ingredients/${id}`;
+    let req = new Request(url, {
+        headers: headers,
+        method: 'GET',
+        mode: 'cors'
+    });
+    return ingredient = await fetchAPI(req);
+ }
+
  /**************************
  CREATE PIZZA CARDS FOR MENU
  **************************/
- function createPizzaCards(pizzasList) {
+  async function createPizzaCards(pizzasList) {
      let cardDeck = document.querySelector('.card-deck');
-     console.log(cardDeck);
+     //console.log(cardDeck);
      cardDeck.innerHTML = "";
-     pizzasList.data.forEach(pizza => {
-         let columnDiv = document.createElement('div');
-         let cardDiv = document.createElement('div');
-         let pizzaImg = document.createElement('img');
-         let cardBody = document.createElement('div');
-         let pizzaName = document.createElement('h5');
-         //let pizzaIngredients = document.createElement('p');
-         let smallText = document.createElement('p');
-         let glutenFree = document.createElement('small');
-         let selectBtn = document.createElement('button');
-         // let selectBtn = document.createElement('a');
 
-         //<li class="nav-item navigation nav-link active" data-target="home">
+        for(let pizza of pizzasList.data) {
+            console.log("ASASSASS", pizza)
+        let columnDiv = document.createElement('div');
+        let cardDiv = document.createElement('div');
+        let pizzaImg = document.createElement('img');
+        let cardBody = document.createElement('div');
+        let pizzaName = document.createElement('h5');
+        //let pizzaIngredients = document.createElement('p');
+        let smallText = document.createElement('p');
+        let glutenFree = document.createElement('small');
+        let selectBtn = document.createElement('button');
+        // let selectBtn = document.createElement('a');
 
-         pizzaName.textContent = pizza.name;
+        //<li class="nav-item navigation nav-link active" data-target="home">
 
-         //  let ingredients = pizza.ingredients.map(ingredient => {
-         //      return ingredient.name;
-         //  })
+        pizzaName.textContent = pizza.name;
 
-         //  pizzaIngredients.textContent = ingredients.join(", ");
-         // Gluten free
-         if (pizza.isGlutenFree == true) {
-             smallText.textContent = 'Gluten Free';
-         } else {
-             smallText.textContent = 'Not Gluten Free';
-         }
-         selectBtn.textContent = 'Select';
+        //  let ingredients = pizza.ingredients.map(ingredient => {
+        //      return ingredient.name;
+        //  })
 
-         columnDiv.setAttribute('class', 'col-md-6 col-xl-4 py-4 d-flex');
-         cardDiv.setAttribute('class', 'card text-center cardDiv shadow');
-         pizzaImg.setAttribute('src', pizza.imageUrl);
-         pizzaImg.setAttribute('class', 'card-img-top');
-         pizzaImg.setAttribute('alt', pizza.name);
-         cardBody.setAttribute('class', 'card-body');
-         pizzaName.setAttribute('class', 'card-title');
-         //pizzaIngredients.setAttribute('class', 'card-text');
-         smallText.setAttribute('class', 'card-text');
-         glutenFree.setAttribute('class', 'text-muted');
-         selectBtn.setAttribute('class', 'nav-item nav-link btn-lg btn-primary select-button');
-         //selectBtn.setAttribute('data-target', 'order-view');
+        //  pizzaIngredients.textContent = ingredients.join(", ");
+        // Gluten free
+        if (pizza.isGlutenFree == true) {
+            smallText.textContent = 'Gluten Free';
+        } else {
+            smallText.textContent = 'Not Gluten Free';
+        }
+        selectBtn.textContent = 'Select';
+
+        columnDiv.setAttribute('class', 'col-md-6 col-xl-4 py-4 d-flex');
+        cardDiv.setAttribute('class', 'card text-center cardDiv shadow');
+        pizzaImg.setAttribute('src', pizza.imageUrl);
+        pizzaImg.setAttribute('class', 'card-img-top');
+        pizzaImg.setAttribute('alt', pizza.name);
+        cardBody.setAttribute('class', 'card-body');
+        pizzaName.setAttribute('class', 'card-title');
+        //pizzaIngredients.setAttribute('class', 'card-text');
+        smallText.setAttribute('class', 'card-text');
+        glutenFree.setAttribute('class', 'text-muted');
+        selectBtn.setAttribute('class', 'nav-item nav-link btn-lg btn-primary select-button');
+        //selectBtn.setAttribute('data-target', 'order-view');
         // selectBtn.setAttribute('class', 'select-button');
+        
+        //Check if any ingredient is at 0, disable pizza button
+        for(let i = 0; i < pizza.ingredients.length; i++) {
+         let pizzaIng =  await getIngredient(pizza.ingredients[i])
+            if(pizzaIng.data.quantity <= 0) {
+                selectBtn.disabled = true;
+                let overlay = document.createElement('div');
+                let overlayText = document.createElement('h1');
+                overlay.setAttribute('class', 'card-img-overlay');
+                overlayText.setAttribute('class', 'card-title');
+                overlayText.innerHTML = "<i class='text-danger bg-light'>Out Of Stock</i>";
 
-         cardDeck.appendChild(columnDiv);
-         columnDiv.appendChild(cardDiv);
-         cardDiv.appendChild(pizzaImg);
-         cardDiv.appendChild(cardBody);
-         cardBody.appendChild(pizzaName);
-         //cardBody.appendChild(pizzaIngredients);
-         cardBody.appendChild(smallText);
-         smallText.appendChild(glutenFree);
-         cardBody.appendChild(selectBtn);
-         selectBtn.addEventListener('click', () => getOrderedPizza(pizza._id));
-     })
-     checkToken();
+                overlay.appendChild(overlayText);
+                cardDiv.appendChild(overlay);
+                break;
+            }
+        }
+
+        cardDeck.appendChild(columnDiv);
+        columnDiv.appendChild(cardDiv);
+        cardDiv.appendChild(pizzaImg);
+        cardDiv.appendChild(cardBody);
+        cardBody.appendChild(pizzaName);
+        //cardBody.appendChild(pizzaIngredients);
+        cardBody.appendChild(smallText);
+        smallText.appendChild(glutenFree);
+        cardBody.appendChild(selectBtn);
+        selectBtn.addEventListener('click', () => getOrderedPizza(pizza._id));
+    }
+    checkToken();
  }
 
 /**************************
