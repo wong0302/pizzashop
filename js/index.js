@@ -7,7 +7,7 @@
  let pizzaCart = [];
 
  //BaseUrl = 'https://localhost:3030';
- BaseUrl = 'https://akel0003.edumedia.ca/';
+ BaseUrl = 'https://akel0003.edumedia.ca';
 
  document.addEventListener('DOMContentLoaded', () => {
      pages = document.querySelectorAll('.page');
@@ -343,7 +343,7 @@
      let userEmail = document.getElementById('signInEmail').value,
          userPassword = document.getElementById('signInPassword').value;
 
-     let url = `${BaseUrl}/auth/tokens`;
+     let url = BaseUrl + '/auth/tokens';
 
      let signInInput = {
          email: userEmail,
