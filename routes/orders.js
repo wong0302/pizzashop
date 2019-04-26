@@ -34,8 +34,14 @@ router.get('/', authorize, async (req, res) => {
 
 router.get('/:id', authorize, async (req, res, next) => {
   const user = await User.findById(req.user._id)
+  
   try {
-    const order = await Order.findOne({_id: req.params.id, customer: req.user._id}).populate('users').populate('pizzas')
+    let order = {}
+    if (!user.isStaff) {
+     order = await Order.findOne({_id: req.params.id, customer: req.user._id}).populate('users').populate('pizzas')
+    } else {
+       order = await Order.findById(req.params.id).populate('users').populate('pizzas')
+    }
     if (!order) throw new ResourceNotFoundError(`We could not find an order with id: ${req.params.id}`)
     res.send({data: order})
   } catch (err) {
@@ -52,15 +58,19 @@ router.post('/', authorize, sanitizeBody, async (req, res, next) => {
 
 const update = (overwrite = false) => async (req, res, next) => {
   try {
-    const order = await Order.findOneAndUpdate(
-      {_id: req.params.id, customer: req.user._id},
-      req.sanitizedBody,
-      {
-        new: true,
-        overwrite,
-        runValidators: true
-      }
-    )
+    const user = await User.findById(req.user._id)
+    let order = {}
+    if (!user.isStaff) {
+      order = await Order.findOneAndUpdate({_id: req.params.id, customer: req.user._id},req.sanitizedBody,
+        {
+          new: true,
+          overwrite,
+          runValidators: true
+        }
+      )
+     } else {
+      order = await Order.findByIdAndUpdate(req.params.id,req.sanitizedBody,{new: true, overwrite,runValidators: true})
+     }
     if (!order) throw new ResourceNotFoundError(`We could not find an order with id: ${req.params.id}`)
     res.send({data: order})
   } catch (err) {
@@ -72,8 +82,14 @@ router.put('/:id', authorize, sanitizeBody, update((overwrite = true)))
 router.patch('/:id', authorize, sanitizeBody, update((overwrite = false)))
 
 router.delete('/:id', authorize, async (req, res, next) => {
+  const user = await User.findById(req.user._id)
+  let order = {}
   try {
-    const order = await Order.findOneAndRemove({_id: req.params.id, customer: req.user._id})
+    if (!user.isStaff) {
+      order = await Order.findOneAndRemove({_id: req.params.id, customer: req.user._id})
+     } else {
+        order = await Order.findOneAndRemove(req.params.id)
+     }
     if (!order) throw new ResourceNotFoundError(`We could not find an order with id: ${req.params.id}`)
     res.send({data: order})
   } catch (err) {

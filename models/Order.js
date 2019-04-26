@@ -37,7 +37,7 @@ orderSchema.pre('save', async function (next) {
     next()
 })
 
-orderSchema.post('findOneAndUpdate', async function (doc, next){
+orderSchema.post('findByIdAndUpdate', async function (doc, next){
     console.log("post hook is run, doc is", doc);
     await doc.populate('pizzas').execPopulate()
     await doc.save()
