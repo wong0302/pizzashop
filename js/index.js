@@ -74,9 +74,20 @@
          orderId == null ? createOrderDraft() : updateOrder('add')
      });
 
+    // disabling checkout button when no input in address field
+     let orderType = document.querySelector('input[name="orderType"]:checked').value;
+     let inputAddress = document.getElementById('inputAddress');
+     inputAddress.addEventListener('input', () => {
+        if (inputAddress.length < 1 && orderType == 'delivery') {
+            let checkoutBtn = document.getElementById('checkoutButton');
+            checkoutBtn.disabled = true;
+        } else {
+            checkoutBtn.disabled = false;
+        }
+     })
+
      //Checkout button
      document.querySelector('#checkoutButton').addEventListener('click', () => {
-        let orderType = document.querySelector('input[name="orderType"]:checked').value;
         let inputAddress = document.getElementById('inputAddress').value;
         let addressLabel = document.getElementById('addressLabel');
         if (inputAddress == '' && orderType == 'delivery') {
@@ -1385,11 +1396,20 @@ CHOOSE PIZZA INGREDIENTS
      // Toggles address form
      let orderType = document.querySelector('input[name="orderType"]:checked').value;
      let addressForm = document.querySelector('.address-form');
+     let checkoutBtn = document.getElementById('checkoutButton');
+     let inputAddress = document.getElementById('inputAddress').value;
+
      //console.log(orderType,'order type');
      if (orderType == 'delivery') {
          console.log('they want delivery');
          addressForm.classList.add('display');
          document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $5.00';
+         // disable checkout button when address field is empty
+         if (inputAddress.length < 1) {
+            checkoutBtn.disabled = true;
+        } else {
+            checkoutBtn.disabled = false;
+        }
 
      } else {
          console.log('they want to pick up');
