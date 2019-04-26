@@ -672,8 +672,11 @@
         //pizzaIngredients.setAttribute('class', 'card-text');
         smallText.setAttribute('class', 'card-text');
         glutenFree.setAttribute('class', 'text-muted');
-        selectBtn.setAttribute('class', 'nav-item nav-link btn-lg btn-primary select-button');
-        //selectBtn.setAttribute('data-target', 'order-view');
+        selectBtn.setAttribute('class', 'nav-item navigation nav-link btn-lg btn-primary select-button');
+
+        selectBtn.setAttribute('data-target', 'order-view');
+        selectBtn.addEventListener('click', nav);
+       
         // selectBtn.setAttribute('class', 'select-button');
         
         //Check if any ingredient is at 0, disable pizza button
@@ -1569,7 +1572,7 @@ function userNotification(type, message) {
  **************************/
 
  function changeURL() {
-     let navLinks = document.querySelectorAll('.nav-link');
+     let navLinks = document.querySelectorAll('.navigation');
      let dropDowns = document.querySelectorAll('.dropdown-item');
      //console.log('This is the navlinks: ', navLinks);
     // console.log('This is the dropdowns: ', dropDowns);
@@ -1579,17 +1582,20 @@ function userNotification(type, message) {
      dropDowns.forEach((item) => {
          item.addEventListener('click', nav);
      })
-     history.replaceState({}, 'Home', '#home');
-     window.addEventListener('hashchange', pop);
+     window.addEventListener('popstate', pop);
  }
 
  function nav(ev) {
      ev.preventDefault();
-     let currentPage = ev.target.getAttribute('data-target');
+     let currentPage = ev.currentTarget.getAttribute('data-target');
      console.log('CURRENT PAGE: ', currentPage);
+     //history.replaceState({}, 'Home', currentPage);
      history.pushState({}, currentPage, `#${currentPage}`);
  }
 
  function pop() {
-     console.log(location.hash, 'popstate event')
+    let previous =  location.hash.replace('#', '');
+    setPageHeader(previous);
+    document.querySelector('.display').classList.remove('display');
+    document.querySelector(`${location.hash}`).classList.add('display');
  }
