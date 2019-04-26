@@ -97,7 +97,83 @@
             checkoutBtn.setAttribute('data-dismiss', 'modal');
             updateOrder('checkout');
         }
-     });
+     }); 
+
+     //Login form
+     let loginFormFields = document.querySelectorAll('.login-field');
+     loginFormFields.forEach(field => {
+        field.addEventListener('input', () => {
+            let btn = document.getElementById('logInBtn');
+            for(let len of loginFormFields) {
+                if(len.value === "") {
+                    btn.disabled = true;
+                    break;
+                } else {
+                    btn.disabled = false;
+                }
+            } 
+        })
+     })
+     //Register form
+     let registerFormFields = document.querySelectorAll('.register-field');
+     registerFormFields.forEach(field => {
+        field.addEventListener('input', () => {
+            let btn = document.getElementById('confirmBtn');
+            for(let len of registerFormFields) {
+                if(len.value === "") {
+                    btn.disabled = true;
+                    break;
+                } else {
+                    btn.disabled = false;
+                }
+            } 
+        })
+     })
+     //reset password form
+     let passwordChangeFormFields = document.querySelectorAll('.passwordChange');
+     passwordChangeFormFields.forEach(field => {
+        field.addEventListener('input', () => {
+            let btn = document.getElementById('savePassword');
+            for(let len of passwordChangeFormFields) {
+                if(len.value === "") {
+                    btn.disabled = true;
+                    break;
+                } else {
+                    btn.disabled = false;
+                }
+            } 
+        })
+     })
+     //Ingredients form
+     let IngredientsFormFields = document.querySelectorAll('.ingredients-form');
+     IngredientsFormFields.forEach(field => {
+        field.addEventListener('input', () => {
+            let btn = document.getElementById('submitIngredientBtn');
+            for(let len of IngredientsFormFields) {
+                if(len.value === "") {
+                    btn.disabled = true;
+                    break;
+                } else {
+                    btn.disabled = false;
+                }
+            } 
+        })
+     })
+     //Pizza form
+     let PizzaFormFields = document.querySelectorAll('.pizzafield');
+     PizzaFormFields.forEach(field => {
+        field.addEventListener('input', () => {
+            let btn = document.getElementById('submitPizzaButton');
+            for(let len of PizzaFormFields) {
+                if(len.value === "") {
+                    btn.disabled = true;
+                    break;
+                } else {
+                    btn.disabled = false;
+                }
+            } 
+        })
+     })
 
      // event listener for pick up and delivery radios                      
      document.querySelectorAll('.orderType').forEach(type => {
