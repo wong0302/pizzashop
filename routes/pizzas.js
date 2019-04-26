@@ -39,7 +39,7 @@ router.post('/', isStaff, sanitizeBody, async (req, res, next) => {
 
 const update = (overwrite = false) => async (req, res, next) => {
   try {
-    const pizza = await Pizza.findOneAndUpdate(
+    const pizza = await Pizza.findByIdAndUpdate(
       req.params.id,
       req.sanitizedBody,
       {

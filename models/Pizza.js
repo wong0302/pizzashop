@@ -30,7 +30,7 @@ pizzaSchema.pre('save', async function (next) {
     next()
 })
 
-pizzaSchema.post('findOneAndUpdate', async function (doc, next){
+pizzaSchema.post('findByIdAndUpdate', async function (doc, next){
     await doc.populate('ingredients').populate('extraToppings').execPopulate()
     await doc.save()
     next()
