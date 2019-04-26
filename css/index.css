@@ -132,7 +132,7 @@ form{
 
 .nav-item.nav-link.px-5{
     color: #FE5342 !important;
-    border: none !important;
+    
 }
 
 #card-title#pt-5{
@@ -147,3 +147,16 @@ form{
     margin-top: 1rem;
 
 }
+
+.nav-link.cat.active{
+    background-color: #FE5342 !important;
+    color: white !important;
+    border: none !important;
+
+}
+.nav-link.cat{
+    color: black !important;
+    border: none !important;
+
+}
+
