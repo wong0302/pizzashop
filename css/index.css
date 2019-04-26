@@ -35,6 +35,7 @@ form{
 /* Can replace with hide and show classes? Akel */
 .notSignedIn{
     display: block;
+    cursor: pointer;
 }
 .signedIn{
     display: none;
