@@ -503,6 +503,7 @@
 
      document.getElementById('ingredients-add-edit').setAttribute('data-id', id);
      document.getElementById('productName').value = ingredients.data.name;
+     document.getElementById('ing-img-input').value = ingredients.data.imageUrl;
      document.getElementById('price').value = (ingredients.data.price/100).toFixed(2);
      document.getElementById('quantity').value = ingredients.data.quantity;
      let ingredValue = ingredients.data.categories;
@@ -972,7 +973,7 @@ CHOOSE PIZZA INGREDIENTS
      for(let i = 0; i < cats.length; i++) {
          cats[i].innerHTML = "";
      }
-     
+
      ingredientsList.data.forEach(ingredient => {
          switch (ingredient.categories) {
              case 'meat':
