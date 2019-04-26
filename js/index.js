@@ -1189,8 +1189,8 @@ CHOOSE PIZZA INGREDIENTS
         tdName.innerHTML = ingredient.name;
     }
 
-     
      tdPrice.textContent = `$${(ingredient.price/100).toFixed(2)}`;
+     let newprice = `${(ingredient.price/100).toFixed(2)}`;
 
      editSectionOrder.appendChild(tr);
      tr.appendChild(tdImg);
@@ -1200,22 +1200,22 @@ CHOOSE PIZZA INGREDIENTS
      tr.appendChild(tdCheck);
      tdCheck.appendChild(checkboxDiv);
      checkboxDiv.appendChild(checkbox);
-
      checkbox.addEventListener('click', () => {
-         onCheckIngredient(ingredient.price, checkbox.checked);
+         onCheckIngredient(newprice, checkbox.checked);
      });
  }
 
  function onCheckIngredient(price, checked) {
      let ele = document.querySelector('#total-cost-number')
+     let newprice = price;
+     let newValue = parseFloat(newprice);
      let cost = parseFloat(ele.textContent);
      if (checked) {
-         ele.textContent = `${cost + price}`;
+         ele.textContent = `${cost + newValue}`;
      } else if (!checked) {
-         ele.textContent = `${cost - price}`;
+         ele.textContent = `${cost - newValue}`;
      }
  }
-
  /**************************
  GET PIZZA DETAILS FOR ORDER
  **************************/
