@@ -75,22 +75,22 @@
      });
 
     // disabling checkout button when no input in address field
-     let orderType = document.querySelector('input[name="orderType"]:checked').value;
-     let inputAddress = document.getElementById('inputAddress');
-     inputAddress.addEventListener('input', () => {
-        if (inputAddress.length < 1 && orderType == 'delivery') {
-            let checkoutBtn = document.getElementById('checkoutButton');
-            checkoutBtn.disabled = true;
-        } else {
-            checkoutBtn.disabled = false;
-        }
-     })
+    let orderType = document.querySelector('input[name="orderType"]:checked').value;
+    let inputAddress = document.getElementById('inputAddress');
+    let checkoutBtn = document.getElementById('checkoutButton');
+    inputAddress.addEventListener('input', () => {
+        console.log("clicky,", inputAddress.value.length)
+       if (inputAddress.value.length == 0) {
+           checkoutBtn.disabled = true;
+       } else if(inputAddress.value.length >= 1) {
+           checkoutBtn.disabled = false;
+       }
+    })
 
      //Checkout button
-     document.querySelector('#checkoutButton').addEventListener('click', () => {
-        let inputAddress = document.getElementById('inputAddress').value;
+     document.querySelector('#checkoutButton').addEventListener('click', () => { 
         let addressLabel = document.getElementById('addressLabel');
-        if (inputAddress == '' && orderType == 'delivery') {
+        if (inputAddress.value == '' && orderType == 'delivery') {
                 addressLabel.innerHTML = 'Address <i class="text-danger">*</i>';
         } else {
             let checkoutBtn = document.getElementById('checkoutButton');
@@ -1389,7 +1389,7 @@ CHOOSE PIZZA INGREDIENTS
      document.querySelector('#subtotal').textContent = `Sub-total: $${(order.data.price/100).toFixed(2)}`;
      document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $0.00';
      document.querySelector('#taxTotal').textContent = `Tax: $${(order.data.tax/100).toFixed(2)}`;
-     document.querySelector('#totalCost').textContent = `Total: $${order.data.total}`;
+     document.querySelector('#totalCost').textContent = `Total: $${(order.data.total/100).toFixed(2)}`;
  }
 
  function addressForm() {
@@ -1407,14 +1407,13 @@ CHOOSE PIZZA INGREDIENTS
          // disable checkout button when address field is empty
          if (inputAddress.length < 1) {
             checkoutBtn.disabled = true;
-        } else {
-            checkoutBtn.disabled = false;
-        }
+        } 
 
      } else {
          console.log('they want to pick up');
          addressForm.classList.remove('display');
          document.querySelector('#deliveryFee').textContent = 'Delivery Fee: $0.00';
+         checkoutBtn.disabled = false;
      }
  }
 
