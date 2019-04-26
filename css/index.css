@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+body{
+    background-color:#EBE5E7   !important;  
+}
 
 .card-deck{
     padding: 3rem;
