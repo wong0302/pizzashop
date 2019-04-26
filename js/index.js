@@ -299,7 +299,7 @@
          userLastName = document.getElementById('lastName').value,
          userEmail = document.getElementById('signUpEmail').value,
          userPassword = document.getElementById('signUpPassword').value;
-     userType = document.getElementById('userType').value;
+    // userType = document.getElementById('userType').value;
 
      //define the end point for the request
      let url = `${BaseUrl}/auth/users`;
@@ -309,7 +309,7 @@
          lastName: userLastName,
          email: userEmail,
          password: userPassword,
-         isStaff: userType
+         //isStaff: userType
      };
 
      let jsonData = JSON.stringify(userInput);
