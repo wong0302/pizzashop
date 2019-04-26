@@ -109,3 +109,7 @@ form{
     display: flex;
     align-items: center;
 }
+
+.marginGluten{
+    margin: 1.5rem;
+}
