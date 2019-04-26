@@ -1,85 +1,892 @@
 <!-- The sign in page -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <title>Sign In Page</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <title>Wakelstackel</title>
 </head>
+
 <body>
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">AKELSTACKWONG Pizza</h1>
-          <p class="lead">Dreams really do come true.</p>
+  <div id="alertSection"></div>
+
+  <!--------------------------
+                NAV 
+  --------------------------->
+  <section class="navbar bg-dark navbar-expand-lg sticky-top d-flex">
+
+    <ul class="nav">
+      <li class="nav-item navigation nav-link active" data-target="home" href="/index.html">Home</li>
+      <li class="nav-item nav-link navigation" data-target="menu" href="/menu.html">Menu</li>
+    </ul>
+
+    <!-- This should dissapear when user is signed in", add click listener in js -->
+     
+    <button class="navbar-toggler navbar-dark navbar-collapse-sm navbar-light mb-2" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse flex-row-reverse" id="navbarNavDropdown">
+      
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item notSignedIn nav-link text-right text-white" data-toggle="modal" data-target="#signInModal" href="/signin.html">Sign In
+      </li>
+      <li class="nav-item notSignedIn nav-link text-right text-white" data-toggle="modal" data-target="#signUpModal" href="/register.html">Sign Up
+      </li>
+
+      <!-- LOGGED IN USER NAV -->
+      <li class="nav-item signedIn">
+        <div class="btn-group float-right">
+            <button type="button" class="btn btn-secondary bg-dark border-0 nav-modal" id="cartBtn" data-toggle="modal"
+            data-target="#orderSummary" href="/cart.html"><i class="fas fa-shopping-cart pr-3"></i>View Cart<span class="cart-count badge badge-dark">0</span></button>
+        </li>
+<!--------- ADMIN --------->
+      <!-- This nav should only appear when a staff member is signed in -->
+      <li class="nav-item adminSignedIn">
+        <div class="dropdown btn-group float-right">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Admin
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+              <span class="dropdown-item-text">
+            <button class="dropdown-item navigation" type="button" data-target="ingredients-view" href="/admin/ingredients.html">Ingredients</button>
+            <button class="dropdown-item navigation" type="button" data-target="pizzas-view" href="/admin/pizzas.html">Pizzas</button>
+            <button class="dropdown-item navigation" type="button" data-target="users-view" href="/admin/users.html">Users</button>
+          </div>
+        </div>
+      </li>
+        <li class="nav-item signedIn">
+            <div class="dropdown btn-group float-right">
+          <button type="button" class="btn btn-secondary bg-dark border-0 dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Account
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <button class="dropdown-item change-pswd-btn" type="button" data-toggle="modal"
+              data-target="#resetPassword" href="/profile.html">Change Password</button>
+            <button class="dropdown-item navigation" type="button" id="signOutButton" data-target="home" href="/index.html">Sign
+              Out</button>
+          </div>
+          </div>
+      </li>
+    </ul>
+    </div>
+  </section>
+
+  <!----------- HEADER ----------->
+  <div class="jumbotron jumbotron-fluid shadow">
+      <div class="container">
+        <h1 class="display-4 title">WAKELSTACKEL Pizza</h1>
+        <p class="lead">Dreams really do come true, when you have the right slice.</p>
+      </div>
+    </div>
+
+  <!--------------------------
+            HOME PAGE
+  --------------------------->
+
+  <section class="home page" id="home">
+
+    
+
+    <!----------- CAROUSEL ----------->
+    <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/img/tomatopizza.jpeg" class="d-block img-fluid w-100 mx-auto" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="/img/morepizza.jpeg" class="d-block img-fluid w-100 mx-auto" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="/img/makingpizza.jpeg" class="d-block img-fluid w-100 mx-auto" alt="...">
         </div>
       </div>
-        <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#">Menu</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Sign In</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Sign Up</a>
-                </li>
-              </ul>
-<section class="signIn"> 
-              <div class="modal" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Sign In</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div> -->
+  </section>
+  <!--------------------------
+            SIGN IN MODAL 
+    --------------------------->
+  <section class="signIn">
+    <div class="modal" id="signInModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sign In</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!------------- FORM -------------->
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="InputEmail1">Email address</label>
+                <input type="email" class="form-control login-field" id="signInEmail" aria-describedby="emailHelp"
+                  placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" class="form-control login-field" id="signInPassword" placeholder="Password">
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="logInBtn" data-dismiss="modal">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--------------------------
+            SIGN UP MODAL 
+    --------------------------->
+  <section class="signUp">
+    <div class="modal" id="signUpModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sign Up</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <!------------- FORM -------------->
+            <form>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="InputName">First Name</label>
+                    <input type="text" class="form-control register-field" id="firstName" placeholder="First name">
+                  </div>
+                  <div class="col">
+                    <label for="InputName">Last Name</label>
+                    <input type="text" class="form-control register-field" id="lastName" placeholder="Last name">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="InputEmail">Email address</label>
+                <input type="email" class="form-control register-field" id="signUpEmail" aria-describedby="emailHelp"
+                  placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="InputPassword">Password</label>
+                <input type="password" class="form-control register-field" id="signUpPassword" placeholder="Password">
+                <!-- <small id="emailHelp" class="form-text text-muted">Password must be atleast 8 characters.</small> -->
+              </div>
+              <!-- <label for="InputAccountType">Account type</label>
+                <select class="form-control" id="userType">
+                  <option value="false">Customer</option>
+                  <option value="true">Staff</option>
+                </select> -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" id="cancelBtn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="confirmBtn" data-toggle="modal"
+              data-target="#successModal" data-dismiss="modal">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--------------------------
+    SUCCESS ACCOUNT CREATED MODAL 
+    --------------------------->
+  <!-- <div class="modal" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Welcome to WAKELSTACKEL</h5>
+          <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Your account has been created successfully! YAAAAS!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+
+
+  <!--------------------------
+        CHANGE PASSWORD 
+  --------------------------->
+  <section class="changePassword">
+    <div class="modal" id="resetPassword" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Change Password</h5>
+          </div>
+          <div class="modal-body">
+            <p id="pswd-name"></p>
+            <p id="pswd-email">email</p>
+            <!------------- FORM -------------->
+            <form>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Enter New Password</label>
+                <input type="password" class="form-control passwordChange" id="newPassword"
+                  placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Re-enter Password</label>
+                <input type="password" class="form-control passwordChange" id="reEnterPassword"
+                  placeholder="Re-enter password">
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="showPassword">
+                <label class="form-check-label" for="exampleCheck1">Show Password</label>
+              </div>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="savePassword" data-dismiss="modal" disabled>Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--------------------------
+        INGREDIENTS PAGE 
+  --------------------------->
+  <section class="ingredients page" id="ingredients-view">
+    <button type="button" id="addIngredientsButton" data-toggle="modal" data-target="#editIngredients"
+      class="btn btn-primary float-right mr-3 mb-3">Add Ingredients</button>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Ingredient</th>
+          <th scope="col">Price($)</th>
+          <th scope="col">Gluten Free</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Category</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+      </tbody>
+    </table>
+
+  </section>
+
+  <!--------------------------
+      INGREDIENTS EDIT PAGE 
+  --------------------------->
+
+    <section class="ingredients-add-edit" id="ingredients-add-edit">
+    <div class="modal" id="editIngredients" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit-add-ingredients-title">Add Ingredients</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+                    
+          <!------------- FORM -------------->
+                     <form id="ingredientsForm">
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="formGroupInput">Product Name</label>
+                  <input type="text" class="form-control ingredients-form" id="productName" placeholder="Name">
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <div class="custom-file">
+
+                    <!-- Image URL Input -->
+                    <label for="formGroupInput">Image URL</label>
+                    <input type="text" class="form-control ingredients-form" id="ing-img-input">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label for="formGroupInput2">Quantity</label>
+                  <input type="number" class="form-control ingredients-form" id="quantity" placeholder="Amount">
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label for="formGroupInput2">Price</label>
+                  <input type="number" class="form-control ingredients-form" id="price" placeholder="$0.00">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-6">
+                  <div class="form-group">
+                      <label for="categories">Categories</label>
+                    <select class="custom-select" required id="categories">
+                      <option value="meat">Meat</option>
+                      <option value="spicy">Spicy</option>
+                      <option value="vegetarian">Vegetarian</option>
+                      <option value="vegan">Vegan</option>
+                      <option value="halal">Halal</option>
+                      <option value="kosher">Kosher</option>
+                      <option value="cheese">Cheese</option>
+                      <option value="seasonings">Seasonings</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <div class="form-check marginGluten">
+                      <input class="form-check-input" type="checkbox" value="" id="isGlutenFree" required>
+                      <label class="form-check-label" for="invalidCheck2">
+                        Check if Gluten Free
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="form-group">
+                       
+                        <div class="invalid-feedback">Example invalid custom select feedback</div>
+                      </div> -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Cancel</button>
+                  <button type="button" id="submitIngredientBtn" class="btn btn-primary"
+                    data-dismiss="modal" disabled>Add</button>
+                </div>
+
+              </div>
+            </div>
+        </div>
+      </div>
+          </form>
+        
+  </section>
+  <!--------------------------
+          MENU PAGE 
+  --------------------------->
+  <section class="menu page" id="menu">
+    <!-- view cart button -->
+    <!-- <button type="button" class="btn btn-primary nav-modal" id="cartBtn" data-toggle="modal"
+      data-target="#orderSummary">View Cart</button> -->
+      <div class="card-deck"></div>
+  </section>
+  <!--------------------------
+          PIZZAS PAGE 
+  --------------------------->
+  <section class="pizzas page" id="pizzas-view">
+    <button type="button" id="addPizzaButton" data-toggle="modal" data-target="#add-edit-pizza"
+      class="btn btn-primary float-right mr-3 mb-3">Add Pizza</button>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Price($)</th>
+          <th scope="col">Gluten Free</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+      </tbody>
+    </table>
+  </section>
+
+  <!--------------------------
+      PIZZA ADD/EDIT PAGE 
+  --------------------------->
+  <span class="pizzas-add-edit" id="pizzas-add-edit">
+        <div class="modal" id="add-edit-pizza" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit-add-pizzas-title">Add Pizza</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+                    
+          <!------------- FORM -------------->
+                    <form id="pizzaForm">
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+
+                  <!-- Pizza Name Input -->
+                  <label for="formGroupInput">Pizza Name</label>
+                  <input type="text" class="form-control pizzafield" id="pizzaName" placeholder="Name">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <div class="custom-file">
+
+                    <!-- Image URL Input -->
+                    <label for="formGroupInput">Image URL</label>
+                    <input type="text" class="form-control pizzafield" id="pizza-img-input">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <div class="form-check">
+
+                    <!-- Gluten Free Input-->
+                    <input class="form-check-input" type="checkbox" id="pizzaGluten">
+                    <label class="form-check-label" for="invalidCheck2">
+                      Check if Gluten Free
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+
+                <!-- Pizza Ingredients Input -->
+                <section class="admin-add-ingredients" id="admin-add-ingredients">
+                </section>
+              </div>
+            </div>
+          </form>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Cancel</button>
+            <button type="button" id="submitPizzaButton" class="btn btn-primary" data-dismiss="modal" disabled>Save</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+  </span>
+
+  <!--------------------------
+          USERS PAGE 
+  --------------------------->
+  <section class="users page" id="users-view">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">email</th>
+          <th scope="col">Staff</th>
+          <!-- <th scope="col">Actions</th> -->
+        </tr>
+      </thead>
+      <tbody class="table-body">
+      </tbody>
+    </table>
+  </section>
+  <!--------------------------
+        ORDER OPTION PAGE 
+  --------------------------->
+  <section class="order-option page" id="order-view">
+
+    <div class="card m-3">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <!-- bootstrap card instead of image -->
+          <div class="card borderless">
+            <img class="card-img-top" id="pizza-order-img">
+            <div class="card-body">
+              <div class="card-body text-center p-4">
+                <section class="add-to-order p-3" id="add-to-order">
+                                        
+                  <!-- order price totals appended here -->
+                </section>
+                <button type="button" class="btn btn-primary navigation" id="add-button" data-toggle="modal"
+                  data-target="menu">Add to Order</button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <!-- ORDER OPTION NAV -->
+            <nav>
+              <div class="nav nav-tabs d-flex mb-3" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active px-5" id="nav-details-tab" data-toggle="tab" href="#nav-details"
+                  role="tab" aria-controls="nav-details" aria-selected="true">Details</a>
+                <a class="nav-item nav-link px-5" id="nav-edit-tab" data-toggle="tab" href="#nav-edit" role="tab"
+                  aria-controls="nav-edit" aria-selected="false">Edit Ingredients</a>
+                <button type="button" class="btn btn-primary ml-auto mb-2 navigation" data-target="menu">Back
+                  to Menu</button>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+                <!-- PIZZA DETAILS TAB BODY -->
+
+                <table class="table-responsive table-borderless">
+                  <tbody>
+
+                    <tr>
+                      <!-- PIZZA DETAILS -->
+                      <td class="align-baseline p-5">
+                        <section class="order-details" id="order-details">
+
+                        </section>
+
+                        <!-- SIZE DROPDOWN -->
+                        <!-- NEW ADD -> moved size dropdown and radio buttons inside table -->
+
+                        <h5 class="card-title pt-5">Select Size</h5>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-secondary dropdown-toggle sizeBtn" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Size
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-left">
+                            <button class="dropdown-item sm-size sizes" type="button">Small</button>
+                            <button class="dropdown-item md-size sizes" type="button">Medium</button>
+                            <button class="dropdown-item lg-size sizes" type="button">Large</button>
+                            <button class="dropdown-item xl-size sizes" type="button">Extra
+                              Large</button>
+                          </div>
+                        </div>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <div class="tab-pane fade" id="nav-edit" role="tabpanel" aria-labelledby="nav-edit-tab">
+
+                <!-- INGREDIENTS CATEGORY NAV -->
+                <div class="row pt-5">
+                  <div class="col-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      <a class="nav-link cat active" id="v-pills-meat-tab" data-toggle="pill" href="#v-pills-meat"
+                        role="tab" aria-controls="v-pills-meat" aria-selected="true">Meat</a>
+                      <a class="nav-link cat" id="v-pills-spicy-tab" data-toggle="pill" href="#v-pills-spicy" role="tab"
+                        aria-controls="v-pills-spicy" aria-selected="false">Spicy</a>
+                      <a class="nav-link cat" id="v-pills-vegetarian-tab" data-toggle="pill" href="#v-pills-vegetarian"
+                        role="tab" aria-controls="v-pills-vegetarian" aria-selected="false">Vegetarian</a>
+                      <a class="nav-link cat" id="v-pills-vegan-tab" data-toggle="pill" href="#v-pills-vegan" role="tab"
+                        aria-controls="v-pills-vegan" aria-selected="false">Vegan</a>
+                      <a class="nav-link cat" id="v-pills-halal-tab" data-toggle="pill" href="#v-pills-halal" role="tab"
+                        aria-controls="v-pills-halal" aria-selected="false">Halal</a>
+                      <a class="nav-link cat" id="v-pills-kosher-tab" data-toggle="pill" href="#v-pills-kosher" role="tab"
+                        aria-controls="v-pills-kosher" aria-selected="false">Kosher</a>
+                      <a class="nav-link cat" id="v-pills-cheese-tab" data-toggle="pill" href="#v-pills-cheese" role="tab"
+                        aria-controls="v-pills-cheese" aria-selected="false">Cheese</a>
+                      <a class="nav-link cat" id="v-pills-seasonings-tab" data-toggle="pill" href="#v-pills-seasonings"
+                        role="tab" aria-controls="v-pills-seasonings" aria-selected="false">Seasonings</a>
+                    </div>
+                  </div>
+                  <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                      <div class="tab-pane fade show active" id="v-pills-meat" role="tabpanel"
+                        aria-labelledby="v-pills-meat-tab">
+                        <table class="table table-borderless">
+                          <tbody class="meat pill-category">
+
+                          </tbody>
+                        </table>
                       </div>
-                      <div class="modal-body">
-                          <form>
-                              <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                              </div>
-                              <button type="submit" class="btn btn-primary">Log In</button>
-                            </form>
+                      <div class="tab-pane fade" id="v-pills-spicy" role="tabpanel" aria-labelledby="v-pills-spicy-tab">
+                        <table class="table table-borderless">
+                          <tbody class="spicy pill-category">
+
+                          </tbody>
+                        </table>
                       </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Confirm</button>
+                      <div class="tab-pane fade" id="v-pills-vegetarian" role="tabpanel"
+                        aria-labelledby="v-pills-vegetarian-tab">
+                        <table class="table table-borderless">
+                          <tbody class="vegetarian pill-category">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-vegan" role="tabpanel" aria-labelledby="v-pills-vegan-tab">
+                        <table class="table table-borderless">
+                          <tbody class="vegan pill-category">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-halal" role="tabpanel" aria-labelledby="v-pills-halal-tab">
+                        <table class="table table-borderless">
+                          <tbody class="halal pill-category">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade kosher" id="v-pills-kosher" role="tabpanel"
+                        aria-labelledby="v-pills-kosher-tab">
+                        <table class="table table-borderless">
+                          <tbody class="kosher pill-category">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-cheese" role="tabpanel"
+                        aria-labelledby="v-pills-cheese-tab">
+                        <table class="table table-borderless">
+                          <tbody class="cheese pill-category">
+
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="tab-pane fade" id="v-pills-seasonings" role="tabpanel"
+                        aria-labelledby="v-pills-seasonings-tab">
+                        <table class="table table-borderless">
+                          <tbody class="seasonings pill-category">
+
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
 
-              <section class="signUp"> 
-                  <div class="modal" tabindex="-1" role="dialog">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title">Sign Up</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            <p>Modal body text goes here.</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Confirm</button>
-                          </div>
-                        </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    </div>
+    </div>
+    </div>
+    </div>
+
+  </section>
+  <!--------------------------
+       ORDER SUMMARY PAGE 
+  --------------------------->
+  <section class="order-summary">
+    <div class="modal" id="orderSummary" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Order Summary</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="cart-empty">
+            <h3 class="text-center text-muted"> 
+                Your cart is empty
+            </h3>
+          </div>
+          <div class="modal-body" id="order-cart">
+
+            <div class="row">
+              <div class="col-8 col-sm-6">
+                <ul class="list-group list-group-flush" id="orderList">
+                  <!--list item-->
+                </ul>
+
+                <div class="text-right pt-3" id="orderTotal">
+                  <!-- LAUREN TODO:  Create JS for this -->
+                  <p id="subtotal"></p>
+
+                  <p id="deliveryFee"></p>
+
+                  <p id="taxTotal"></p>
+
+                  <p id="totalCost"></p>
+
+                </div>
+              </div>
+
+              <div class="col-8 col-sm-6">
+                <form>
+                  <!-- PICK UP OR DELIVERY RADIO BUTTONS -->
+                  <h5 class="card-title">Order Instructions</h5>
+                  <div class="form-check">
+                    <input class="form-check-input orderType" data-target="pickup" type="radio" name="orderType"
+                      id="pickup" value="pickup" checked>
+                    <label class="form-check-label" for="pickup">
+                      Pick-up
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input orderType" type="radio" name="orderType" id="delivery"
+                      value="delivery">
+                    <label class="form-check-label" for="delivery">
+                      Delivery
+                    </label>
+                  </div>
+
+                  <!-- address form starts here-->
+
+                  <section class="address-form page">
+                    <div class="form-row pt-3">
+                      <div class="form-group col">
+                        <label for="inputAddress" id="addressLabel">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col">
+                        <label for="inputCity">City</label>
+                        <input type="text" class="form-control" id="inputCity" placeholder="City">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputState">Province</label>
+                        <select id="inputState" class="form-control">
+                          <option selected>Choose...</option>
+                          <option>...</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputZip">Postal Code</label>
+                        <input type="text" class="form-control" id="inputZip">
                       </div>
                     </div>
                   </section>
-    
+                  <!-- address form ends here -->
+                </form>
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="checkoutButton">Checkout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER NOT SIGNED IN AND CLICKS ADD TO ORDER -->
+
+  <!--------------------------
+      SIGNIN/SIGNUP? MODAL 
+  --------------------------->
+
+  <div class="modal" id="whoDat" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Who do we Wack? Where should we Stack?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <button type="button" class="btn btn-primary px-3 m-5" data-toggle="modal" data-target="#signInModal"
+            data-dismiss="modal">Sign In</button>
+          <button type="button" class="btn btn-primary m-5" data-toggle="modal" data-target="#signUpModal"
+            data-dismiss="modal">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!--------------------------
+    DELETE CONFIRMATION  MODAL
+  --------------------------->
+
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" id="deleteModalA">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="deleteModalBody">
+              <p>Are you sure you want to Delete?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="deleteRow" data-dismiss="modal">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+<div class="modal fade" id="deleteModalPizza" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" id="deleteModalPizzaA">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="deleteModalBodyPizza">
+        <p>Are you sure you want to Delete?</p>
+      </div>
+      <div class="modal-footer" id="pizzaDeleteDiv">
+        <button type="button" class="btn btn-secondary secondBtn" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="deleteRowPizza" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+
+  <script type="text/javascript" src="/js/index.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,162 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color:#EBE5E7   !important;  
+}
+
+.card-deck{
+    padding: 3rem;
+}
+
+form{
+    margin: 0 auto;
+    width:80%  ;
+}
+
+.carousel-item > img {
+    height: 50vh;
+}
+
+.page{
+    display: none;
+}
+
+.display{
+    display: block;
+}
+
+.nav > li{
+    color: #FFF;
+    cursor: pointer;
+}
+
+
+/* Can replace with hide and show classes? Akel */
+.notSignedIn{
+    display: block;
+    cursor: pointer;
+}
+.signedIn{
+    display: none;
+}
+
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+
+.adminSignedIn{
+    display: none;
+}
+
+.borderless{
+    border: none !important;
+    border-right: 1px solid #ddd !important;
+}
+
+.img-container-size{
+    width: 15%;
+}
+
+
+
+#alertSection{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100000;
+}
+
+
+.table{
+   margin: 0 auto;
+   width: 95% !important; 
+}
+
+.jumbotron{
+    margin-bottom: 0 !important;
+    /* https://www.pexels.com/photo/closeup-photography-of-pizza-on-white-surface-724219/ */
+    background-image: url("../img/jumbo-bg.jpeg") !important;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-img-top{
+   height: 30vh;
+}
+
+.marginGluten{
+    margin: 1.5rem;
+}
+
+
+/* Buttons */
+
+.select-button{
+    margin: auto;
+    padding: 0.5rem 3.5rem !important;
+    background-color: #FE5342 !important;
+    border: none !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+
+.btn-primary{
+    background-color: #FE5342 !important;
+    border: none !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+/* Position Delete Modals Middle  */
+
+#deleteModalA{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+#deleteModalPizzaA{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Order Nav Page */
+
+.nav-item.nav-link.px-5{
+    color: #FE5342 !important;
+    
+}
+
+#card-title#pt-5{
+ float: left;
+}
+
+.secondBtn{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+#addIngredientsButton{
+    margin-top: 1rem;
+
+}
+
+.nav-link.cat.active{
+    background-color: #FE5342 !important;
+    color: white !important;
+    border: none !important;
+
+}
+.nav-link.cat{
+    color: black !important;
+    border: none !important;
+
+}
+
