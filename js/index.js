@@ -260,7 +260,7 @@
          mode: 'cors',
          body: jsonData
      });
-     console.log(jsonData);
+     //console.log(jsonData);
      // let fetch = new Promise(function (resolve, reject) {
      //     resolve(response);
      // })
@@ -349,7 +349,7 @@
      imgUrl = document.getElementById('ing-img-input').value
 
 
-     console.log('img url:', imgUrl);
+     //console.log('img url:', imgUrl);
      //Check if Gluten Free is Checked & Set Value
      if (document.getElementById('isGlutenFree').checked) {
          checkVal = true;
@@ -360,7 +360,7 @@
      //Determine Category Picked
      let categoriesSelected = document.getElementById('categories');
      if (categoriesSelected.selectedIndex == 0) {
-         console.log('select one answer');
+         //console.log('select one answer');
 
      } else {
          categories = categoriesSelected.options[categoriesSelected.selectedIndex].text;
@@ -420,7 +420,7 @@
 
      createIngredientCard(ingredientsList);
      createPizzaIngredients(ingredientsList);
-     categories(ingredientsList);
+     setCategories(ingredientsList);
  }
 
  /**************************
@@ -735,22 +735,18 @@ CHOOSE PIZZA INGREDIENTS
  **************************/
  async function addPizza(ev) {
      ev.preventDefault();
-     //console.log(pizzaIngredientInfo);
-    // let ingredients = pizzaIngredientInfo._id;
      let name = document.getElementById('pizzaName').value
-     //let price = document.getElementById('pizzaPrice').value
      let imgUrl = document.getElementById('pizza-img-input').value
-     //Check if Gluten Free is Checked & Set Value
+     let id = document.querySelector('#pizzas-add-edit').getAttribute('data-id');
 
      let checkValue = null;
-
      if (document.getElementById('pizzaGluten').checked) {
          checkValue = true;
      }
-
      if (!document.getElementById('pizzaGluten').checked) {
          checkValue = "false";
      }
+
      let ingredients = [];
      let checkedIngredients = document.querySelectorAll('.ingredient-input');
      checkedIngredients.forEach(ingredient => {
@@ -759,14 +755,13 @@ CHOOSE PIZZA INGREDIENTS
          }
      })
 
-     console.log('img url:', imgUrl);
-     console.log("name :", name);
-     console.log("isGlutenfree:", checkValue);
-     console.log("ingredients:", ingredients);
+    //  console.log('img url:', imgUrl);
+    //  console.log("name :", name);
+    //  console.log("isGlutenfree:", checkValue);
+    //  console.log("ingredients:", ingredients);
 
      let userInput = {
          name: name,
-         // price: price,
          imageUrl: imgUrl,
          isGlutenFree: checkValue,
          ingredients: ingredients
@@ -779,9 +774,11 @@ CHOOSE PIZZA INGREDIENTS
      headers.append('Content-Type', 'application/json;charset=UTF-8');
      headers.append('Authorization', 'Bearer ' + authToken)
 
-     //console.log("mode is", mode);
+
+      console.log("mode is", mode);
+      console.log("Id is",id);
      //define the end point for the request
-     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${document.querySelector('#pizzas-add-edit').getAttribute('data-id')}`);
+     let url = (mode == 'add' ? 'http://127.0.0.1:3030/api/pizzas' : `http://127.0.0.1:3030/api/pizzas/${id}`);
      let req = new Request(url, {
          headers: headers,
          method: mode == 'add' ? 'POST' : 'PATCH',
@@ -792,7 +789,7 @@ CHOOSE PIZZA INGREDIENTS
      //body is the data that goes to the API
      //now do the fetch
      let pizzaUpdate = await fetchAPI(req);
-     console.log(pizzaUpdate);
+     //console.log(pizzaUpdate);
      //pizzaIngredientInfo.splice(0);
      getPizzas();
      let message = `${mode} ${pizzaUpdate.data.name}`;
@@ -818,7 +815,7 @@ CHOOSE PIZZA INGREDIENTS
      let pizza = await fetchAPI(req);
 
      document.getElementById('edit-add-pizzas-title').innerHTML = "Edit Pizza";
-     document.getElementById('pizzas-add-edit').setAttribute('data-id', id);
+     document.getElementById('pizzas-add-edit').setAttribute('data-id', pizza.data._id);
      document.getElementById('pizzaName').value = pizza.data.name;
      document.getElementById('pizza-img-input').value = pizza.data.imageUrl;
      let ingredientsList = document.querySelectorAll('.ingredient-input');
@@ -836,7 +833,7 @@ CHOOSE PIZZA INGREDIENTS
          }
      })
      document.getElementById('pizzaGluten').checked = pizza.data.isGlutenFree;
-     console.log(document.getElementById('pizzas-add-edit'));
+     //console.log(document.getElementById('pizzas-add-edit'));
 
      mode = 'edit';
  }
@@ -969,7 +966,7 @@ CHOOSE PIZZA INGREDIENTS
  **************************/
 
 
- function categories(ingredientsList) {
+ function setCategories(ingredientsList) {
      //Creates ingredient List inside each category
      ingredientsList.data.forEach(ingredient => {
          switch (ingredient.categories) {
@@ -1089,7 +1086,7 @@ CHOOSE PIZZA INGREDIENTS
  **************************/
 
  async function getOrderedPizza(id) {
-     console.log('THIS PIZZA DATA: ', id, );
+     //console.log('THIS PIZZA DATA: ', id, );
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
      let url = `http://127.0.0.1:3030/api/pizzas/${id}`;
@@ -1536,8 +1533,8 @@ function userNotification(type, message) {
  function changeURL() {
      let navLinks = document.querySelectorAll('.nav-link');
      let dropDowns = document.querySelectorAll('.dropdown-item');
-     console.log('This is the navlinks: ', navLinks);
-     console.log('This is the dropdowns: ', dropDowns);
+     //console.log('This is the navlinks: ', navLinks);
+    // console.log('This is the dropdowns: ', dropDowns);
      navLinks.forEach((link) => {
          link.addEventListener('click', nav);
      })
