@@ -61,8 +61,15 @@
          //check if a draft exists. Createe order if not, else update order.
          let orderId = document.querySelector('#orderSummary').getAttribute('data-id');
          let pizzaOrder = document.getElementById('pizzaPriceTitle').getAttribute('data-id');
-         pizzaCart.push(pizzaOrder);
-
+         let index = pizzaCart.indexOf(pizzaOrder);
+         if(index !== -1) {
+            pizzaCart[index] = pizzaOrder;
+            userNotification("success", "Your Pizza has been successfully updated!");
+         } else {
+            pizzaCart.push(pizzaOrder);
+            userNotification("success", "Your Pizza has been added to your cart!");
+         }
+         
          console.log("order Id", orderId);
          orderId == null ? createOrderDraft() : updateOrder('add')
      });
@@ -647,15 +654,8 @@
         let selectBtn = document.createElement('button');
         // let selectBtn = document.createElement('a');
 
-        //<li class="nav-item navigation nav-link active" data-target="home">
-
         pizzaName.textContent = pizza.name;
 
-        //  let ingredients = pizza.ingredients.map(ingredient => {
-        //      return ingredient.name;
-        //  })
-
-        //  pizzaIngredients.textContent = ingredients.join(", ");
         // Gluten free
         if (pizza.isGlutenFree == true) {
             smallText.textContent = 'Gluten Free';
@@ -1267,8 +1267,7 @@ CHOOSE PIZZA INGREDIENTS
      let orderType = document.querySelector('input[name="orderType"]:checked').value;
      
      if(orderType == 'delivery') address = document.querySelector('#inputAddress').value
-         
-    
+
      let url = `http://127.0.0.1:3030/api/orders/${orderId}`;
 
      let userInput = {
@@ -1308,6 +1307,7 @@ CHOOSE PIZZA INGREDIENTS
 
          document.querySelector('#orderSummary').removeAttribute('data-id'); //not tested
          let signMessage = 'Your order has been placed!';               // AKELLLLLLLLL REMEMBER THIS *********************
+         document.querySelector('.cart-count').textContent = pizzaCart.length;
          userNotification("success", signMessage);
          return;
      }
@@ -1336,8 +1336,10 @@ CHOOSE PIZZA INGREDIENTS
          //let ingredient = document.createElement('small');
 
          orderItem.setAttribute('class', 'list-group-item d-flex justify-content-between align-items-center');
-         editBtn.setAttribute('class', 'btn btn-primary btn-sm mx-1');
+         editBtn.setAttribute('class', 'nav-item navigation btn btn-primary btn-sm mx-1');
          editBtn.setAttribute('type', 'button');
+         editBtn.setAttribute('data-dismiss', 'modal');
+         editBtn.setAttribute('data-target', 'order-view');
          deleteBtn.setAttribute('class', 'btn btn-primary btn-sm');
          deleteBtn.setAttribute('type', 'button')
          underItem.setAttribute('class', 'list-group-item border-0');
@@ -1356,6 +1358,11 @@ CHOOSE PIZZA INGREDIENTS
          btnSection.appendChild(deleteBtn);
          orderList.appendChild(underItem);
         // underItem.appendChild(ingredient);
+
+        //lul
+        editBtn.addEventListener('click', nav);
+        editBtn.addEventListener('click', () => getOrderedPizza(pizza._id));
+        editBtn.addEventListener('click', navigate);
 
          deleteBtn.addEventListener('click', () => {
              console.log('pizza id:', pizza._id);
