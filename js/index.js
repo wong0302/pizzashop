@@ -91,7 +91,7 @@
      document.querySelector('#checkoutButton').addEventListener('click', () => { 
         let addressLabel = document.getElementById('addressLabel');
         if (inputAddress.value == '' && orderType == 'delivery') {
-                addressLabel.innerHTML = 'Address <i class="text-danger">*</i>';
+                console.log('hi');
         } else {
             let checkoutBtn = document.getElementById('checkoutButton');
             checkoutBtn.setAttribute('data-dismiss', 'modal');
