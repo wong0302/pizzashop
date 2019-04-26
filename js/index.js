@@ -75,6 +75,8 @@
         if (inputAddress == '' && orderType == 'delivery') {
                 addressLabel.innerHTML = 'Address <i class="text-danger">*</i>';
         } else {
+            let checkoutBtn = document.getElementById('checkoutButton');
+            checkoutBtn.setAttribute('data-dismiss', 'modal');
             updateOrder('checkout');
         }
      });
