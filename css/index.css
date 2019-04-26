@@ -88,6 +88,13 @@ form{
    height: 30vh;
 }
 
+.marginGluten{
+    margin: 1.5rem;
+}
+
+
+/* Buttons */
+
 .select-button{
     margin: auto;
     padding: 0.5rem 3.5rem !important;
@@ -97,12 +104,19 @@ form{
 }
 
 
+.btn-primary{
+    background-color: #FE5342 !important;
+    border: none !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+}
+
+/* Position Delete Modals Middle  */
+
 #deleteModalA{
     height: 100vh;
     display: flex;
     align-items: center;
 }
-
 
 #deleteModalPizzaA{
     height: 100vh;
@@ -110,6 +124,13 @@ form{
     align-items: center;
 }
 
-.marginGluten{
-    margin: 1.5rem;
+/* Order Nav Page */
+
+.nav-item.nav-link.px-5{
+    color: #FE5342 !important;
+    border: none !important;
+}
+
+#card-title#pt-5{
+ float: left;
 }
