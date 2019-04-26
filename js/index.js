@@ -994,7 +994,7 @@ CHOOSE PIZZA INGREDIENTS
          mode: 'cors'
      });
      let delPizza = await fetchAPI(req);
-     getPizzas(deleteIngredients);
+     getPizzas(delPizza);
      let delMessage = `Deleted: ${delPizza.data.name}`;
      userNotification("info", delMessage);
  }
