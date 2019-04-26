@@ -968,6 +968,11 @@ CHOOSE PIZZA INGREDIENTS
 
  function setCategories(ingredientsList) {
      //Creates ingredient List inside each category
+     let cats = document.querySelectorAll('.pill-category');
+     for(let i = 0; i < cats.length; i++) {
+         cats[i].innerHTML = "";
+     }
+     
      ingredientsList.data.forEach(ingredient => {
          switch (ingredient.categories) {
              case 'meat':
@@ -1025,7 +1030,7 @@ CHOOSE PIZZA INGREDIENTS
      let imgThumbnail = document.createElement('img');
      let checkboxDiv = document.createElement('div');
      let checkbox = document.createElement('input');
-
+    
      tdImg.setAttribute('class', 'img-container-size');
      imgThumbnail.setAttribute('src', ingredient.imageUrl);
      imgThumbnail.setAttribute('alt', ingredient.name);
