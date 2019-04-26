@@ -144,3 +144,16 @@ form{
     margin-top: 1rem;
 
 }
+
+.nav-link.cat.active{
+    background-color: #FE5342 !important;
+    color: white !important;
+    border: none !important;
+
+}
+.nav-link.cat{
+    color: black !important;
+    border: none !important;
+
+}
+
