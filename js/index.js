@@ -378,12 +378,16 @@
              let data = result.data.token;
              console.log('data', data);
              localStorage.setItem(tokenKey, JSON.stringify(data));
+             let messageSuccess = "Great, You're Signed in!";
+             userNotification("success", messageSuccess);
              
              getCurrentUser(data);
              checkToken();
          })
          .catch(err => {
              console.error('We are failing');
+             let message = "Sorry, Login Failed";
+             userNotification("warning", message);
          })
 
  }
