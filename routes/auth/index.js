@@ -10,7 +10,7 @@ const isStaff = require ('../../middleware/isStaff')
 const ResourceNotFoundError = require('../../exceptions/ResourceNotFound')
 
 
-router.get('/users/', isStaff, async (req, res) => {
+router.get('/users/', async (req, res) => {
   const users = await User.find()
   res.send({data: users})
 })
