@@ -6,8 +6,8 @@
  //let extraToppingsArray = [];
  let pizzaCart = [];
 
- //BaseUrl = 'https://localhost:3030';
- BaseUrl = 'https://akel0003.edumedia.ca';
+ BaseUrl = 'http://localhost:3031';
+//  BaseUrl = 'https://akel0003.edumedia.ca';
 
  document.addEventListener('DOMContentLoaded', () => {
      pages = document.querySelectorAll('.page');
@@ -299,7 +299,6 @@
          userLastName = document.getElementById('lastName').value,
          userEmail = document.getElementById('signUpEmail').value,
          userPassword = document.getElementById('signUpPassword').value;
-    // userType = document.getElementById('userType').value;
 
      //define the end point for the request
      let url = `${BaseUrl}/auth/users`;
@@ -309,14 +308,11 @@
          lastName: userLastName,
          email: userEmail,
          password: userPassword,
-         //isStaff: userType
      };
 
      let jsonData = JSON.stringify(userInput);
 
      let headers = new Headers();
-     //append the Authorization header
-     // headers.append('Authorization', 'Bearer ' + token);
      headers.append('Content-Type', 'application/json;charset=UTF-8');
 
      //console.log("User input is:", userInput);
@@ -364,10 +360,7 @@
          mode: 'cors',
          body: jsonData
      });
-     //console.log(jsonData);
-     // let fetch = new Promise(function (resolve, reject) {
-     //     resolve(response);
-     // })
+
      fetch(req)
          .then(response => {
              //console.log(response);
@@ -992,7 +985,7 @@ CHOOSE PIZZA INGREDIENTS
      });
 
      let usersList = await fetchAPI(req);
-     console.log("Users list:", usersList);
+     //console.log("Users list:", usersList);
      createUserRow(usersList);
  }
 
@@ -1520,7 +1513,6 @@ CHOOSE PIZZA INGREDIENTS
                  throw new Error('Guess what. It is not ok. ' + response.status + ' ' + response.statusText);
              } else {
                  // userNotification();
-                 console.log('We are so fetchy! YASSSS!');
                  return response.json();
              }
          })
