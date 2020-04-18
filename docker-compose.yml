@@ -1,10 +1,26 @@
 version: '3.1'
-
 services:
   mongo:
     image: mongo:bionic
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: pizzaShopAdmin
+      MONGO_INITDB_ROOT_PASSWORD: vBXYvj2HBov5dJYw
+    ports:
+      - 27017:27017
     restart: always
     volumes:
       - ./data/mongo:/data/db
+
+  express:
+    image: pizza-shop
+    container_name: PizzaShop
+    depends_on:
+      - mongo
+    environment:
+      API_JWTKEY: keur0uhwg802fkzh6e72lw0m69g3xv
+      API_PORT: 80
+      NODE_ENV: 'stage'
     ports:
-      - '27017-27019:27017-27019'
+      - 3030:80
+    command: node server.js
