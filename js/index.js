@@ -562,20 +562,15 @@
             gluten.textContent = "Gluten"
 
          }
-         //editBtn.innerHTML = '<i class="fas text-primary fa-pen"></i>';
-         //deleteBtn.innerHTML = '<i class="fas fa-times text-danger"></i>';
-         //editBtn.setAttribute('type', 'button');
          editBtn.setAttribute('class', 'fas text-primary fa-pen mr-4');
          editBtn.setAttribute('data-toggle', 'modal');
          editBtn.setAttribute('data-target', '#editIngredients');
          editBtn.addEventListener('click', () => onEditIngredients(item._id));
-         //console.log("edit button:", editBtn);
-         //deleteBtn.setAttribute('type', 'button');
+
          deleteBtn.setAttribute('class', 'fas fa-times text-danger');
          deleteBtn.setAttribute('data-toggle', 'modal');
          deleteBtn.setAttribute('data-target', '#deleteModal');
          deletedIngredient.setAttribute('data-id', item._id);
-         //document.getElementById('deleteModalBody').innerHTML =`Are you sure you want to delete?`;
 
          tr.appendChild(ingredient);
          tr.appendChild(price);
@@ -654,7 +649,7 @@
       GET PIZZAS
  **************************/
  async function getPizzas() {
-     /*** No authentication reqyired ***/
+     /*** No authentication required ***/
      let headers = new Headers();
      headers.append('Content-Type', 'application/json;charset=UTF-8');
      let url = `${BaseUrl}/api/pizzas`;
@@ -747,11 +742,10 @@
         let pizzaImg = document.createElement('img');
         let cardBody = document.createElement('div');
         let pizzaName = document.createElement('h5');
-        //let pizzaIngredients = document.createElement('p');
+
         let smallText = document.createElement('p');
         let glutenFree = document.createElement('small');
         let selectBtn = document.createElement('button');
-        // let selectBtn = document.createElement('a');
 
         pizzaName.textContent = pizza.name;
 
@@ -770,15 +764,13 @@
         pizzaImg.setAttribute('alt', pizza.name);
         cardBody.setAttribute('class', 'card-body');
         pizzaName.setAttribute('class', 'card-title');
-        //pizzaIngredients.setAttribute('class', 'card-text');
+
         smallText.setAttribute('class', 'card-text');
         glutenFree.setAttribute('class', 'text-muted');
         selectBtn.setAttribute('class', 'nav-item navigation nav-link btn-lg btn-primary select-button');
 
         selectBtn.setAttribute('data-target', 'order-view');
         selectBtn.addEventListener('click', nav);
-       
-        // selectBtn.setAttribute('class', 'select-button');
         
         //Check if any ingredient is at 0, disable pizza button
         for(let i = 0; i < pizza.ingredients.length; i++) {
@@ -851,14 +843,6 @@ CHOOSE PIZZA INGREDIENTS
          checkbox.setAttribute('type', 'checkbox');
          checkbox.setAttribute('value', item.name);
          checkbox.setAttribute('data-id', item._id);
-        //  checkbox.addEventListener('change', function () {
-        //      if (event.target.checked) {
-        //          pizzaIngredientInfo.push(item._id);
-        //      }
-        //      if (!event.target.checked) {
-        //          pizzaIngredientInfo.pop(item._id);
-        //      }
-        //  });
          ingredientName.setAttribute('class', 'form-check-label');
          ingredientName.setAttribute('for', 'defaultCheck');
 
@@ -892,11 +876,6 @@ CHOOSE PIZZA INGREDIENTS
          }
      })
 
-    //  console.log('img url:', imgUrl);
-    //  console.log("name :", name);
-    //  console.log("isGlutenfree:", checkValue);
-    //  console.log("ingredients:", ingredients);
-
      let userInput = {
          name: name,
          imageUrl: imgUrl,
@@ -927,7 +906,6 @@ CHOOSE PIZZA INGREDIENTS
      //now do the fetch
      let pizzaUpdate = await fetchAPI(req);
      //console.log(pizzaUpdate);
-     //pizzaIngredientInfo.splice(0);
      getPizzas();
      let message = `${mode} ${pizzaUpdate.data.name}`;
      userNotification("info", message);
@@ -1031,9 +1009,6 @@ CHOOSE PIZZA INGREDIENTS
          let email = document.createElement('td');
          let staff = document.createElement('td');
          let checkbox = document.createElement('input');
-         //let actions = document.createElement('td');
-         //let editBtn = document.createElement('p');
-         //let deleteBtn = document.createElement('p');
 
          checkbox.setAttribute('class', 'user-check-input');
          checkbox.setAttribute('type', 'checkbox');
@@ -1042,22 +1017,9 @@ CHOOSE PIZZA INGREDIENTS
          lastName.textContent = user.lastName;
          email.textContent = user.email;
          checkbox.checked = user.isStaff;
-         //editBtn.textContent = 'Edit';
-         //deleteBtn.textContent = 'Delete';
-
-         //actions.setAttribute('data-id', pizza.id);
-
-         //  editBtn.setAttribute('type', 'button');
-         //  editBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-         //  editBtn.setAttribute('data-toggle', 'modal');
-         //  editBtn.setAttribute('data-target', '#edit-user');
-         //  editBtn.addEventListener('click', () => editUser(user._id));
 
          checkbox.addEventListener('click', () => toggleStaff(user._id, checkbox.checked));
 
-         // deleteBtn.setAttribute('type', 'button');
-         // deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-secondary');
-         // deleteBtn.addEventListener('click', () => deleteUser(user._id));
 
          tbody.appendChild(tr);
          tr.appendChild(firstName);
@@ -1065,9 +1027,6 @@ CHOOSE PIZZA INGREDIENTS
          tr.appendChild(email);
          tr.appendChild(staff);
          staff.appendChild(checkbox);
-         //tr.appendChild(actions);
-         //actions.appendChild(editBtn);
-         //actions.appendChild(deleteBtn);
      })
  }
 
@@ -1175,14 +1134,7 @@ CHOOSE PIZZA INGREDIENTS
      checkboxDiv.setAttribute('class', 'form-check');
      checkbox.setAttribute('id', 'user-order-ingredients');
      checkbox.setAttribute('data-id', ingredient._id);
-    //  checkbox.addEventListener('change', function () {
-    //      if (event.target.checked) {
-    //          extraToppingsArray.push(checkbox.getAttribute('data-id'));
-    //      }
-    //      if (!event.target.checked) {
-    //          extraToppingsArray.pop(checkbox.getAttribute('data-id'));
-    //      }
-    //  });
+
      checkbox.setAttribute('class', 'ingredient-check-input');
      checkbox.setAttribute('type', 'checkbox');
      checkbox.setAttribute('value', ingredient.name);
@@ -1299,15 +1251,13 @@ CHOOSE PIZZA INGREDIENTS
      totalsSection.innerHTML = "";
 
      let pizzaPrice = document.createElement('h1');
-     //let extrasPrice = document.createElement('p');
+    
      pizzaPrice.setAttribute('id', 'pizzaPriceTitle');
      pizzaPrice.setAttribute('data-id', pizza.data._id);
 
      pizzaPrice.innerHTML = `Total: $<span id="total-cost-number">${(pizza.data.price/100).toFixed(2)}</span + extras`;
-     //extrasPrice.textContent = `Extras: extras price variable (all added together)`;
 
      totalsSection.appendChild(pizzaPrice);
-     // totalsSection.appendChild(extrasPrice);
  }
 
  // size dropdown                                    

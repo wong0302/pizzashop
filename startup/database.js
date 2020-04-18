@@ -1,35 +1,35 @@
 const config = require('config')
 const mongoose = require('mongoose')
-const db = config.get('db')
-const debug = require('debug')('pizzashop:db')
-
-//const mongoose = require('mongoose')
-let credentials = ''
-if (process.env.NODE_ENV === 'production') {
-  credentials = `${db.username}:${db.password}@`
-}
+const logger = require('./logger')
 
 module.exports = () => {
-  const connectionString = `mongodb://${credentials}${db.host}:${db.port}/${db.name}?authSource=admin`
+  const {scheme, host, port, name, username, password, authSource} = config.get('db')
+  const credentials = username && password ? `${username}:${password}@` : ''
+
+  let connectionString = `${scheme}://${credentials}${host}`
+
+  if (scheme === 'mongodb') {
+    connectionString += `:${port}/${name}?authSource=${authSource}`
+  } else {
+    connectionString += `/${authSource}?retryWrites=true&w=majority`
+  }
+
   mongoose
-  .connect(connectionString, {useNewUrlParser: true})
+    .connect(
+      connectionString,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+        dbName: name
+      }
+    )
     .then(() => {
-      debug('successfully connected')
+      logger.log('info', `Connected to MongoDB @ ${name}...`)
     })
     .catch(err => {
-      debug('Failed connection attempt:', err)
+      logger.log('error', `Error connecting to MongoDB ...`, err)
       process.exit(1)
     })
 }
-
-// module.exports = () => {
-//   mongoose
-//     .connect('mongodb://localhost:27017/wackelstackel', {useNewUrlParser: true})
-//     .then(() => {
-//       debug('successfully connected')
-//     })
-//     .catch(err => {
-//       debug('Failed connection attempt:', err)
-//       process.exit(1)
-//     })
-// }
