@@ -16,13 +16,11 @@ router.get('/users/', async (req, res) => {
 })
 
 //load the user document from the database and return it to the client
-//Tested via postman @ 10/4 17:20, Akel, working.
 router.get('/users/me', authorize, async (req, res) => {
   const user = await User.findById(req.user._id)
   res.send({data: user})
 })
 
-//Tested via postman @ 17/4 17:20, Akel, working.
 /*** Change password ***/
 router.patch('/users/me', authorize, async (req, res, next) => {
   try {
@@ -35,7 +33,6 @@ router.patch('/users/me', authorize, async (req, res, next) => {
   }
 })
 
-//New user, tested via postman @ 17:00, Akel, working.
 router.post('/users', sanitizeBody, async (req, res, next) => {
   try {
     //Send error if isStaff field is set
@@ -53,7 +50,6 @@ router.post('/users', sanitizeBody, async (req, res, next) => {
 
     let newUser = new User(req.sanitizedBody)
     //Check if email already exists
-    //email exists, tested via postman @ 10/4 17:00, Akel, working.
     const emailExists = !!(await User.countDocuments({email: newUser.email}))
     if (emailExists) { 
       return res.status(404).send({
@@ -99,7 +95,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
   const {email, password} = req.sanitizedBody
   const user = await User.authenticate(email, password)
 
-  //Invalid user, tested via postman @ 10/4 17:00, Akel, working.
+  //Invalid user
   if (!user) {
     return res.status(401).send({ 
       errors: [
@@ -111,7 +107,7 @@ router.post('/tokens', sanitizeBody, async (req, res) => {
       ]
     })
   }
-  //generate token, tested via postman @ 10/4 17:15, Akel, working.
+  //generate token
   res.status(201).send({data: {token: user.generateAuthToken()}})
 })
 

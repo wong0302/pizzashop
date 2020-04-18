@@ -1,0 +1,10 @@
+{
+    "db": {
+      "scheme": "mongodb+srv",
+      "username": "pizzaShopAdmin",
+      "password": "vBXYvj2HBov5dJYw",
+      "host": "pizzashop-9iqiz.mongodb.net",
+      "authSource": "test",
+      "name": "final-stac0092-wong0302"
+    }
+  } 

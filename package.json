@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=production PORT=433 node app.js",
     "dev": "DEBUG=pizzashop*,sanitize* NODE_ENV=dev PORT=3030 nodemon app.js",
+    "stage": "NODE_ENV=stage API_JWTKEY=supersecretkey nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,16 +21,19 @@
   "homepage": "https://github.com/wong0302/pizzashop#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
     "config": "^3.1.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "express-mongo-sanitize": "^1.3.2",
+    "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.1",
     "mongoose-unique-validator": "^2.0.3",
     "nodemon": "^1.18.11",
     "validator": "^10.11.0",
+    "winston": "^3.2.1",
     "xss": "^1.0.6"
   }
 }

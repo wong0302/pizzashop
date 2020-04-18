@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo:bionic
+    restart: always
+    volumes:
+      - ./data/mongo:/data/db
+    ports:
+      - '27017-27019:27017-27019'
