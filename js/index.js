@@ -7,7 +7,7 @@
  let pizzaCart = [];
 
  // BaseUrl = 'http://localhost:3031';
- BaseUrl = 'http://EC2Co-EcsEl-19LADOZ3IP868-1460700582.us-east-2.elb.amazonaws.com';
+ BaseUrl = 'https://EC2Co-EcsEl-19LADOZ3IP868-1460700582.us-east-2.elb.amazonaws.com';
 
  document.addEventListener('DOMContentLoaded', () => {
      pages = document.querySelectorAll('.page');
